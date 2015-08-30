@@ -197,6 +197,7 @@ class STASM(object):
                 count=count+1
             size=size-1
         cv2.imshow("Display face",img2)
-        cv2.waitKey(0)
+        cv2.waitKey(3014656)
         cv2.destroyAllWindows()
+
 

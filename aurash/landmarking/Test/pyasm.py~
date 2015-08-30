@@ -69,7 +69,9 @@ class STASM(object):
 
         self.stasm.stasm_open_image(image.ctypes.data_as(ctypes.POINTER(ctypes.c_char)),
             ctypes.c_int(image.shape[1]), ctypes.c_int(image.shape[0]),
-            filename,ctypes.c_int(1),ctypes.c_int(60))
+            filename,ctypes.c_int(1),ctypes.c_int(20))
+        return 1
+
 
     def s_img2_ubyte(self,filename):
         try:
@@ -80,12 +82,13 @@ class STASM(object):
             logging.error(exc.message, exc_info=True)
             raise IOError    
 
-    def s_search_auto(self,numberlandmarks=77):
+    def s_search_auto(self, numberlandmarks=77):
         """Call repeatedly to find all faces
         out: 0=no more faces, 1=found face.
         out: np array with landmarks.
         """
         #TODO need to be tested
+        
         self.stasm.stasm_search_auto.restypes = [ctypes.c_int]
         self.stasm.stasm_search_auto.argtypes = [ctypes.POINTER(
             ctypes.c_int),
@@ -175,45 +178,25 @@ class STASM(object):
  
         self.stasm.stasm_convert_shape(landmarks.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),ctypes.c_int(int))
 
-    def draw(self,landmarks_found_b): 
-        img2 = cv2.imread('/home/aurash/Test/test.jpg',1)    
-        for (x, y) in landmarks_found_b:
-            print (x, y)
-            cv2.circle(img2,(int(x),int(y)), 1, (0,0,255), -1)
+    def draw(self,landmarks_found_b,file): 
+        img2 = cv2.imread(file,1)
+        count=0
+        size=len(landmarks_found_b)-1
+        print(size)
+        while(size>=0):
+            for (x, y) in landmarks_found_b[size]:
+                if count>76:
+                    count=0
+                #print (x, y)
+                cv2.putText(img2,str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .25, 255)
+                cv2.circle(img2,(int(x),int(y)), 1, (0,0,255), -1)
+                if count > 0 and count != 48 and count != 59 and count != 31 and count != 38 and count != 41 and count != 18 and count != 28 and count != 22:
+                        cv2.line(img2,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
+                tempx=x
+                tempy=y        
+                count=count+1
+            size=size-1
         cv2.imshow("Display face",img2)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-
-#-----------------------------------------------------------------
-
-
-def main():
-    #home made test TODO make unitttest
-    mystasm = STASM()
-    mystasm.s_init()
-    
-    
-    img="/home/aurash/Test/test.jpg" #image to be passed to search function
-    mystasm.s_open_image(img)# open image
-    landmarks_found_a=mystasm.s_search_auto()
-    x=ctypes.c_int(2)
-    print x
-    print landmarks_found_a[1]
-    while(landmarks_found_a[1]==ctypes.c_int(1)):
-        print("hello")
-        for (x, y) in landmarks_found_a[0]:
-            print (x, y)
-        landmarks_found_a=mystasm.s_search_auto()
-    
-    
-
-    landmarks_found_b = mystasm.s_search_single(img)
-    #mystasm.s_convert_shape(landmarks_found_b,17)
-    #mystasm.s_force_points_into_image(landmarks_found_b)
-    mystasm.draw(landmarks_found_b)
-    print len(landmarks_found_b)
-
-
-if __name__ == '__main__':
-    main()
