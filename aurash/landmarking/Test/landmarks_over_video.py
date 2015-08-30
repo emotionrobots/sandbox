@@ -19,8 +19,8 @@ def video_config():
 	"""Initialize video capture, pass filename by
 	param jic that remove var and pass by argv"""
 
-	cap = cv2.VideoCapture(0)
-	while not cap.isOpened():
+	cap = cv2.VideoCapture(1) #Begin video capture
+	while not cap.isOpened(): 
 	    cap = cv2.VideoCapture(0)
 	    cv2.waitKey(10)
 	    print "Wait for the header"
@@ -29,6 +29,8 @@ def video_config():
 	return cap, pos_frame
 
 def main():
+	
+
 	mystasm = pyasm.STASM()
 	mystasm.s_init()
 	cap, pos_frame = video_config()
@@ -66,18 +68,18 @@ def main():
 	            count2=0
 	            size=len(points)-1
 	            while(size>=0):
-				    for (x, y) in points[size]:
-				        if count2>76:
-				            count2=0
-				        #print (x, y)
-				        cv2.putText(frame,str(count2), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .25, 255)
-				        cv2.circle(frame,(int(x),int(y)), 1, (0,0,255), -1)
-				        if count2 > 0 and count2 != 48 and count2 != 59 and count2 != 31 and count2 != 38 and count2 != 41 and count2 != 18 and count2 != 28 and count2 != 22:
-				                cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
-				        tempx=x
-				        tempy=y        
-				        count2=count2+1
-				    size=size-1
+	                for (x, y) in points[size]:
+	                    if count2>76:
+	                        count2=0
+	                        #print (x, y)
+	                    cv2.putText(frame,str(count2), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .25, 255)
+	                    cv2.circle(frame,(int(x),int(y)), 1, (0,0,255), -1)
+	                    if count2 > 0 and count2 != 48 and count2 != 59 and count2 != 31 and count2 != 38 and count2 != 41 and count2 != 18 and count2 != 28 and count2 != 22:
+				            cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
+	                    tempx=x
+	                    tempy=y        
+	                    count2=count2+1
+	                size=size-1
 	        cv2.namedWindow("Live Landmarking", cv2.WND_PROP_FULLSCREEN)          
 	        cv2.setWindowProperty("Live Landmarking", cv2.WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)    
 	        cv2.imshow("Live Landmarking", frame)    
@@ -89,9 +91,9 @@ def main():
 	        # The next frame is not ready, so we try to read it again
 	        cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, pos_frame)
 	        print "frame is not ready"
-	        cv2.waitKey(10)
+	        cv2.waitKey(1000)
 
-	    if cv2.waitKey(5) == 27:
+	    if cv2.waitKey(10) == 27:
 	        break
 
 	    #if cap.get(cv2.cv.CV_CAP_PROP_POS_FRAMES) == cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT):
