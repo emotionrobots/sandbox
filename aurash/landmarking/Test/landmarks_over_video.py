@@ -29,8 +29,9 @@ def video_config():
 def main():
 	mystasm = pyasm.STASM()
 	cap, pos_frame = video_config()
-	
-	while True:
+
+        done = False	
+	while done != True:
 	    flag, frame = cap.read()
 	    if flag:
 	        # The frame is ready and already captured
@@ -43,27 +44,31 @@ def main():
 	        # draw the landmarks
 	        map(lambda p: cv2.circle(frame, (int(p[0]), int(p[1])), 1, (512,512,255), -1), mylandmarks)
 	        count=0
-            for (x, y) in mylandmarks:
-                cv2.putText(frame,str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .25, 255)
-                if count > 0 and count != 48 and count != 59 and count != 31 and count != 38 and count != 41 and count != 18 and count != 28 and count != 22:
-                    cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
-                count=count+1
-                tempx=x
-                tempy=y
-	        cv2.namedWindow("Live Landmarking", cv2.WND_PROP_FULLSCREEN)          
-	        cv2.setWindowProperty("Live Landmarking", cv2.WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)    
+                for (x, y) in mylandmarks:
+                    cv2.putText(frame,str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .25, 255)
+                    if count > 0 and count != 48 and count != 59 and count != 31 and count != 38 and count != 41 and count != 18 and count != 28 and count != 22:
+                       cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
+                    count=count+1
+                    tempx=x
+                    tempy=y
+	        #cv2.namedWindow("Live Landmarking", cv2.WND_PROP_FULLSCREEN)          
+	        #cv2.setWindowProperty("Live Landmarking", cv2.WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)    
+	        cv2.namedWindow("Live Landmarking")          
+	        #cv2.setWindowProperty("Live Landmarking", cv2.WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)    
 	        cv2.imshow("Live Landmarking", frame)
 	      
 
-	    else:
+	    #else:
 	        # The next frame is not ready, so we try to read it again
-	        cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, pos_frame-1)
-	        print "frame is not ready"
-	        cv2.waitKey(10)
+	    #    cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, pos_frame-1)
+	    #    print "frame is not ready"
+	        #cv2.waitKey(10)
 
-	    if cv2.waitKey(5) == 27:
-	        break
-
+	    if cv2.waitKey(1) == 1048603:
+                done = True 
+            #k = cv2.waitKey(33)
+            #print k, " ", ord(k)
+ 
 	    #if cap.get(cv2.cv.CV_CAP_PROP_POS_FRAMES) == cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT):
 	    #    break
 	
