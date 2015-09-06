@@ -93,7 +93,7 @@ def draw_landmarks(frame, landmarks):
         	if count == 52 or count == 14 or count == 13 or count == 15 or count == 65 or count == 59:
   		      	xcoor = (x - landmarks[52][0])*scale
        			ycoor = (y - landmarks[52][1])*scale
-       			coorPair = str(count) + ":   (" + str(round(xcoor, 2)) + " " + str(round(ycoor, 2)) + ")"
+       			coorPair = str(count) + ":   (" + str(round(xcoor, 2)) + ", " + str(round(ycoor, 2)) + ")"
          		cv2.putText(frame, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
           		cv2.putText(frame, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
           		numbering = numbering + 1
@@ -132,8 +132,8 @@ def draw_face(frame, landmarks):
 def main():
 	mystasm = pyasm.STASM()
 	cap, pos_frame = video_config()
-
-        done = False	
+        done = False
+        start = True	
 	while done != True:
 	    flag, frame = cap.read()
 	    if flag:
@@ -142,22 +142,29 @@ def main():
 	        filename = '/tmp/frame{}.jpg'.format(pos_frame)
 	        cv2.imwrite(filename, frame)
 	        # nasty fix .. pystasm should receive np array .. 
-	        mylandmarks = mystasm.s_search_single(filename)
-	        
+	        if start == True:
+	        	mylandmarks = mystasm.s_search_single(filename)
+	        	start = False
+	        if start == False:
+	        	landmarksOLD = mylandmarks
+	        	mylandmarks = mystasm.s_search_single(filename)
+	        	alpha = .95
+	        	mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
+
 	        # draw the landmarks point as circles
 		draw_face(frame, mylandmarks)
 
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
 	        cv2.imshow("Live Landmarking", frame)
-	      
+	      	# cv2.waitKey(50)
 
 	    #else:
 	        # The next frame is not ready, so we try to read it again
 	    #    cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, pos_frame-1)
 	    #    print "frame is not ready"
-	        #cv2.waitKey(10)
+		#	 cv2.waitKey(10)
 
-	    if cv2.waitKey(1) == 1048603:
+	    if cv2.waitKey(33) == 1048603:
                 done = True 
             #k = cv2.waitKey(33)
             #print k, " ", ord(k)
