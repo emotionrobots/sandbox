@@ -8,7 +8,7 @@ with a video and save the landmarks into txt"""
 import cv2
 import numpy as np
 import pyasm
-
+import math
 
 
 FILENAME =  '/tmp/out.webm'
@@ -91,8 +91,28 @@ def draw_landmarks(frame, landmarks):
 	numbering = 0
         for (x, y) in landmarks:
         	if count == 52 or count == 14 or count == 13 or count == 15 or count == 65 or count == 59:
-  		      	xcoor = (x - landmarks[52][0])*scale
-       			ycoor = (y - landmarks[52][1])*scale
+        		if count != 52:
+	  		      	xcoor = (x - landmarks[52][0])*scale
+	       			ycoor = (landmarks[52][1] - y)*scale
+	       			dist = (xcoor**2 + ycoor**2)**.5
+	       			Xdist14toPoint = (x - landmarks[14][0]) * scale
+	       			Ydist14toPoint = (landmarks[14][1] - y) * scale
+	       			absDist14toPoint = (Xdist14toPoint**2 + Ydist14toPoint**2)**.5
+	       			# print dist
+	       			# print absDist14toPoint
+	       			stdDistX = (landmarks[52][0] - landmarks[14][0]) * scale
+	       			stdDistY = (landmarks[52][1] - landmarks[14][1]) * scale
+	       			stdDist = (stdDistX**2 + stdDistY**2)**.5
+	       			theta = (absDist14toPoint**2 - dist**2 - stdDist**2)/(-2* dist * stdDist)
+	       			theta = math.acos(theta)
+	       			print "point: " + str(count) + " " + str(90 - math.degrees(theta))
+	       			xcoor = dist * math.sin(90-theta)
+	       			ycoor = dist * math.cos(90-theta)
+	       		if count == 52:
+	       			xcoor = 0
+	       			ycoor = 0
+       			# if count == 14:
+       				# print str(dist) + " " + str(xcoor) + ", " + str(ycoor)
        			coorPair = str(count) + ":   (" + str(round(xcoor, 2)) + ", " + str(round(ycoor, 2)) + ")"
          		cv2.putText(frame, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
           		cv2.putText(frame, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
@@ -114,7 +134,7 @@ def normalize(frame, landmarks):
 		distLM = arrayLM[0]**2 + arrayLM[1]**2
 		distLM = distLM**.5
 		distTOTAL = distLM + distRM
-		scale = 5 / distTOTAL
+		scale = 10 / distTOTAL
 		return scale
 
 def draw_face(frame, landmarks):
