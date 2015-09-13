@@ -64,7 +64,7 @@ def main():
 	    #    print "frame is not ready"
 	        #cv2.waitKey(10)
 
-	    if cv2.waitKey(1) == 1048603:
+	    if cv2.waitKey(1) == 27:
                 done = True 
             #k = cv2.waitKey(33)
             #print k, " ", ord(k)
