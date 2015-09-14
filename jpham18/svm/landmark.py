@@ -11,12 +11,12 @@ import pyasm
 import math
 
 
-FILENAME =  '/tmp/out.webm'
 
+FILENAME =  '/tmp/out.webm'
+frames=None
 def video_config():
 	"""Initialize video capture, pass filename by
 	param jic that remove var and pass by argv"""
-
 	cap = cv2.VideoCapture(0)
 	while not cap.isOpened():
 	    cap = cv2.VideoCapture(0)
@@ -30,6 +30,7 @@ def draw_seg(frame, landmarks, start, end):
         (startx, starty) = landmarks[start]
 	(endx, endy) = landmarks[end]
         cv2.line(frame,(int(startx),int(starty)),(int(endx),int(endy)),(0,0,255), 1)
+        cv2.line(frames,(int(startx),int(starty)),(int(endx),int(endy)),(0,0,255), 1)
 	return
 
 def draw_arc(frame, landmarks, start, end):
@@ -37,6 +38,7 @@ def draw_arc(frame, landmarks, start, end):
         (tempx, tempy) = landmarks[start]
 	for (x, y) in landmarks[start+1:end+1]:
             cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
+            cv2.line(frames,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
             count=count+1
             tempx=x
             tempy=y
@@ -47,11 +49,13 @@ def draw_loop(frame, landmarks, start, end):
         (tempx, tempy) = landmarks[start]
 	for (x, y) in landmarks[start+1:end+1]:
             cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
+            cv2.line(frames,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
             count=count+1
             tempx=x
             tempy=y
         (x, y) = landmarks[start]
         cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
+        cv2.line(frames,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
 	return
 
 def draw_righteyebrow(frame, landmarks):
@@ -74,7 +78,7 @@ def draw_mouth(frame, landmarks):
 	draw_seg(frame, landmarks, 59, 68)
  	draw_seg(frame, landmarks, 59, 69)
  	draw_arc(frame, landmarks, 69, 71)
-	draw_seg(frame, landmarks, 65, 71)
+ 	draw_seg(frame, landmarks, 65, 71)
 	draw_seg(frame, landmarks, 65, 72)
 	draw_arc(frame, landmarks, 72, 76)
 	draw_seg(frame, landmarks, 59, 76)
@@ -86,19 +90,21 @@ def draw_nosebridge(frame, landmarks):
 def draw_landmarks(frame, landmarks):
 	scale = normalize(frame, landmarks)
 	cv2.putText(frame, "Scale:  "  + str(scale), (100,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+	cv2.putText(frames, "Scale:  "  + str(scale), (100,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 	map(lambda p: cv2.circle(frame, (int(p[0]), int(p[1])), 1, (512,512,255), -1), landmarks)
+	map(lambda p: cv2.circle(frames, (int(p[0]), int(p[1])), 1, (512,512,255), -1), landmarks)
 	count=0
 	numbering = 0
         for (x, y) in landmarks:
-        	if count == 52 or count == 14 or count == 13 or count == 15 or count == 65 or count == 59:
-        		if count != 52:
-	  		      	xcoor = (x - landmarks[52][0])*scale
-	       			ycoor = (landmarks[52][1] - y)*scale
-	       			quadrant = 0
-	       			if xcoor > 0 and ycoor > 0:
-	       				quadrant = 1
-	       			if xcoor < 0 and ycoor > 0:
-	       				quadrant = 2
+			if count == 52 or count == 14 or count == 13 or count == 15 or count == 65 or count == 59:
+				if count != 52:
+					xcoor = (x - landmarks[52][0])*scale
+					ycoor = (landmarks[52][1] - y)*scale
+					quadrant = 0
+					if xcoor > 0 and ycoor > 0:
+						quadrant = 1
+					if xcoor < 0 and ycoor > 0:
+						quadrant = 2
 	       			if xcoor < 0 and ycoor < 0:
 	       				quadrant = 3
 	       			if xcoor > 0 and ycoor < 0:
@@ -113,9 +119,9 @@ def draw_landmarks(frame, landmarks):
 	       			theta = (absDist14toPoint**2 - dist**2 - stdDist**2)/(-2* dist * stdDist)
 	       			theta = math.degrees(math.acos(theta))
 	       			if quadrant == 2 or quadrant == 3:
-	       				theta = 90+theta
-	       				xcoor = dist * math.cos(math.radians(theta))
-	       				theta = theta - 90
+						theta = 90+theta
+						xcoor = dist * math.cos(math.radians(theta))
+						theta = theta - 90
 	       			if quadrant == 4:
 	       				theta = 450 - theta
 	       				xcoor = dist * math.cos(math.radians(theta))
@@ -123,15 +129,19 @@ def draw_landmarks(frame, landmarks):
 	       			if quadrant == 1:	
 	       				xcoor = dist * math.cos(math.radians(90-theta))
 	       			ycoor = dist * math.sin(math.radians(90 - theta))
-	       		if count == 52:
-	       			xcoor = 0
-	       			ycoor = 0
-       			coorPair = str(count) + ":   (" + str(round(xcoor, 2)) + ", " + str(round(ycoor, 2)) + ")"
-         		cv2.putText(frame, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
-          		cv2.putText(frame, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-          		numbering = numbering + 1
-           	count = count+1
-        return
+	       			print ycoor
+				if count == 52:
+					xcoor = 0
+					ycoor = 0
+				# print str(xcoor) + "  " + str(ycoor)
+				coorPair = str(count) + ":   (" + str(round(xcoor, 2)) + ", " + str(round(ycoor, 2)) + ")"
+				cv2.putText(frame, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
+				cv2.putText(frame, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+				cv2.putText(frames, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
+				cv2.putText(frames, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+				numbering = numbering + 1
+			count = count + 1
+	return
 
 def draw_face_outline(frame, landmarks):
         return draw_loop(frame, landmarks, 0, 15)
@@ -147,7 +157,7 @@ def normalize(frame, landmarks):
 		distLM = arrayLM[0]**2 + arrayLM[1]**2
 		distLM = distLM**.5
 		distTOTAL = distLM + distRM
-		scale = 10 / distTOTAL
+		scale = 5 / distTOTAL
 		return scale
 
 def draw_face(frame, landmarks):
@@ -169,6 +179,8 @@ def main():
         start = True	
 	while done != True:
 	    flag, frame = cap.read()
+	    global frames
+	    frames=cv2.imread("/home/julian/sandbox/aurash/landmarking/white.jpg",1)
 	    if flag:
 	        # The frame is ready and already captured
 	        # save a tmp file because pystasm receive by parameter a filename
@@ -181,14 +193,16 @@ def main():
 	        if start == False:
 	        	landmarksOLD = mylandmarks
 	        	mylandmarks = mystasm.s_search_single(filename)
-	        	alpha = .95
+	        	alpha = .60
 	        	mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
-
+	        	
 	        # draw the landmarks point as circles
 		draw_face(frame, mylandmarks)
 
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
 	        cv2.imshow("Live Landmarking", frame)
+	        cv2.imshow('k',frames)
+
 	      	# cv2.waitKey(50)
 
 	    #else:
