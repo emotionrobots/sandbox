@@ -144,7 +144,7 @@ def main():
 	while done != True:
 	    flag, frame = cap.read()
 	    global frames
-	    frames=cv2.imread("/home/aurash/Downloads/white.jpg",1)
+	    frames=cv2.imread("/home/aurash/sandbox/sandbox/aurash/landmarking/white.jpg",1)
 	    if flag:
 	        # The frame is ready and already captured
 	        # save a tmp file because pystasm receive by parameter a filename
