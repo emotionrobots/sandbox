@@ -8,6 +8,8 @@ with a video and save the landmarks into txt"""
 import cv2
 import numpy as np
 import pyasm
+import sys
+import os
 
 
 
@@ -166,6 +168,8 @@ def main():
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
 	        cv2.imshow("Live Landmarking", frame)
 	        cv2.imshow('k',frames)
+
+
 
 	      	# cv2.waitKey(50)
 
