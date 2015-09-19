@@ -1,0 +1,116 @@
+                               
+                               RP2W Serial-to-Arduino HOW-TO                
+                                        (3/18/2015)
+
+
+
+============
+Prerequisit:
+============
+
+You will need to install libSerial.  Download the source tarball:
+
+    wget http://sourceforge.net/projects/libserial/files/libserial/0.6.0rc1/libserial-0.6.0rc1.tar.gz
+
+Untar with the below command:
+
+    tar zxvf libserial-0.6.0rc1.tar.gz
+
+this will extract the files in local directory.  Now we will need to modify the
+code to fix a known bug (http://stackoverflow.com/questions/25230535/libserial-error-cannot-set-baud-rate-as-115200):
+
+    cd src
+    gedit SerialStreamBuf.h
+
+Change the line from:
+
+    #ifdef __linux__
+                BAUD_460800 = SerialPort::BAUD_460800,
+    #endif
+                BAUD_DEFAULT = SerialPort::BAUD_DEFAULT,
+                BAUD_INVALID
+
+to 
+
+    #ifdef __linux__
+                BAUD_460800 = SerialPort::BAUD_460800,
+    #endif
+                BAUD_DEFAULT = SerialPort::BAUD_DEFAULT,
+                BAUD_INVALID = 0x9999
+
+Next add the line below to SerialPort.h 
+
+    #include <uinstd.h>
+
+
+Before we can build libserial, we need to first install 'sip', a prerequsite of libserial:
+
+    sudo apt-get install python-sip-dev
+
+
+Also, if you have any previously install libserial, you will need to purge it by:
+
+    sudo apt-get purge libserial-dev
+
+
+Now save the file and build at the project root:
+
+    cd ..
+    ./configure
+    make
+    sudo make install
+
+
+Check to make sure the new libraries are created in /usr/local/lib.  Also make sure there
+is lingering libserial.so.x in /usr/lib directory. 
+
+
+Now, we need to make sure the dynamic linker knows where the new libserial libraries are:
+
+    cat /etc/libc.conf
+
+to make sure /usr/local/lib is in it.  Finally, add the following lines to the .bashrc 
+file at the home directory:
+
+    cd . 
+    gedit .bashrc
+
+
+and add the following line at the end of the file:
+
+
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib 
+ 
+
+=================================
+Building the Example Serial Code
+=================================
+
+Now untar the rp2w_serial.tar.gz in another directory.  Build the code using the following
+command:
+
+    g++ -I. testapp.cpp rp2w_serial.cpp -o testapp -L/usr/local/lib -lserial
+
+Now run the output executable, with USB serial plugged into Serial Port 1 on the Arduino:
+
+    sudo ./testapp
+
+The leading 'sudo' is important.  You should get something like this repeating:
+
+    [ 83  49 127 127 129 248 127 127 126  69 118   9   7   0  69  79  70 ]
+    robot.update success
+    0x7F7F81F8
+    0x7F7F7E45
+    0x76
+    0x09
+    0x07
+    0x00
+
+
+The testapp assume the USB serial appears at /dev/ttyUSB0.  If it is at a different place,
+change the code (see testapp.cpp). 
+
+Contact Larry Li at larrylisky@gmail.com for any questions.
+
+
+
