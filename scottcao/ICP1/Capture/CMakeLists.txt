@@ -8,6 +8,6 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-set(SRC_FILES "capture.cpp" "OpenNICapturer.cpp" "OpenNICapturer.h" "CustomCloud.cpp" "CustomCloud.h" "Registration.cpp" "Registration.h" "PCDWriter.cpp" "PCDWriter.h")
+set(SRC_FILES "main.cpp" "OpenNICapturer.cpp" "OpenNICapturer.h" "CustomCloud.cpp" "CustomCloud.h" "Registration.cpp" "Registration.h" "PCDWriter.cpp" "PCDWriter.h")
 add_executable (capture ${SRC_FILES})
 target_link_libraries (capture ${PCL_LIBRARIES})

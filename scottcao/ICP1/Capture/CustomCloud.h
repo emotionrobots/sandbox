@@ -4,16 +4,18 @@
 #include <pcl/features/normal_3d_omp.h>
 #include <pcl/features/shot_omp.h>
 #include <pcl/filters/passthrough.h>
-#include <pcl/filters/voxel_grid.h>
 #include <pcl/io/pcd_io.h>
+#include <pcl/keypoints/uniform_sampling.h>
 
 typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloud;
 typedef pcl::PointXYZRGBNormal PointNormalT;
 typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
 typedef pcl::SHOT352 FeatureT;
+// typedef pcl::SHOT1344 FeatureT;
 typedef pcl::PointCloud<FeatureT> FeatureCloud;
 typedef pcl::SHOTEstimationOMP<PointT, PointNormalT, FeatureT> FeatureEstimationT;
+// typedef pcl::SHOTColorEstimationOMP<PointT, PointNormalT, FeatureT> FeatureEstimationT;
 
 class CustomCloud
 {
