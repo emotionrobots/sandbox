@@ -10,6 +10,8 @@ import numpy as np
 import pyasm
 import sys
 import os
+from scipy.spatial import Delaunay
+import matplotlib.pyplot as plt
 
 
 
@@ -161,6 +163,11 @@ def main():
 	        	mylandmarks = mystasm.s_search_single(filename)
 	        	alpha = .95
 	        	mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
+	        	tri = Delaunay(mylandmarks)
+	        	plt.triplot(mylandmarks[:,0], mylandmarks[:,1], tri.simplices.copy())
+	        	plt.plot(mylandmarks[:,0], mylandmarks[:,1], 'o')
+	        	plt.show()
+	        	print mylandmarks
 	        	
 	        # draw the landmarks point as circles
 		draw_face(frame, mylandmarks)

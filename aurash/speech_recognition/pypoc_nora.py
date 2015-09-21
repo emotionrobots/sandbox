@@ -15,9 +15,9 @@ class Nora(object): #Main class for Speech Reccognition
     filename=None
     def RecNora(self): # Method for recognnizing the name Nora 
         config = Decoder.default_config() #Create decoder
-        config.set_string('-hmm','/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k')# set hidden markov model
+        config.set_string(filename+'/models/hub4wsj_sc_8k')# set hidden markov model
         #config.set_string('-lm', '/usr/share/pocketsphinx/model/lm/en_US/hub4.5000.DMP') # set language model not needed for Keyword detection
-        config.set_string('-dict', '/usr/share/pocketsphinx/model/lm/en_US/cmu07a.dic') # dictionary
+        config.set_string('-dict', filename+'models/cmu07a.dic') # dictionary
         config.set_string('-logfn','\dev\\null') #Deletes log from terminal...cleaner
         config.set_string('-keyphrase', 'nora') # keyphrase set to "Nora"
         config.set_float('-kws_threshold', 1e+10) # keyword search threshold
@@ -51,9 +51,9 @@ class Nora(object): #Main class for Speech Reccognition
     
     def RepMe(self):
         config = Decoder.default_config()
-        config.set_string('-hmm','/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k')
-        config.set_string('-lm', '/usr/share/pocketsphinx/model/lm/en_US/hub4.5000.DMP')
-        config.set_string('-dict', '/usr/share/pocketsphinx/model/lm/en_US/cmu07a.dic')
+        config.set_string('-hmm',filename+'models/hub4wsj_sc_8k')
+        config.set_string('-lm', filename+'models/en_US/hub4.5000.DMP')
+        config.set_string('-dict', filename+'models/lm/en_US/cmu07a.dic')
         config.set_float('-vad_threshold', 3)
         #config.set_float('-vad_postspeech', 500)
         #config.set_float('-vad_prespeech', 20)
@@ -110,9 +110,9 @@ class Nora(object): #Main class for Speech Reccognition
     def yon(self): 
 
         config = Decoder.default_config() #Create decoder
-        config.set_string('-hmm','/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k')# set hidden markov model
+        config.set_string('-hmm',filename+'models/hub4wsj_sc_8k')# set hidden markov model
         #config.set_string('-lm', '/usr/share/pocketsphinx/model/lm/en_US/hub4.5000.DMP') # set language model not needed for Keyword detection
-        config.set_string('-dict', '/usr/share/pocketsphinx/model/lm/en_US/cmu07a.dic') # dictionary
+        config.set_string('-dict', filename+'models/cmu07a.dic') # dictionary
         #config.set_string('-logfn','\dev\\null') #Deletes log from terminal...cleaner
         #config.set_string('-kws', '/home/aurash/keyphrase.list') # keyphrase set to "Nora"
         config.set_float('-kws_threshold', 1e+10) # keyword search threshold
@@ -123,7 +123,7 @@ class Nora(object): #Main class for Speech Reccognition
         stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000,input=True, frames_per_buffer=1024)
         stream.start_stream() 
         decoder = Decoder(config) 
-        decoder.set_kws('keyphrase_search',"filename/keyphrase.list");
+        decoder.set_kws('keyphrase_search',filename+'/keyphrase.list");
         decoder.set_search('keyphrase_search'); 
         decoder.get_config()
         decoder.start_utt() 
@@ -260,7 +260,7 @@ class Nora(object): #Main class for Speech Reccognition
         decoder.end_utt() 
 
     def pyaiml(self, strig):
-    	os.chdir('/filename/sets')
+    	os.chdir(filename+'/sets')
         mybot=aiml.Kernel()
         mybot.learn('std-startup.xml')
         mybot.respond('load aiml b')
@@ -273,27 +273,37 @@ class Nora(object): #Main class for Speech Reccognition
 
 
     def gstt(self):
-    	r = sr.Recognizer()
-        r.energy_threshold= 30000
-        hyper=None
-        with sr.Microphone() as source:                # use the default microphone as the audio source
-            audio = r.listen(source)                   # listen for the first phrase and extract it into audio data
-        try:
-        	hyper=r.recognize(audio)
-        except LookupError:                            # speech is unintelligible
-            print("Could not understand audio")
-        if(hyper != None):
-            print(hyper)
-            return hyper   
+        exit=False
+        while exit==False:
+            r = sr.Recognizer()
+            r.energy_threshold= 30000
+            hyper=None
+            with sr.Microphone() as source:                # use the default microphone as the audio source
+                audio = r.listen(source)                   # listen for the first phrase and extract it into audio data
+            # recognize speech using AT&T Speech to Text
+            ATT_APP_KEY = "v72tyvstxthasy1az2t40rzhrre1ufzc" # AT&T Speech to Text app keys are 32-character lowercase alphanumeric strings
+            ATT_APP_SECRET = "uloea3capyxwub1hbwg2vswhqxbynpr4" # AT&T Speech to Text app secrets are 32-character lowercase alphanumeric strings
+            try:
+                hyper=r.recognize_google(audio)#, app_key=ATT_APP_KEY, app_secret=ATT_APP_SECRET)
+            except sr.UnknownValueError:
+                print("Speech to Text could not understand audio")
+                exit=False
+            except sr.RequestError:
+                print("Could not request results from Speech to Text service")
+                exit=False
+            if hyper != None:
+                exit=True
+        print hyper
+        return hyper            
+              
 
 
     def face_detect(self):
         global filename
         filename = os.getcwd()      
         print filename
-        cascPath = filename+"/cascades/haarcascade_frontalface_default.xml"
         eye_cascade = cv2.CascadeClassifier(filename+"/cascades/haarcascade_eye.xml")
-        faceCascade = cv2.CascadeClassifier(cascPath)
+        faceCascade = cv2.CascadeClassifier(filename+"/cascades/haarcascade_frontalface_default.xml")
         smile_cascade=cv2.CascadeClassifier(filename+"/cascades/haarcascade_smile.xml")
         nose_cascade=cv2.CascadeClassifier(filename+"/cascades/haarcascade_mcs_nose.xml")
 
@@ -304,18 +314,8 @@ class Nora(object): #Main class for Speech Reccognition
             ret, frame = video_capture.read()
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-            faces = faceCascade.detectMultiScale(
-                gray,
-                scaleFactor=1.2,
-                minNeighbors=5,
-                minSize=(30, 30),
-                flags=cv2.cv.CV_HAAR_SCALE_IMAGE
-            )
-
-    
-
             # Draw a rectangle around the faces
+            faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
             for (x, y, w, h) in faces:
                 cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
                 roi_gray = gray[y:y+h, x:x+w]
