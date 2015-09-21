@@ -86,17 +86,22 @@ void CustomCloud::filter()
   f_cloud_ = PointCloud::Ptr(new PointCloud);        
 
   pcl::PassThrough<PointT> range_filter;
+  // Filter out all points with Z values not in the [0 - range_limit_z] range.
   range_filter.setFilterFieldName("z");
   range_filter.setFilterLimits(0, range_limit_z);
   range_filter.setInputCloud(cloud_);
   range_filter.filter(*temp);      
 
-  pcl::VoxelGrid<PointT> grid;
-  grid.setLeafSize(leaf_size_1_, leaf_size_1_, leaf_size_1_);
-  grid.setInputCloud(temp);
-  grid.filter(*f_cloud_);  
-
-  // std::cout << temp->points.size() << " " << f_cloud_->points.size() << std::endl;
+  // Uniform sampling object.
+  pcl::UniformSampling<PointT> uniform_filter;
+  uniform_filter.setInputCloud(temp);
+  // We set the size of every voxel to be 1x1x1cm
+  // (only one point per every cubic centimeter will survive).
+  uniform_filter.setRadiusSearch(leaf_size_1_);
+  // We need an additional object to store the indices of surviving points.
+  pcl::PointCloud<int> keypointIndices;
+  uniform_filter.compute(keypointIndices);
+  copyPointCloud(*temp, keypointIndices.points, *f_cloud_);
 }  
 
 // Compute the surface normals
@@ -119,13 +124,16 @@ void CustomCloud::computeFeatureCloud()
 {
   PointCloud::Ptr temp (new PointCloud);
 
-  pcl::VoxelGrid<PointT> grid;
-  grid.setLeafSize(leaf_size_2_, leaf_size_2_, leaf_size_2_);
-  // grid.setLeafSize(0.02, 0.02, 0.02);
-  grid.setInputCloud(f_cloud_);
-  grid.filter(*temp);  
-
-  // std::cout << normals_->points.size() << " " << temp->points.size() << std::endl;
+  // Uniform sampling object.
+  pcl::UniformSampling<PointT> uniform_filter;
+  uniform_filter.setInputCloud(f_cloud_);
+  // We set the size of every voxel to be 1x1x1cm
+  // (only one point per every cubic centimeter will survive).
+  uniform_filter.setRadiusSearch(leaf_size_2_);
+  // We need an additional object to store the indices of surviving points.
+  pcl::PointCloud<int> keypointIndices;
+  uniform_filter.compute(keypointIndices);
+  copyPointCloud(*f_cloud_, keypointIndices.points, *temp);
 
   features_ = FeatureCloud::Ptr(new FeatureCloud);
   pcl::search::KdTree<PointT>::Ptr tree(new pcl::search::KdTree<PointT>);      

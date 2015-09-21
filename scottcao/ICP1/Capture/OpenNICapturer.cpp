@@ -100,8 +100,6 @@ void OpenNICapturer::run ()
   while (!cloud_viewer_->wasStopped ())
   {
     PointCloud::ConstPtr cloud;
-    
-    // cout << ++ count << endl;
 
     // See if we can get a cloud
     if (cloud_mutex_.try_lock ())
@@ -117,24 +115,17 @@ void OpenNICapturer::run ()
 
       if (reg_.canAlign ())
       {
-        // cout << "ssss" << endl;
         reg_.align ();
-        // cout << "tttt" << endl;
         if (reg_.hasConverged ())
         {
-          cout << "Cloud size: " << reg_.getResultantCloud ()->points.size() << endl;
-          // showCloudRight (reg_.getResultantCloud ());
+          PointCloud::Ptr result = reg_.getResultantCloud ();
+          cout << "Cloud size: " << result->points.size() << endl;
           if (viewer_mutex_.try_lock ())
           {
             showCloudRight (reg_.getResultantCloud ());
             viewer_mutex_.unlock ();
           }
-          // PointCloud::Ptr temp(new PointCloud);
-          // copyPointCloud(*cloud, *temp);
-          // showCloudRight (temp);
-          // cout << "uuuu" << endl;
-          // PCL_INFO ("Registration score: %d\n", reg_.getFitnessScore ());
-          writer.writeToFile (reg_.getResultantCloud ());
+          writer.writeToFile (result);
         }
       }
     }
