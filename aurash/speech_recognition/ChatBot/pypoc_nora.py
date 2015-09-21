@@ -15,9 +15,9 @@ class Nora(object): #Main class for Speech Reccognition
     filename=None
     def RecNora(self): # Method for recognnizing the name Nora 
         config = Decoder.default_config() #Create decoder
-        config.set_string('-hmm','/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k')# set hidden markov model
+        config.set_string('-hmm',filename+'/models/hub4wsj_sc_8k')# set hidden markov model
         #config.set_string('-lm', '/usr/share/pocketsphinx/model/lm/en_US/hub4.5000.DMP') # set language model not needed for Keyword detection
-        config.set_string('-dict', '/usr/share/pocketsphinx/model/lm/en_US/cmu07a.dic') # dictionary
+        config.set_string('-dict', filename+'/models/cmu07a.dic') # dictionary
         config.set_string('-logfn','\dev\\null') #Deletes log from terminal...cleaner
         config.set_string('-keyphrase', 'nora') # keyphrase set to "Nora"
         config.set_float('-kws_threshold', 1e+10) # keyword search threshold
@@ -51,9 +51,9 @@ class Nora(object): #Main class for Speech Reccognition
     
     def RepMe(self):
         config = Decoder.default_config()
-        config.set_string('-hmm','/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k')
-        config.set_string('-lm', '/usr/share/pocketsphinx/model/lm/en_US/hub4.5000.DMP')
-        config.set_string('-dict', '/usr/share/pocketsphinx/model/lm/en_US/cmu07a.dic')
+        config.set_string('-hmm',filename+'/models/hub4wsj_sc_8k')
+        config.set_string('-lm', filename+'/models/hub4.5000.DMP')
+        config.set_string('-dict', filename+'/models/cmu07a.dic')
         config.set_float('-vad_threshold', 3)
         #config.set_float('-vad_postspeech', 500)
         #config.set_float('-vad_prespeech', 20)
@@ -110,9 +110,9 @@ class Nora(object): #Main class for Speech Reccognition
     def yon(self): 
 
         config = Decoder.default_config() #Create decoder
-        config.set_string('-hmm','/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k')# set hidden markov model
+        config.set_string('-hmm',filename+'/models/hub4wsj_sc_8k')# set hidden markov model
         #config.set_string('-lm', '/usr/share/pocketsphinx/model/lm/en_US/hub4.5000.DMP') # set language model not needed for Keyword detection
-        config.set_string('-dict', '/usr/share/pocketsphinx/model/lm/en_US/cmu07a.dic') # dictionary
+        config.set_string('-dict', filename+'/models/cmu07a.dic') # dictionary
         #config.set_string('-logfn','\dev\\null') #Deletes log from terminal...cleaner
         #config.set_string('-kws', '/home/aurash/keyphrase.list') # keyphrase set to "Nora"
         config.set_float('-kws_threshold', 1e+10) # keyword search threshold
@@ -123,7 +123,7 @@ class Nora(object): #Main class for Speech Reccognition
         stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000,input=True, frames_per_buffer=1024)
         stream.start_stream() 
         decoder = Decoder(config) 
-        decoder.set_kws('keyphrase_search',"filename/keyphrase.list");
+        decoder.set_kws('keyphrase_search',filename+'keyphrase.list')
         decoder.set_search('keyphrase_search'); 
         decoder.get_config()
         decoder.start_utt() 
@@ -165,12 +165,12 @@ class Nora(object): #Main class for Speech Reccognition
    
     
 
-    def main(self,ints):
-        print ints
-        if ints=="cmu":
+    def main(self,user=None):
+        print user
+        if user=="cmu":
             count=0
             while True:
-                print "hello"
+                
                 if count==0:
                     global r
                     r=None
@@ -180,18 +180,18 @@ class Nora(object): #Main class for Speech Reccognition
                         r=Nora.RecNora(self)==True
                 if count>0 or r:
                         recog=False
-                        print "hello"
+                        
                         while not recog:
                             a=Nora.RepMe(self) #gstt or RepMe
                             if a:
                                 b=Nora.yon(self)
                                 if b:
-                                    print('NLTK') # Implement NLTK method
+                                    #print('NLTK') # Implement NLTK method
                                     recog=True
                                     #Nora.tts(self, "Awesome!")
                                     Nora.pyaiml(self,hypo)
                                     count=count+1
-                                    print "hello"
+                                    
                                 else:
                                     Nora.tts( self,"Please repeat your statement")
                                     recog=False
@@ -213,9 +213,9 @@ class Nora(object): #Main class for Speech Reccognition
         text.append('?')
         Nora.tts(self,' '.join(text))
         config = Decoder.default_config() #Create decoder
-        config.set_string('-hmm','/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k')# set hidden markov model
+        config.set_string('-hmm',filename+'/models/hub4wsj_sc_8k')# set hidden markov model
         #config.set_string('-lm', '/usr/share/pocketsphinx/model/lm/en_US/hub4.5000.DMP') # set language model not needed for Keyword detection
-        config.set_string('-dict', '/usr/share/pocketsphinx/model/lm/en_US/cmu07a.dic') # dictionary
+        config.set_string('-dict', filename+'/models/cmu07a.dic') # dictionary
         #config.set_string('-logfn','\dev\\null') #Deletes log from terminal...cleaner
         #config.set_string('-kws', '/home/aurash/keyphrase.list') # keyphrase set to "Nora"
         config.set_float('-kws_threshold', 1e+10) # keyword search threshold
@@ -225,7 +225,7 @@ class Nora(object): #Main class for Speech Reccognition
         stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000,input=True, frames_per_buffer=1024)
         stream.start_stream() 
         decoder = Decoder(config) 
-        decoder.set_kws('keyphrase_search',"filename/keyphrase.list");
+        decoder.set_kws('keyphrase_search',filename+'/models/keyphrase.list')
         decoder.set_search('keyphrase_search'); 
         decoder.get_config()
         decoder.start_utt() 
@@ -294,6 +294,9 @@ class Nora(object): #Main class for Speech Reccognition
             if hyper != None:
                 exit=True
         print hyper
+        if hyper=='bye' or hyper=='goodbye':
+            Nora.tts(self,"see you later!")
+            sys.exit("I had a wondeful time")
         return hyper            
               
 
@@ -314,18 +317,8 @@ class Nora(object): #Main class for Speech Reccognition
             ret, frame = video_capture.read()
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-            faces = faceCascade.detectMultiScale(
-                gray,
-                scaleFactor=1.2,
-                minNeighbors=5,
-                minSize=(30, 30),
-                flags=cv2.cv.CV_HAAR_SCALE_IMAGE
-            )
-
-    
-
             # Draw a rectangle around the faces
+            faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
             for (x, y, w, h) in faces:
                 cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2)
                 roi_gray = gray[y:y+h, x:x+w]
@@ -358,5 +351,15 @@ class Nora(object): #Main class for Speech Reccognition
 
 if __name__ == '__main__':
     test=Nora()
+    choice=None
     while True:
-        test.main(sys.argv[1])
+        try:
+            choice=sys.argv[1]
+            if choice != None:
+                test.main(user=choice)
+            else:
+                test.main() 
+                  
+        except Exception, e:
+            raise e
+        
