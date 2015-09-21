@@ -2,6 +2,7 @@
 import clips
 
 def load_class():
+   """ CAUSAL observation class """
    clips.Build("""
       (defclass CAUSAL (is-a USER)
          (slot cause (create-accessor read-write))
@@ -12,37 +13,35 @@ def load_class():
 
 
 def load_rules():
+   """ Rules implementing forward and backward chaining """
+
    clips.BuildRule('forward-chain-starter',
          '?f <- (cause ?c)',
          '(assert (forward-chain ?c 1))',
-         'Forward Chaining Rule'
-   )
- 
+         'Forward Chaining Rule')
+
    clips.BuildRule('backward-chain-starter',
          '?f <- (effect ?e)',
          '(assert (backward-chain ?e 1))',
-         'Backward Chaining Starter'
-   )
+         'Backward Chaining Starter')
 
    clips.BuildRule('forward-chaining',
          '?f <- (forward-chain $?s ?c ?p1) \
           ?obj <- (object (is-a CAUSAL) (cause ?c) (prob ?p2))',
          '(bind ?e (send ?obj get-effect)) \
           (assert (forward-chain $?s ?c ?e (* ?p1 ?p2)))',
-         'Forward Chaining Rule'
-   )
+         'Forward Chaining Rule')
 
    clips.BuildRule('backward-chaining',
          '?f <- (backward-chain $?s ?e ?p1) \
           ?obj <- (object (is-a CAUSAL) (effect ?e) (prob ?p2))',
          '(bind ?c (send ?obj get-cause)) \
           (assert (backward-chain $?s ?e ?c (* ?p1 ?p2)))',
-         'Backward Chaining Rule'
-   )
-
+         'Backward Chaining Rule')
 
 
 def add_causal(name, cause, effect, context, prob):
+   """ Add a new causal observation """
    i = clips.BuildInstance(name, clips.FindClass("CAUSAL"))
    i.Slots['cause'] = cause
    i.Slots['effect'] = effect
@@ -50,7 +49,12 @@ def add_causal(name, cause, effect, context, prob):
    i.Slots['prob'] = prob   
 
 
+def query_likely_cause(effect):
+     
+
+
 def main():
+   """ test driver """
    load_class()
    load_rules()
 
