@@ -9,7 +9,8 @@ import cv2
 import numpy as np
 import pyasm
 import math
-
+from sklearn.svm import SVC
+from sklearn.externals import joblib 
 
 
 FILENAME =  '/tmp/out.webm'
@@ -97,6 +98,7 @@ def draw_landmarks(frame, landmarks):
 	numbering = 0
         for (x, y) in landmarks:
 			if count == 52 or count == 14 or count == 13 or count == 15 or count == 65 or count == 59:
+			# if count != -11111111:
 				if count != 52:
 					xcoor = (x - landmarks[52][0])*scale
 					ycoor = (landmarks[52][1] - y)*scale
@@ -129,7 +131,7 @@ def draw_landmarks(frame, landmarks):
 	       			if quadrant == 1:	
 	       				xcoor = dist * math.cos(math.radians(90-theta))
 	       			ycoor = dist * math.sin(math.radians(90 - theta))
-	       			print ycoor
+	       			# print ycoor
 				if count == 52:
 					xcoor = 0
 					ycoor = 0
@@ -140,8 +142,89 @@ def draw_landmarks(frame, landmarks):
 				cv2.putText(frames, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
 				cv2.putText(frames, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 				numbering = numbering + 1
+				# cv2.putText(frame, str(scale * (landmarks[65][0] - landmarks[59][0])), (100,10), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+				# cv2.putText(frames, str(scale * (landmarks[65][0] - landmarks[59][0])), (100,10), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 			count = count + 1
 	return
+def displayEmotion(frame, landmarks):
+	scale = normalize(frame, landmarks)
+
+	# standard deltas on a Neutral Face
+	stdNeutMouth = round(13.3, 0)
+	stdNeutEyeBrow = round(7.5, 0)
+	stdNeutNoseEye = round(13.7, 0)
+
+	# standard deltas on a Happy Face
+	stdHappMouth = round(18.5, 0)
+	stdHappEyeBrow = round(7.9, 0)
+	stdHappNoseEye = round(11.9, 0)
+
+	# standard deltas on a Sad Face
+	# stdSadMouth
+	# stdSadEyeBrow
+	# stdSadNoseEye
+	
+	# standard deltas on an Angry Face
+	# stdAngryMouth
+	# stdAngryEyeBrow = round(7, 0)
+	# stdAngryNoseEye
+	# stdAngryEyebrowAngle
+
+	# standard deltas on a Disgusted Face
+	stdDisgMouth = round(15.4, 0)
+	stdDisgEyebrow = round(6.1, 0)
+	stdDisgNoseEye = round(10.1, 0)
+
+	# standard deltas on a Surprised Face
+	stdSurpMouth = round(15.4, 0)
+	stdSurpEyeBrow  = round(9.5, 0)
+	stdSurpNoseEye = round(14.1 , 0)
+
+	featureVector = np.array([[stdNeutMouth, stdNeutEyeBrow, stdNeutNoseEye], [stdHappMouth, stdHappEyeBrow, stdHappNoseEye],
+	 [-9, 0, 0], [-9, 0, 0], [stdDisgMouth, stdDisgEyebrow, stdDisgNoseEye], [-9, 0, 0], [stdSurpMouth, stdSurpEyeBrow, stdSurpNoseEye]])
+	emotion = np.array(['neutral', 'happy', 'sad', 'anger', 'disgust', 'fear', 'surprise'])
+	clf = SVC()
+	clf.fit(featureVector, emotion)
+	currentEmotion = detectEmotion(frame, landmarks, scale)
+	myEmotion = str(clf.predict(currentEmotion))
+	cv2.putText(frame, myEmotion, (700, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
+	cv2.putText(frames, myEmotion, (550, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
+	return
+
+def detectEmotion(frame, landmarks, scale):
+	# Returns an Array containing each feature vector in the following format
+	# [Dist btw corners of mouth, Dist btw Eyebrows and eyes,]
+
+	# Happiness (Dist btw corners of mouth)
+	pt59 = landmarks[59]
+	pt65 = landmarks[65]
+	distCornersMouth  = ((pt65[0] - pt59[0])**2 + (pt65[1] - pt59[1])**2) ** .5
+	distCornersMouth = distCornersMouth * scale
+	# print distCornersMouth
+
+	# Surprise (Dist btw eyebrows and eyes)
+	pt17 = landmarks[17]
+	pt38 = landmarks[38]
+	distEyebrowToEye = ((pt38[0] - pt17[0])**2 + (pt38[1] - pt17[1])**2) ** .5
+	distEyebrowToEye = distEyebrowToEye * scale
+	# print distEyebrowToEye
+
+	# Disgust (Dist btw nose and eyes)
+	
+	# Left Eye
+	pt58 = landmarks[58]
+	pt38 = landmarks[38]
+	distLeftEyeNose = ((pt58[0] - pt38[0])**2 + (pt58[1] - pt38[1])**2) ** .5
+	distLeftEyeNose = distLeftEyeNose * scale
+	# Right Eye
+	pt54 = landmarks[54]
+	pt39 = landmarks[39]
+	distRightEyeNose = ((pt54[0] - pt39[0])**2 + (pt54[1] - pt39[1])**2) ** .5
+	distRightEyeNose = distRightEyeNose * scale
+	avgDistEyeNose = (distLeftEyeNose + distRightEyeNose)/2
+	# print avgDistEyeNose
+
+	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose]
 
 def draw_face_outline(frame, landmarks):
         return draw_loop(frame, landmarks, 0, 15)
@@ -157,7 +240,7 @@ def normalize(frame, landmarks):
 		distLM = arrayLM[0]**2 + arrayLM[1]**2
 		distLM = distLM**.5
 		distTOTAL = distLM + distRM
-		scale = 5 / distTOTAL
+		scale = 20 / distTOTAL
 		return scale
 
 def draw_face(frame, landmarks):
@@ -170,6 +253,7 @@ def draw_face(frame, landmarks):
 	draw_nosebridge(frame, landmarks)
 	draw_nose(frame, landmarks)
 	draw_mouth(frame, landmarks)
+	displayEmotion(frame, landmarks)
 	return
 
 def main():
@@ -193,14 +277,15 @@ def main():
 	        if start == False:
 	        	landmarksOLD = mylandmarks
 	        	mylandmarks = mystasm.s_search_single(filename)
-	        	alpha = .60
+	        	alpha = .85
 	        	mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
 	        	
 	        # draw the landmarks point as circles
-		draw_face(frame, mylandmarks)
+			draw_face(frame, mylandmarks)
 
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
 	        cv2.imshow("Live Landmarking", frame)
+	        cv2.namedWindow('k', cv2.WINDOW_NORMAL)
 	        cv2.imshow('k',frames)
 
 	      	# cv2.waitKey(50)

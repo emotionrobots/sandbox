@@ -90,7 +90,9 @@ def draw_landmarks(frame, landmarks):
 	count=0
 	numbering = 0
         for (x, y) in landmarks:
-        	if count == 52 or count == 14 or count == 13 or count == 15 or count == 65 or count == 59:
+        	# if count == 52 or count == 14 or count == 13 or count == 15 or count == 65 or count == 59:
+        	if count == 17 or count == 16 or count == 24 or count == 23 or count == 38 or count == 39:
+        		cv2.putText(frame, str(scale * (landmarks[38][1] - landmarks[17][1])), (50,50), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
         		if count != 52:
 	  		      	xcoor = (x - landmarks[52][0])*scale
 	       			ycoor = (landmarks[52][1] - y)*scale
