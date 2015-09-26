@@ -162,12 +162,12 @@ def main():
 	        	landmarksOLD = mylandmarks
 	        	mylandmarks = mystasm.s_search_single(filename)
 	        	alpha = .95
-	        	mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
-	        	tri = Delaunay(mylandmarks)
-	        	plt.triplot(mylandmarks[:,0], mylandmarks[:,1], tri.simplices.copy())
-	        	plt.plot(mylandmarks[:,0], mylandmarks[:,1], 'o')
-	        	plt.show()
-	        	print mylandmarks
+	        	#mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
+	        	#tri = Delaunay(mylandmarks)
+	        	#plt.triplot(mylandmarks[:,0], mylandmarks[:,1], tri.simplices.copy())
+	        	#plt.plot(mylandmarks[:,0], mylandmarks[:,1], 'o')
+	        	#plt.show()
+	        	#print mylandmarks
 	        	
 	        # draw the landmarks point as circles
 		draw_face(frame, mylandmarks)
