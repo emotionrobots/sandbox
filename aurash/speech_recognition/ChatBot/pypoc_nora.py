@@ -9,6 +9,7 @@ import nltk
 import aiml
 from nltk import pos_tag, word_tokenize
 import speech_recognition as sr
+import urllib2
 # Create a decoder with certain model
 class Nora(object): #Main class for Speech Reccognition
     hypo=None
@@ -159,16 +160,31 @@ class Nora(object): #Main class for Speech Reccognition
     
     def tts(self,str):
         text=str
-        cm ='/home/aurash/simple-google-tts/./simple_google_tts -p en "'+ text + '"'
+        cm ='/home/aurash/simple-google-tts/./simple_google_tts -p  en "'+ text + '"'
         os.system(cm)
+
     
    
     
 
     def main(self,user=None):
         print user
+        global filename
+        filename = os.getcwd()      
+        print filename
+        os.chdir(filename+'/sets')
+        global mybot
+        mybot=aiml.Kernel()
+        mybot.setBotPredicate('name', 'Nora')
+        mybot.setBotPredicate('master', 'Arrrash')
+        mybot.learn('std-startup.xml')
+        mybot.respond('load aiml b')
+        if os.path.isfile(filename+"/mybrain.brn"):
+            print "hello"
+            mybot.loadBrain(filename+"/mybrain.brn")
         if user=="cmu":
             count=0
+
             while True:
                 
                 if count==0:
@@ -260,20 +276,17 @@ class Nora(object): #Main class for Speech Reccognition
         decoder.end_utt() 
 
     def pyaiml(self, strig):
-    	os.chdir(filename+'/sets')
-        mybot=aiml.Kernel()
-        mybot.learn('std-startup.xml')
-        mybot.respond('load aiml b')
         try:
             response=mybot.respond(strig)
             Nora.tts(self,response)
         except TypeError:
                     pass
+        mybot.saveBrain(filename+"/mybrain.brn")            
             
 
 
     def gstt(self):
-        exit=False
+        exit=False      
         while exit==False:
             r = sr.Recognizer()
             r.energy_threshold= 30000
@@ -302,9 +315,7 @@ class Nora(object): #Main class for Speech Reccognition
 
 
     def face_detect(self):
-        global filename
-        filename = os.getcwd()      
-        print filename
+
         eye_cascade = cv2.CascadeClassifier(filename+"/cascades/haarcascade_eye.xml")
         faceCascade = cv2.CascadeClassifier(filename+"/cascades/haarcascade_frontalface_default.xml")
         smile_cascade=cv2.CascadeClassifier(filename+"/cascades/haarcascade_smile.xml")

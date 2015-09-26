@@ -7,7 +7,7 @@ import os, sys
 class Asr(object):
     def RepMe(self):
         config = Decoder.default_config()
-        config.set_string('-hmm','/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k')
+        config.set_string('-hmm','/home/aurash/cmusphinx-en-us-ptm-5.2')
         config.set_string('-lm', '/usr/share/pocketsphinx/model/lm/en_US/hub4.5000.DMP')
         config.set_string('-dict', '/usr/share/pocketsphinx/model/lm/en_US/cmu07a.dic')
         config.set_float('-vad_threshold', 3)
