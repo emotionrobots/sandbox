@@ -38,6 +38,7 @@ void OpenNICapturer::showCloudLeft (PointCloud::ConstPtr cloud)
 
 void OpenNICapturer::showCloudRight (PointCloud::Ptr cloud)
 {
+  boost::mutex::scoped_lock lock (viewer_mutex_);
   if (cloud && !cloud_viewer_->updatePointCloud (cloud, "right"))
   {
     cloud_viewer_->addPointCloud (cloud, "right", vp2);
@@ -69,10 +70,10 @@ void OpenNICapturer::setFileName (std::string fn)
   writer.setFileName(fn);
 }
 
-void OpenNICapturer::setRegistrationParameters(int cr, float in_f, int ns, 
-        float st, float mcd, int mi)
+void OpenNICapturer::setRegistrationParameters(float msd, float mcd, 
+        int mi, float rort, float te)
 {
-  reg_.setRegistrationParameters(cr, in_f, ns, st, mcd, mi);
+  reg_.setRegistrationParameters(msd, mcd, mi, rort, te);
 }
 
 void OpenNICapturer::setInputCloudParameters(float rl, float ls1, float ls2, float k, 
@@ -118,14 +119,17 @@ void OpenNICapturer::run ()
         reg_.align ();
         if (reg_.hasConverged ())
         {
-          PointCloud::Ptr result = reg_.getResultantCloud ();
-          cout << "Cloud size: " << result->points.size() << endl;
-          if (viewer_mutex_.try_lock ())
-          {
-            showCloudRight (reg_.getResultantCloud ());
-            viewer_mutex_.unlock ();
-          }
+          PointCloud::Ptr result = reg_.getResultantCloud();
+          // if (viewer_mutex_.try_lock ())
+          // {
+            showCloudRight(reg_.getResultantCloud());
+            // viewer_mutex_.unlock ();
+          // }
           writer.writeToFile (result);
+        }
+        else
+        {
+          PCL_INFO("Registration did not converge. Frame dropped. \n");
         }
       }
     }

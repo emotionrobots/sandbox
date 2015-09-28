@@ -4,7 +4,8 @@ CustomCloud::CustomCloud() :
   range_limit_z (1.5), 
   leaf_size_1_ (0.01), 
   leaf_size_2_ (0.03),
-  normal_k_ (20),
+  normal_k_ (10),
+  // normal_radius_(0.03), 
   feature_radius_ (0.1),
   identity_ (0)
 {}  
@@ -21,6 +22,7 @@ void CustomCloud::setParameters (float rl, float ls1, float ls2, float k,
   leaf_size_1_ = ls1;
   leaf_size_2_ = ls2;
   normal_k_ = k;
+  // normal_radius_ = k;
   feature_radius_ = fr;
   identity_ = i;
 }
@@ -60,7 +62,7 @@ PointCloud::Ptr CustomCloud::getFilteredPointCloud() const
 }  
 
 // Get a pointer to the cloud of 3D surface normals
-PointCloudWithNormals::Ptr CustomCloud::getPointCloudWithNormals() const
+PointCloudWithNormals::Ptr CustomCloud::getNormalCloud() const
 {
   return (normals_);
 }    
@@ -74,46 +76,62 @@ FeatureCloud::Ptr CustomCloud::getFeatureCloud() const
 // Compute the surface normals and local features
 void CustomCloud::processInput()
 {
+  std::cout << "a" << std::endl;
   filter();
-  computePointCloudWithNormals();
+  std::cout << "b" << std::endl;
+  computeNormalCloud();
+  std::cout << "c" << std::endl;
   computeFeatureCloud();
+  std::cout << "d" << std::endl;
 }    
 
 // Remove points beyond a certain z limit
 void CustomCloud::filter()
 {
-  PointCloud::Ptr temp(new PointCloud);
+  // PointCloud::Ptr temp(new PointCloud);
   f_cloud_ = PointCloud::Ptr(new PointCloud);        
 
-  pcl::PassThrough<PointT> range_filter;
-  // Filter out all points with Z values not in the [0 - range_limit_z] range.
-  range_filter.setFilterFieldName("z");
-  range_filter.setFilterLimits(0, range_limit_z);
-  range_filter.setInputCloud(cloud_);
-  range_filter.filter(*temp);      
+  // pcl::PassThrough<PointT> range_filter;
+  // // Filter out all points with Z values not in the [0 - range_limit_z] range.
+  // range_filter.setFilterFieldName("z");
+  // range_filter.setFilterLimits(0, range_limit_z);
+  // range_filter.setInputCloud(cloud_);
+  // range_filter.filter(*temp);      
 
   // Uniform sampling object.
   pcl::UniformSampling<PointT> uniform_filter;
-  uniform_filter.setInputCloud(temp);
+  // uniform_filter.setInputCloud(temp);
+  uniform_filter.setInputCloud(cloud_);
   // We set the size of every voxel to be 1x1x1cm
   // (only one point per every cubic centimeter will survive).
   uniform_filter.setRadiusSearch(leaf_size_1_);
   // We need an additional object to store the indices of surviving points.
   pcl::PointCloud<int> keypointIndices;
   uniform_filter.compute(keypointIndices);
-  copyPointCloud(*temp, keypointIndices.points, *f_cloud_);
+  // copyPointCloud(*temp, keypointIndices.points, *f_cloud_);
+  copyPointCloud(*cloud_, keypointIndices.points, *f_cloud_);
+
+  // Filtering input scan to roughly 10% of original size to increase speed of registration.
+  // pcl::ApproximateVoxelGrid<PointT> approximate_voxel_filter;
+  // approximate_voxel_filter.setLeafSize (leaf_size_1_, leaf_size_1_, leaf_size_1_);
+  // approximate_voxel_filter.setInputCloud (cloud_);
+  // approximate_voxel_filter.filter (*f_cloud_);
+  // std::cout << "Filtered cloud contains " << filtered_cloud->size ()
+  //           << " data points from room_scan2.pcd" << std::endl;
 }  
 
 // Compute the surface normals
-void CustomCloud::computePointCloudWithNormals()
+void CustomCloud::computeNormalCloud()
 {
   normals_ = PointCloudWithNormals::Ptr(new PointCloudWithNormals);
   pcl::search::KdTree<PointT>::Ptr tree(new pcl::search::KdTree<PointT>);      
 
   pcl::NormalEstimationOMP<PointT, PointNormalT> norm_est;
+  norm_est.setNumberOfThreads(4);
   norm_est.setInputCloud(f_cloud_);
   norm_est.setSearchMethod(tree);
   norm_est.setKSearch(normal_k_);
+  // norm_est.setRadiusSearch(normal_radius_);
   norm_est.compute(*normals_);      
 
   copyPointCloud(*f_cloud_, *normals_);
@@ -135,10 +153,17 @@ void CustomCloud::computeFeatureCloud()
   uniform_filter.compute(keypointIndices);
   copyPointCloud(*f_cloud_, keypointIndices.points, *temp);
 
+  // Filtering input scan to roughly 10% of original size to increase speed of registration.
+  // pcl::ApproximateVoxelGrid<PointT> approximate_voxel_filter;
+  // approximate_voxel_filter.setLeafSize (leaf_size_2_, leaf_size_2_, leaf_size_2_);
+  // approximate_voxel_filter.setInputCloud (f_cloud_);
+  // approximate_voxel_filter.filter (*temp);
+
   features_ = FeatureCloud::Ptr(new FeatureCloud);
   pcl::search::KdTree<PointT>::Ptr tree(new pcl::search::KdTree<PointT>);      
 
   FeatureEstimationT feat_est;
+  feat_est.setNumberOfThreads(4);
   feat_est.setSearchSurface (f_cloud_);
   feat_est.setInputCloud (temp);
   feat_est.setInputNormals (normals_);

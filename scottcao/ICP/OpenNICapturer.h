@@ -21,8 +21,8 @@ class OpenNICapturer
 
     void setFileName(std::string fn);
 
-    void setRegistrationParameters(int cr, float in_f, int ns, 
-        float st, float mcd, int mi);
+    void setRegistrationParameters(float msd, float mcd, 
+        int mi, float rort, float te);
 
     void setInputCloudParameters(float rl, float ls1, float ls2, 
         float k, float fr, u_int i);

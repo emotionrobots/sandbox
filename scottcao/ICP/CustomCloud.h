@@ -6,6 +6,7 @@
 #include <pcl/filters/passthrough.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/keypoints/uniform_sampling.h>
+#include <pcl/filters/approximate_voxel_grid.h>
 
 typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloud;
@@ -38,7 +39,7 @@ class CustomCloud
 
     PointCloud::Ptr getFilteredPointCloud () const;
 
-    PointCloudWithNormals::Ptr getPointCloudWithNormals () const;
+    PointCloudWithNormals::Ptr getNormalCloud () const;
 
     FeatureCloud::Ptr getFeatureCloud () const;
 
@@ -48,7 +49,7 @@ class CustomCloud
 
     void filter ();
 
-    void computePointCloudWithNormals ();
+    void computeNormalCloud ();
 
     void computeFeatureCloud ();
 
@@ -65,6 +66,7 @@ class CustomCloud
     float leaf_size_1_;
     float leaf_size_2_;
     float normal_k_;
+    // float normal_radius_;
     float feature_radius_;
 
     u_int identity_;

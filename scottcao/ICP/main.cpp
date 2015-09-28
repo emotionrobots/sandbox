@@ -16,8 +16,8 @@ int main (int argc, char ** argv)
 
   OpenNICapturer capturer;
   capturer.setFileName(file_name);
-  capturer.setInputCloudParameters (1.5, 0.005, 0.02, 20, 0.1, 0);
-  capturer.setRegistrationParameters (5, 0.25, 3, 0.9, 0.005, 1000);
+  capturer.setInputCloudParameters (1.5, 0.004, 0.02, 12, 0.1, 0);
+  capturer.setRegistrationParameters (0.02, 0.01, 800, 0.05, 0.001*0.001);
   capturer.run();
   
   return 0;
