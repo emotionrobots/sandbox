@@ -15,6 +15,7 @@ import math
 from sklearn.svm import SVC
 from sklearn.externals import joblib 
 import logging
+import os
 
 
 FILENAME =  '/tmp/out.webm'
@@ -258,16 +259,17 @@ def normalize(frame, landmarks):
 		return scale
 
 def OverlayImage(src, x):
+	
     if x=="['happy']":
-        overlay='/home/aurash/emoji/happy.png'
+        overlay=filename+"/emoji/happy.png"
     if x=="['neutral']":
-        overlay='/home/aurash/emoji/neutral.png'
+        overlay=filename+"/emoji/neutral.png"
     if x=="['surprise']":
-        overlay='/home/aurash/emoji/surprise.jpg'
+        overlay=filename+"/emoji/surprise.jpg"
     if x=="['disgust']":
-        overlay='/home/aurash/emoji/disgust.jpg'
+        overlay=filename+"/emoji/disgust.jpg"
     l_img = src
-    s_img = cv2.imread(overlay)
+    s_img = cv2.imread(overlay,)
     s_img=cv2.resize(s_img,(150,150))
     x_offset=485
     y_offset=54
@@ -288,6 +290,8 @@ def draw_face(frame, landmarks):
 	return x
 
 def main():
+	global filename
+	filename = os.getcwd()
 	mystasm = pyasm.STASM()
 	cap, pos_frame = video_config()
         done = False
@@ -317,12 +321,13 @@ def main():
 	        	mylandmarks = mystasm.s_search_single(image)
 	        	alpha = .85
 	        	#mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
-	        	
+
 	        # draw the landmarks point as circles
-			x=draw_face(frame, mylandmarks)
-
-
-			
+	        if  mylandmarks[0][0] != 0.0:
+			    x=draw_face(frame, mylandmarks)
+			    frame=OverlayImage(frame,x)
+	        
+	        x=draw_face(frame, mylandmarks)
 	        frame=OverlayImage(frame,x)
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
 	        cv2.imshow("Live Landmarking", frame)
