@@ -8,9 +8,13 @@ with a video and save the landmarks into txt"""
 import cv2
 import numpy as np
 import pyasm
+import skimage.io as io
+from skimage import img_as_ubyte
+from skimage.color import rgb2gray
 import math
 from sklearn.svm import SVC
 from sklearn.externals import joblib 
+import logging
 
 
 FILENAME =  '/tmp/out.webm'
@@ -19,11 +23,20 @@ def video_config():
 	"""Initialize video capture, pass filename by
 	param jic that remove var and pass by argv"""
 	cap = cv2.VideoCapture(0)
+	#cap.set(cv2.cv.CV_CAP_PROP_FPS, 60.0) 
+	print "\t Framerate: ",cap.get(cv2.cv.CV_CAP_PROP_FPS)
+	#cap.set(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT, 1280) 
+	#cap.set(cv2.cv.CV_CAP_PROP_FRAME_WIDTH, 720)
+	#cap.set(11, 0)
 	while not cap.isOpened():
 	    cap = cv2.VideoCapture(0)
+	    cap.set(cv2.CV_CAP_PROP_FPS, 60) 
+	    #cap.set(cv2.CV_CAP_PROP_FRAME_HEIGHT, 1280) 
+	    #cap.set(cv2.CV_CAP_PROP_FRAME_WIDTH, 720)
 	    cv2.waitKey(10)
 	    print "Wait for the header"
 	pos_frame = cap.get(cv2.cv.CV_CAP_PROP_POS_FRAMES)
+	
 	
 	return cap, pos_frame
 
@@ -190,7 +203,7 @@ def displayEmotion(frame, landmarks):
 	print myEmotion
 	cv2.putText(frame, myEmotion, (700, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
 	cv2.putText(frames, myEmotion, (550, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
-	return
+	return myEmotion
 
 def detectEmotion(frame, landmarks, scale):
 	# Returns an Array containing each feature vector in the following format
@@ -244,6 +257,23 @@ def normalize(frame, landmarks):
 		scale = 20 / distTOTAL
 		return scale
 
+def OverlayImage(src, x):
+    if x=="['happy']":
+        overlay='/home/aurash/emoji/happy.png'
+    if x=="['neutral']":
+        overlay='/home/aurash/emoji/neutral.png'
+    if x=="['surprise']":
+        overlay='/home/aurash/emoji/surprise.jpg'
+    if x=="['disgust']":
+        overlay='/home/aurash/emoji/disgust.jpg'
+    l_img = src
+    s_img = cv2.imread(overlay)
+    s_img=cv2.resize(s_img,(150,150))
+    x_offset=485
+    y_offset=54
+    l_img[y_offset:y_offset+s_img.shape[0], x_offset:x_offset+s_img.shape[1]] = s_img
+    return l_img
+
 def draw_face(frame, landmarks):
 	draw_landmarks(frame, landmarks)
 	draw_face_outline(frame, landmarks)
@@ -254,8 +284,8 @@ def draw_face(frame, landmarks):
 	draw_nosebridge(frame, landmarks)
 	draw_nose(frame, landmarks)
 	draw_mouth(frame, landmarks)
-	displayEmotion(frame, landmarks)
-	return
+	x=displayEmotion(frame, landmarks)
+	return x
 
 def main():
 	mystasm = pyasm.STASM()
@@ -269,21 +299,31 @@ def main():
 	    if flag:
 	        # The frame is ready and already captured
 	        # save a tmp file because pystasm receive by parameter a filename
-	        filename = '/tmp/frame{}.jpg'.format(pos_frame)
-	        cv2.imwrite(filename, frame)
+
+	        try:
+	            image=rgb2gray(frame)
+	            image=img_as_ubyte(image)
+
+	        except IOError, exc:
+	            logging.error(exc.message, exc_info=True)
+	            raise IOError 
+	        #cv2.imwrite(filename, frame)
 	        # nasty fix .. pystasm should receive np array .. 
 	        if start == True:
-	        	mylandmarks = mystasm.s_search_single(filename)
+	        	mylandmarks = mystasm.s_search_single(image)
 	        	start = False
 	        if start == False:
 	        	landmarksOLD = mylandmarks
-	        	mylandmarks = mystasm.s_search_single(filename)
+	        	mylandmarks = mystasm.s_search_single(image)
 	        	alpha = .85
 	        	#mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
 	        	
 	        # draw the landmarks point as circles
-			draw_face(frame, mylandmarks)
+			x=draw_face(frame, mylandmarks)
 
+
+			
+	        frame=OverlayImage(frame,x)
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
 	        cv2.imshow("Live Landmarking", frame)
 	        cv2.namedWindow('k', cv2.WINDOW_NORMAL)

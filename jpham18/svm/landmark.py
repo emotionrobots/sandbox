@@ -264,7 +264,7 @@ def main():
 	while done != True:
 	    flag, frame = cap.read()
 	    global frames
-	    frames=cv2.imread("/home/julian/sandbox/aurash/landmarking/white.jpg",1)
+	    #frames=cv2.imread("/home/julian/sandbox/aurash/landmarking/white.jpg",1)
 	    if flag:
 	        # The frame is ready and already captured
 	        # save a tmp file because pystasm receive by parameter a filename
@@ -286,7 +286,7 @@ def main():
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
 	        cv2.imshow("Live Landmarking", frame)
 	        cv2.namedWindow('k', cv2.WINDOW_NORMAL)
-	        cv2.imshow('k',frames)
+	        #cv2.imshow('k',frames)
 
 	      	# cv2.waitKey(50)
 
