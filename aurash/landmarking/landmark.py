@@ -290,6 +290,7 @@ def draw_face(frame, landmarks):
 	return x
 
 def main():
+	test = 1
 	global filename
 	filename = os.getcwd()
 	mystasm = pyasm.STASM()
@@ -299,7 +300,7 @@ def main():
 	while done != True:
 	    flag, frame = cap.read()
 	    global frames
-	    frames=cv2.imread("/home/aurash/sandbox/sandbox/aurash/landmarking/white.jpg",1)
+	    frames=cv2.imread(filename+"/white.jpg",1)
 	    if flag:
 	        # The frame is ready and already captured
 	        # save a tmp file because pystasm receive by parameter a filename
@@ -313,10 +314,10 @@ def main():
 	            raise IOError 
 	        #cv2.imwrite(filename, frame)
 	        # nasty fix .. pystasm should receive np array .. 
-	        if start == True:
+	        if start == True and test % 2 == 1:
 	        	mylandmarks = mystasm.s_search_single(image)
 	        	start = False
-	        if start == False:
+	        if start == False and test % 2 == 1:
 	        	landmarksOLD = mylandmarks
 	        	mylandmarks = mystasm.s_search_single(image)
 	        	alpha = .85
@@ -335,7 +336,7 @@ def main():
 	        cv2.imshow('k',frames)
 
 	      	# cv2.waitKey(50)
-
+		test = test + 1
 	    #else:
 	        # The next frame is not ready, so we try to read it again
 	    #    cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, pos_frame-1)
