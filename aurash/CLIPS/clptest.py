@@ -1,5 +1,7 @@
 #!/usr/bin/env python2
 import clips
+import os
+import retest
 
 def load_class():
     """ CAUSAL observation class """
@@ -14,8 +16,7 @@ def load_class():
 
 def load_rules():
     """ Rules implementing forward and backward chaining """
-    clips.RegisterPythonFunction(query_likely_cause)
-    clips.SetExternalTraceback(True)
+
     clips.BuildRule('forward-chain-starter',
          '?f <- (cause ?c)',
          '(assert (forward-chain ?c 1))',
@@ -28,7 +29,6 @@ def load_rules():
 
     clips.BuildRule('forward-chaining',
          '?f <- (forward-chain $?s ?c ?p1) \
-          (python-call query_likely_cause "e") \
           ?obj <- (object (is-a CAUSAL) (cause ?c) (prob ?p2))',
          '(bind ?e (send ?obj get-effect)) \
           (assert (forward-chain $?s ?c ?e (* ?p1 ?p2)))',
@@ -42,6 +42,7 @@ def load_rules():
          'Backward Chaining Rule')
 
 
+
 def add_causal(name, cause, effect, context, prob):
     """ Add a new causal observation """
     i = clips.BuildInstance(name, clips.FindClass("CAUSAL"))
@@ -51,17 +52,115 @@ def add_causal(name, cause, effect, context, prob):
     i.Slots['prob'] = prob   
 
 
-def query_likely_cause(effect):
-    print effect
+def query_likely_cause(effect,files):
+    
+    f = open(files, "r")
+    lines=f.readlines()
+    f.close
+    big=0.0
+    count=0
+    index=0
+    list=[]
+    for x in lines:
+        try:
+            forb, inital, prob= retest.info(x)
+            if forb=='backward':
+                ind=x.index(prob)
+                cause=x[ind-3]
+                list.append((forb, inital, cause, float(prob)))
+                if big<prob:
+                    big=prob
+                    index=count
+                count=count+1    
+        except:
+            pass  
+    if big !=0: 
+        return list[index][2]   
 
 
 
-    #li=clips.FactList()
-    #for x in li:
-    	#if (x['prob']==0)x['prob']==0):
-    		#print "hello"
+
+def query_unlikely_cause(effect,files):
+    
+    f = open(files, "r")
+    lines=f.readlines()
+    f.close
+    small=50.0
+    count=0
+    index=0
+    list=[]
+    for x in lines:
+        try:
+            forb, inital, prob= retest.info(x)
+            if forb=='backward':
+                ind=x.index(prob)
+                cause=x[ind-3]
+                list.append((forb, inital, cause, float(prob)))
+                if small>float(prob):
+                    small=prob
+                    index=count
+                count=count+1    
+        except:
+            pass  
+    if small !=0: 
+        return list[index][2]  
 
 
+
+
+def query_likely_effect(cause,files):
+    
+    f = open(files, "r")
+    lines=f.readlines()
+    f.close
+    big=0.0
+    count=0
+    index=0
+    list=[]
+    for x in lines:
+        try:
+            forb, inital, prob= retest.info(x)
+            if forb=='forward':
+                ind=x.index(prob)
+                cause=x[ind-3]
+                list.append((forb, inital, cause, float(prob)))
+                if big<float(prob):
+                    big=prob
+                    index=count
+                count=count+1
+        except:
+            pass  
+    if big !=10: 
+        return list[index][2]
+
+
+
+def query_unlikely_effect(cause,files):
+    
+    f = open(files, "r")
+    lines=f.readlines()
+    f.close
+    small=50.0
+    count=0
+    index=0
+    list=[]
+    for x in lines:
+        try:
+            forb, inital, prob= retest.info(x)
+            if forb=='forward':
+                ind=x.index(prob)
+                cause=x[ind-3]
+                list.append((forb, inital, cause, float(prob)))
+                if small>float(prob):
+                    small=prob
+                    index=count
+                count=count+1    
+        except:
+            pass  
+    if small !=0: 
+        return list[index][2] 
+
+    
 
 def main():
     """ test driver """
@@ -79,8 +178,16 @@ def main():
     clips.Assert('(effect "E")')
     clips.Run() 
     clips.PrintFacts()
-    #query_likely_cause("E") 
-
+    filename=os.getcwd()
+    clips.SaveFacts(filename+"/savefacts.txt" )
+    a=query_likely_cause("E",filename+"/savefacts.txt") 
+    print "\n\nLikely Cause is:  "+a
+    b=query_unlikely_cause("E",filename+"/savefacts.txt") 
+    print "\n\nUnlikely Cause is:  "+b
+    c=query_likely_effect("A",filename+"/savefacts.txt")
+    print "\n\nLikely Effect is:  "+c
+    d=query_unlikely_effect("A",filename+"/savefacts.txt")
+    print "\n\nUnlikely Effect is:  "+d+"\n\n\n\n\n\n"
 
 if __name__=="__main__":
     main()
