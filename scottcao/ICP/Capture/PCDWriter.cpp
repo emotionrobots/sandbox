@@ -29,6 +29,20 @@ void PCDWriter::writeToFile (PointCloud::Ptr cloud)
   }
 }
 
+void PCDWriter::writeToFile (PointCloud::ConstPtr cloud)
+{
+  ++ file_count_;
+  std::stringstream sstream;
+  sstream << "PCD/" << file_name_ << "-" << file_count_ << ".pcd";
+  std::string pcd_name = sstream.str();
+
+  if (pcl::io::savePCDFile(pcd_name, *cloud, true) == 0)
+  {
+    PCL_INFO("Saved %s.\n", pcd_name.c_str());
+    saveFileName (pcd_name);
+  }
+}
+
 void PCDWriter::saveFileName (std::string file)
 {
   stream << file << " ";
