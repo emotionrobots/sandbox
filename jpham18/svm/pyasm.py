@@ -28,11 +28,11 @@ class STASM(object):
         """Gives the location of the Haar Cascade files"""
         self.stasm.stasm_init(path2data, debug)
 
-    def s_search_single(self, filename, numberlandmarks=77,
+    def s_search_single(self, image, filename=None, numberlandmarks=77,
                         path2data=FILENAMEDATA):
         """Search face and landmarks in picture"""
         
-        image=self.s_img2_ubyte(filename)
+        filename="/home/aurash/stasm4.1.0./data/aurian.jp"
 
         self.stasm.stasm_search_single.restypes = [ctypes.c_int]
         self.stasm.stasm_search_single.argtypes = [ctypes.POINTER(
@@ -73,14 +73,14 @@ class STASM(object):
         return 1
 
 
-    def s_img2_ubyte(self,filename):
-        try:
-            image = img_as_ubyte(io.imread(filename, as_grey=True))
-            return image
+    # def s_img2_ubyte(self,filename):
+    #     try:
+    #         image = img_as_ubyte(io.imread(filename, as_grey=True))
+    #         return image
             
-        except IOError, exc:
-            logging.error(exc.message, exc_info=True)
-            raise IOError    
+    #     except IOError, exc:
+    #         logging.error(exc.message, exc_info=True)
+    #         raise IOError    
 
     def s_search_auto(self, numberlandmarks=77):
         """Call repeatedly to find all faces

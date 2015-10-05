@@ -10,11 +10,16 @@ import numpy as np
 import pyasm
 import math
 from sklearn.svm import SVC
-from sklearn.externals import joblib 
-
+from sklearn.externals import joblib
+import skimage.io as io
+from skimage import img_as_ubyte
+from skimage.color import rgb2gray 
+import logging
+import os
 
 FILENAME =  '/tmp/out.webm'
 frames=None
+
 def video_config():
 	"""Initialize video capture, pass filename by
 	param jic that remove var and pass by argv"""
@@ -28,7 +33,7 @@ def video_config():
 	return cap, pos_frame
 
 def draw_seg(frame, landmarks, start, end):
-        (startx, starty) = landmarks[start]
+	(startx, starty) = landmarks[start]
 	(endx, endy) = landmarks[end]
         cv2.line(frame,(int(startx),int(starty)),(int(endx),int(endy)),(0,0,255), 1)
         cv2.line(frames,(int(startx),int(starty)),(int(endx),int(endy)),(0,0,255), 1)
@@ -146,18 +151,19 @@ def draw_landmarks(frame, landmarks):
 				# cv2.putText(frames, str(scale * (landmarks[65][0] - landmarks[59][0])), (100,10), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 			count = count + 1
 	return
+
 def displayEmotion(frame, landmarks):
 	scale = normalize(frame, landmarks)
 
 	# standard deltas on a Neutral Face
-	stdNeutMouth = round(13.3, 0)
-	stdNeutEyeBrow = round(7.5, 0)
-	stdNeutNoseEye = round(13.7, 0)
+	# stdNeutMouth = round(13.3, 0)
+	# stdNeutEyeBrow = round(7.5, 0)
+	# stdNeutNoseEye = round(13.7, 0)
 
 	# standard deltas on a Happy Face
-	stdHappMouth = round(18.5, 0)
-	stdHappEyeBrow = round(7.9, 0)
-	stdHappNoseEye = round(11.9, 0)
+	# stdHappMouth = round(18.5, 0)
+	# stdHappEyeBrow = round(7.9, 0)
+	# stdHappNoseEye = round(11.9, 0)
 
 	# standard deltas on a Sad Face
 	# stdSadMouth
@@ -171,25 +177,29 @@ def displayEmotion(frame, landmarks):
 	# stdAngryEyebrowAngle
 
 	# standard deltas on a Disgusted Face
-	stdDisgMouth = round(15.4, 0)
-	stdDisgEyebrow = round(6.1, 0)
-	stdDisgNoseEye = round(10.1, 0)
+	# stdDisgMouth = round(15.4, 0)
+	# stdDisgEyebrow = round(6.1, 0)
+	# stdDisgNoseEye = round(10.1, 0)
 
 	# standard deltas on a Surprised Face
-	stdSurpMouth = round(15.4, 0)
-	stdSurpEyeBrow  = round(9.5, 0)
-	stdSurpNoseEye = round(14.1 , 0)
+	# stdSurpMouth = round(15.4, 0)
+	# stdSurpEyeBrow  = round(9.5, 0)
+	# stdSurpNoseEye = round(14.1 , 0)
 
-	featureVector = np.array([[stdNeutMouth, stdNeutEyeBrow, stdNeutNoseEye], [stdHappMouth, stdHappEyeBrow, stdHappNoseEye],
-	 [-9, 0, 0], [-9, 0, 0], [stdDisgMouth, stdDisgEyebrow, stdDisgNoseEye], [-9, 0, 0], [stdSurpMouth, stdSurpEyeBrow, stdSurpNoseEye]])
-	emotion = np.array(['neutral', 'happy', 'sad', 'anger', 'disgust', 'fear', 'surprise'])
-	clf = SVC()
-	clf.fit(featureVector, emotion)
-	currentEmotion = detectEmotion(frame, landmarks, scale)
-	myEmotion = str(clf.predict(currentEmotion))
+	# featureVector = np.array([[stdNeutMouth, stdNeutEyeBrow, stdNeutNoseEye], [stdHappMouth, stdHappEyeBrow, stdHappNoseEye],
+	 # [-9, 0, 0], [-9, 0, 0], [stdDisgMouth, stdDisgEyebrow, stdDisgNoseEye], [-9, 0, 0], [stdSurpMouth, stdSurpEyeBrow, stdSurpNoseEye]])
+	featureVector = joblib.load("emotionData.bin")
+	# print featureVector
+	# emotion = np.array(['neutral', 'happy', 'sad', 'anger', 'disgust', 'fear', 'surprise'])
+	# clf = SVC()
+	# clf.fit(featureVector, emotion)
+	# currentEmotion = detectEmotion(frame, landmarks, scale)
+	# myEmotion = str(clf.predict(currentEmotion))
+	# print currentEmotion
+	myEmotion = str(featureVector.predict(detectEmotion(frame, landmarks, scale)))
 	cv2.putText(frame, myEmotion, (700, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
 	cv2.putText(frames, myEmotion, (550, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
-	return
+	return myEmotion
 
 def detectEmotion(frame, landmarks, scale):
 	# Returns an Array containing each feature vector in the following format
@@ -203,7 +213,7 @@ def detectEmotion(frame, landmarks, scale):
 	# print distCornersMouth
 
 	# Surprise (Dist btw eyebrows and eyes)
-	pt17 = landmarks[17]
+	pt17 = landmarks[17]	
 	pt38 = landmarks[38]
 	distEyebrowToEye = ((pt38[0] - pt17[0])**2 + (pt38[1] - pt17[1])**2) ** .5
 	distEyebrowToEye = distEyebrowToEye * scale
@@ -243,7 +253,31 @@ def normalize(frame, landmarks):
 		scale = 20 / distTOTAL
 		return scale
 
-def draw_face(frame, landmarks):
+def OverlayImage(src, x):
+	
+    if x=="['happy']":
+        overlay=filename+"/emoji/happy.png"
+    if x=="['neutral']":
+        overlay=filename+"/emoji/neutral.png"
+    if x=="['surprise']":
+        overlay=filename+"/emoji/surprise.jpg"
+    if x=="['disgust']":
+        overlay=filename+"/emoji/disgust.jpg"
+    if x=="['anger']":
+        overlay=filename+"/emoji/anger.jpg"
+    if x=="['fear']":
+        overlay=filename+"/emoji/fear.png"
+    if x=="['sad']":
+        overlay=filename+"/emoji/sad.png"
+    l_img = src
+    s_img = cv2.imread(overlay,)
+    s_img=cv2.resize(s_img,(150,150))
+    x_offset=485
+    y_offset=54
+    l_img[y_offset:y_offset+s_img.shape[0], x_offset:x_offset+s_img.shape[1]] = s_img
+    return l_img
+
+def draw_face(frame, landmarks, notTraining):
 	draw_landmarks(frame, landmarks)
 	draw_face_outline(frame, landmarks)
 	draw_lefteye(frame, landmarks)
@@ -253,51 +287,69 @@ def draw_face(frame, landmarks):
 	draw_nosebridge(frame, landmarks)
 	draw_nose(frame, landmarks)
 	draw_mouth(frame, landmarks)
-	displayEmotion(frame, landmarks)
+	if notTraining == True:
+		x = displayEmotion(frame, landmarks)
+		return x
 	return
 
 def main():
+	global filename
+	filename = os.getcwd()
+	test = 1
 	mystasm = pyasm.STASM()
 	cap, pos_frame = video_config()
-        done = False
-        start = True	
+	done = False
+	start = True	
 	while done != True:
-	    flag, frame = cap.read()
-	    global frames
-	    #frames=cv2.imread("/home/julian/sandbox/aurash/landmarking/white.jpg",1)
-	    if flag:
+		flag, frame = cap.read()
+		global frames
+		frames=cv2.imread("/home/julian/sandbox/aurash/landmarking/white.jpg",1)
+		if flag:
 	        # The frame is ready and already captured
 	        # save a tmp file because pystasm receive by parameter a filename
-	        filename = '/tmp/frame{}.jpg'.format(pos_frame)
-	        cv2.imwrite(filename, frame)
+			try:
+				image=rgb2gray(frame)
+				image=img_as_ubyte(image)
+			except IOError, exc:
+				logging.error(exc.message, exc_info=True)
+				raise IOError 
+	        #cv2.imwrite(filename, frame)
 	        # nasty fix .. pystasm should receive np array .. 
-	        if start == True:
-	        	mylandmarks = mystasm.s_search_single(filename)
-	        	start = False
-	        if start == False:
-	        	landmarksOLD = mylandmarks
-	        	mylandmarks = mystasm.s_search_single(filename)
-	        	alpha = .85
-	        	mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
-	        	
-	        # draw the landmarks point as circles
-			draw_face(frame, mylandmarks)
+			if start == True and test % 2 == 1:
+				mylandmarks = mystasm.s_search_single(image)
+				start = False
+			if start == False and test % 2 == 1:
+				landmarksOLD = mylandmarks
+				mylandmarks = mystasm.s_search_single(image)
+				alpha = .85
+				mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
+			# draw the landmarks point as circles
+			if  mylandmarks[0][0] != 0.0:
+				x=draw_face(frame, mylandmarks, True)
+				frame=OverlayImage(frame,x)
+	        
+			x=draw_face(frame, mylandmarks, True)
+			frame=OverlayImage(frame,x)
+			cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)
+			cv2.namedWindow('k', cv2.WINDOW_NORMAL)
+			cv2.imshow("Live Landmarking", frame)
+			cv2.imshow('k',frames)
+		if cv2.waitKey(150) == 1048603:
+			done = True 
+		test = test + 1
+	    # k = cv2.waitKey(1)
+	    # if k == 32:
+	    # 	break
+	    # elif k ==-1:
+	    # 	continue
+		# else:
+	 #        The next frame is not ready, so we try to read it again
+	 #       cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, pos_frame-1)
+	 #       print "frame is not ready"
+		# 	 cv2.waitKey(10)
 
-	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
-	        cv2.imshow("Live Landmarking", frame)
-	        cv2.namedWindow('k', cv2.WINDOW_NORMAL)
-	        #cv2.imshow('k',frames)
-
-	      	# cv2.waitKey(50)
-
-	    #else:
-	        # The next frame is not ready, so we try to read it again
-	    #    cap.set(cv2.cv.CV_CAP_PROP_POS_FRAMES, pos_frame-1)
-	    #    print "frame is not ready"
-		#	 cv2.waitKey(10)
-
-	    if cv2.waitKey(33) == 1048603:
-                done = True 
+	    # if cv2.waitKey(0) == 32:
+                # done = True 
             #k = cv2.waitKey(33)
             #print k, " ", ord(k)
  
