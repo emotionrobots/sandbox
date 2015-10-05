@@ -50,8 +50,9 @@ int getkey() {
 #define JS_TYPE_JOYSTICK	2
 
 #define JS_BUTTON_LIGHT         0
+#define JS_BUTTON_SERVO_RESET	2
 #define JS_BUTTON_MOTOR_PWR	8
-#define JS_BUTTON_SERVO_RESET	9
+#define JS_BUTTON_SERVO_HOME	9
 
 #define JS_JOYSTICK_PAN		0
 #define JS_JOYSTICK_TILT	1
@@ -70,8 +71,10 @@ int main(int argc, char *argv[])
     rp2w robot;
     bool done = false;
     char dir = 0;
-    int16_t pan_pos = PAN_INIT;
-    int16_t tilt_pos = TILT_INIT;
+    int16_t pan_home = PAN_INIT;
+    int16_t tilt_home = TILT_INIT;
+    int16_t pan_pos = pan_home;
+    int16_t tilt_pos = tilt_home;
     int16_t pan_speed = 0;
     int16_t tilt_speed = 0;
     int16_t turn_speed = 0;
@@ -115,9 +118,11 @@ int main(int argc, char *argv[])
 
        rc = robot.update();
        if (rc != rp2w::OK)
-           cerr << "robot.update failed" << endl;
+           cerr << "robot.update failed (" << rc << ")" << endl;
 
         if (read_joystick_event(&jse)) {
+
+          printf("Joystick type=%2d num=%2d\n", jse.type, jse.number);
 
           switch (jse.type) {
              case JS_TYPE_BUTTON:
@@ -136,15 +141,21 @@ int main(int argc, char *argv[])
                       }
                       servo_pwr = jse.value; 
                       break; 
-                   case JS_BUTTON_SERVO_RESET:
+                   case JS_BUTTON_SERVO_HOME:
                       if (servo_reset == 0 && jse.value == 1) { 
-                         pan_pos = PAN_INIT;
-                         tilt_pos = TILT_INIT;
+                         pan_pos = pan_home;
+                         tilt_pos = tilt_home;
                          pan_speed = 0;
                          tilt_speed = 0;
                       }
                       servo_reset = jse.value; 
                       break; 
+                   case JS_BUTTON_SERVO_RESET:
+                      if (jse.value == 1) { 
+                         pan_home = pan_pos; 
+                         tilt_home = tilt_pos; 
+                      }
+                      break;
                    default:
                       break;
                 } // end switch; 
@@ -188,11 +199,12 @@ int main(int argc, char *argv[])
        tilt_pos -= tilt_speed;
        robot.setCameraPan(pan_pos);
        robot.setCameraTilt(tilt_pos);
- 
+
+#if 0 
        printf("DIG=0x%02X LM=%04d RM=%04d PAN=%04d TILT=%04d\n",
               digital1, left_motor,  right_motor, 
               pan_pos, tilt_pos);
-
+#endif
        usleep(1000);
 
     } // end while

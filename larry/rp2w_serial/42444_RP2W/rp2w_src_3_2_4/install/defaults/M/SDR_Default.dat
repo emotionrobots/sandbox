@@ -1,0 +1,95 @@
+﻿LeftPanPosition; 1500
+ForwardPanPosition; 1500
+RightPanPosition; 1500
+ReversePanPosition1; 2100
+ReversePanPosition2; 940
+IncrementsDegreesPan; 120
+UpPosition; 1500
+MaxPanPosition; 2000
+MinPanPosition; 1000
+PadStepSize; 50
+HorizontalPosition; 1500
+DownPosition; 1500
+IncrementsDegreesTilt; 0
+MaxTiltPosition; 2000
+MinTiltPosition; 1000
+TiltStepSize; 50
+TxTimerInterval; 80
+PwrResetInterval; 5000
+PanTimerInterval; 8000
+TiltTimerInterval; 3000
+DataCOMPort; -1
+DataCOMPortName; COM10
+DataCOMAuto; False
+Output1Label; Pan Power
+Output2Label; Tilt Power
+Output3Label; Relay 3
+Output4Label; Relay 4
+Output1Checked; True
+Output2Checked; True
+Output3Checked; True
+Output4Checked; True
+DigitalInput1Label; Input #1
+DigitalInput2Label; Input #2
+DigitalInput3Label; Input #3
+DigitalInput4Label; Input #4
+DigitalInput1Checked; False
+DigitalInput2Checked; False
+DigitalInput3Checked; False
+DigitalInput4Checked; False
+AnalogInput1Label; Main:
+AnalogInput2Label; Control:
+AnalogInput3Label; Current:
+AnalogInput1Checked; True
+AnalogInput2Checked; False
+AnalogInput3Checked; False
+AnalogInput1Unit; V
+AnalogInput2Unit; V
+AnalogInput3Unit; A
+AnalogInput1Scale; 9.174
+AnalogInput2Scale; 5.6
+AnalogInput3Scale; 10
+UltrasonicSensorMultiplier; 1
+UltrasonicSensorOffset; 0
+AnalogInput1ApplyWarnings; False
+AnalogInput2ApplyWarnings; True
+AnalogInput3ApplyWarnings; False
+AnalogInput1Low; 1
+AnalogInput2Low; 20
+AnalogInput3Low; 0
+AnalogInput1High; 10
+AnalogInput2High; 30
+AnalogInput3High; 0
+RemoteControlIPAddress; 192.168.1.33
+RemoteControlPort; 11922
+RemoteControlAccessLogin; 
+RemoteControlAccessPassword; 
+VideoFramesPerSecond; 25
+USBCameraVideo; VirtualCamera (WDM)
+USBCameraAudio; Primární ovladae pro digitalizaci zvuku
+CameraInput; 2
+MotorForwardMin; 1
+MotorForwardMax; 255
+MotorReverseMin; 1
+MotorReverseMax; 255
+MotorOff; 0
+MotorUsesReverseBit; True
+MaximalLatency; 2000
+MaximalNetTimeout2; 15000
+AlwaysEnableLocalCamera; False
+RunAsServer; True
+UnitsOfEncodersAreMetric; False
+UnitsOfSensorsAreMetric; False
+EnableDrive; True
+HardTurn; False
+ZoomIn; False
+ZoomOff; True
+ZoomOut; False
+TiltSlider; 0
+InvertCameraPan; True
+InvertTiltPan; True
+EnableZoomControl; False
+EnableEncoders; True
+ShowDebugWindowOnStartup; True
+RightEncoderCalibration; 11.75799
+LeftEncoderCalibration; 11.75799

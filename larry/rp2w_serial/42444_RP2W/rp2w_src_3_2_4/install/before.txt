@@ -1,0 +1,12 @@
+SuperDroid Robots Inc.
+
+Copyrighted 2013
+
+Application requires following software installed:
+- Microsoft .NET Framework 3.5 Service Pack 1 
+  http://www.microsoft.com/downloads/details.aspx?FamilyID=AB99342F-5D1A-413D-8319-81DA479AB0D7&displaylang=en
+  
+- DirectX 9.0c Runtime (2008 or newer) 
+  http://www.microsoft.com/downloads/details.aspx?FamilyID=740AC79A-5B72-447D-84F9-EE6407ED1A91&displaylang=en 
+
+Warning: This is a wireless controller interface for a robot.  Wireless communications are not without errors, do NOT use this for any safety or critical application. User assumes all responsibilites for applicabilty and risk.

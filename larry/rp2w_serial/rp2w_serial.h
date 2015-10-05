@@ -20,38 +20,40 @@
 using namespace std;
 using namespace LibSerial;
 
+#define BYTE 	unsigned char
+
 typedef struct {
-     char startFlag;
-     char rightMotorSpeed;
-     char leftMotorSpeed;
-     char cameraTiltHigh;
-     char cameraTiltLow;
-     char cameraPanHigh;
-     char cameraPanLow;
-     char digital1;
-     char digital2;
-     char checksumHigh;
-     char checksumLow;
+     BYTE startFlag;
+     BYTE rightMotorSpeed;
+     BYTE leftMotorSpeed;
+     BYTE cameraTiltHigh;
+     BYTE cameraTiltLow;
+     BYTE cameraPanHigh;
+     BYTE cameraPanLow;
+     BYTE digital1;
+     BYTE digital2;
+     BYTE checksumHigh;
+     BYTE checksumLow;
 } CommandPacket;
  
 typedef struct {
-     char startFlag1;
-     char startFlag2;
-     char encoderA_1;
-     char encoderA_2;
-     char encoderA_3;
-     char encoderA_4;
-     char encoderB_1;
-     char encoderB_2;
-     char encoderB_3;
-     char encoderB_4;
-     char batteryVoltage;
-     char frontSonar;
-     char rearSonar;
-     char bumper;
-     char endFlag1;
-     char endFlag2;
-     char endFlag3;
+     BYTE startFlag1;
+     BYTE startFlag2;
+     BYTE encoderA_1;
+     BYTE encoderA_2;
+     BYTE encoderA_3;
+     BYTE encoderA_4;
+     BYTE encoderB_1;
+     BYTE encoderB_2;
+     BYTE encoderB_3;
+     BYTE encoderB_4;
+     BYTE batteryVoltage;
+     BYTE frontSonar;
+     BYTE rearSonar;
+     BYTE bumper;
+     BYTE endFlag1;
+     BYTE endFlag2;
+     BYTE endFlag3;
 } SensorPacket;
 
 class rp2w

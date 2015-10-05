@@ -1,0 +1,7 @@
+SuperDroid Robots Inc.
+
+Copyrighted 2012
+
+SuperDroid Robots, Inc is not responsible for special incidental, or consequential damages resulting from any warranty or under any legal theory, including, but not limited to lost profits, downtime, goodwill, damage to, or replacement equipment or property, or any cost of recovering, reprogramming, or reproducing any data stored.  ANY LIABILITY SHALL BE LIMITED TO REPLACEMENT OF DEFECTIVE PARTS. SuperDroid Robots, Inc. is further not responsible for any personal damages, including, but not limited to bodily and health damages resulting from any use of our products
+
+Warning: This is a wireless controller interface for a robot.  Wireless communications are not without errors, do NOT use this for any safety or critical application.  User assumes all responsibilites for applicabilty and risk.

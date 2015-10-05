@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+  "http://www.w3.org/TR/html4/transitional.dtd">
+<html lang="cs">
+<head>
+<meta NAME="description" CONTENT="Jenom takový návod pro kamaráda... vcelku oničem.">
+<meta NAME="keywords" CONTENT="nic">
+<meta NAME="author" CONTENT="Stargaser Software - Michal Pavelčík">
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1250">
+<meta HTTP-EQUIV="Content-language" CONTENT="cs">
+<title>RP2W Help</title>
+
+
+
+</head>
+
+<body style="color: #000;background-color: #fff;text-align: center;">
+
+
+
+<div style="width: 800px;text-align: center;margin: 10px auto;">
+<h1>RP2W Help</h1>
+<div style="text-align: left;">
+
+<h2>Setting up robot computer (server)</h2>
+<ol>
+    <li>Open the "Settings" window by selecting the item "Change Settings..." in the "Tools" menu.</li>
+    <li>Select the "Communication" tab in the "Settings" window.</li>
+    <li>If in the "Run As" group box is selected option "Server (Robot)", continue with step 4. Otherwise select the option "Server (Robot)", click on the "Update and close" button in the bottom right corner of the "Settings" window and go back to the step 1.</li>
+    <li>Fill other boxes:
+        <ul>
+        <li>Tx Timer Interval, Pan Delay and Tilt Delay are values related to communication between server application and the robot. The robot may not work properly with other than default values.</li>
+        <li><strong>Robot stop timeout:</strong> When server doesn't receive response from the remote computer for longer than this time, it stops robot's motors.</li>
+        <li><strong>Program stop timeout:</strong> When server doesn't receive response from the remote computer for longer than this time, it closes connection with remote computer, disables remote controlling, restarts Wireless Network Adapters and re-enables remote controlling.</li> 
+        <li><strong>Port (required):</strong> Number of the first port which application uses for network communication. The application uses seven consecutive port numbers. You should have this in mind when setting up firewalls or routers. The valid range for this option is 1024 to 65529.</li>
+        <li>IP Address, Login and Password are not used for server settings.</li>
+        <li><strong>Enable Remote Controlling after startup:</strong> If checked, server will automatically enable remote controlling mode after the application starts.</li>
+        <li><strong>Video Device (required):</strong> Select video device that you want to use for videoconferencing.</li>
+        <li><strong>Audio Device (optional):</strong> Select audio device that you want to use for videoconferencing.</li>
+        <li><strong>Data COM Port (required):</strong> Select COM port to which is connected robot.</li>
+        </ul>
+    </li>
+    <li>Click on the "Update and close" button in the bottom right corner of the "Settings" window.</li>
+</ol>
+
+<p>Note: Due to "restart wireless network adapters" functionality, the robot application has to run under account with administrator rights.</p>
+
+<h2>Setting up the remote computer (client)</h2>
+<ol>
+    <li>Open the "Settings" window by selecting the item "Change Settings..." in the "Tools" menu.</li>
+    <li>Select the "Communication" tab in the "Settings" window.</li>
+    <li>In the "Run As" group box select option "Client (Remote)".</li>
+    <li>Fill other boxes:
+        <ul>
+            <li>Tx Timer Interval, Pan Delay, Tilt Delay, Robot stop timeout and Program stop timeout are values related to server application. Changing these on the remote computer won't take any effect.</li>
+            <li><strong>Port (required):</strong> Number of the first port which application uses for network communication. The application uses seven consecutive port numbers. You should have this in mind when setting up firewalls or routers. This value has to be the same as on the robot computer.</li>
+            <li><strong>IP Address (required):</strong> IP address of the robot computer. If the robot computer has more IP addresses, it has to be the one, which is visible from the remote computer (public IP). (It has to be numerical IP address. It can't be hostname.)</li>
+            <li>Login and Password are not used for server settings.</li>
+            <li><strong>Video Device (optional):</strong> Select video device that you want to use for videoconferencing.</li>
+            <li><strong>Audio Device (optional):</strong> Select audio device that you want to use for videoconferencing. </li>
+            <li>Data COM Port is not used for client settings.</li>
+        </ul>
+    </li>
+    <li>Click on the "Update and close" button in the bottom right corner of the "Settings" window.</li>
+</ol>
+
+<h2>Establishing connection</h2>
+<ol>
+    <li>On the robot computer, click on the item "Enable Remote Controlling" in the "Server" menu (if it is not already enabled).</li>
+    <li>On the remote computer, click on the button "Connect to Remote Device" in the "Client" menu.</li>
+</ol>
+<p>
+When grayed out items on the main form of client application become active and status bar refreshes network connection latency, battery status and wifi signal strength info, the connection has been established. Otherwise see Troubleshooting paragraph.
+</p><p>
+Note 1: Enabling remote controlling on the robot computer disables posibility of controlling the robot from this computer. The robot can be controlled only from remote computer that is connected to the robot computer.
+</p>
+<p>
+Note 2: When client (remote) is connected to the server (robot), it is possible change some of the server's settings from the client.
+</p>
+
+
+<h2>Videoconferencing functionality</h2>
+<p>On the remote computer, there are available some videoconferencing features after connecting to the server.
+In the menu "Client" are buttons:</p>
+<ul>
+    <li><strong>Enable Local WebCam Stream:</strong> Enables streaming from remote computer. If local WebCam stream is not enabled, it will not be possible to watch client's video feed on the robot computer.</li>
+    <li><strong>Switch Robot Computer To VideoConf Mode:</strong> Remotely shows a maximized window with client's video feed on the robot computer.</li>
+    <li><strong>Close VideoConf Mode On Robot Computer:</strong> Remotely hides the window with client's video feed on the robot computer.</li>
+</ul>
+<p>There is also button that looks like microphone. It mutes/unmutes local microphone.</p>
+
+<p>In the menu "Tools" are available functions that are shared between server and client applications.</p>
+<ul>
+    <li><strong>Show Local Camera Window...:</strong> Shows a window with video feed from selected local video device. (On the remote computer will show a window with black background, if the local webcam stream is not enabled.)</li>
+    <li><strong>Show Remote Camera Window...:</strong> Shows a window with video feed from server (on client) or client (on server). It will show window with black background on the server, if the client's webcam stream is not enabled.</li>
+</ul>
+
+<h2>Troubleshooting</h2>
+<p>
+During network communication several problems can occur. Some of them can be solved by restarting the applications. If you need to restart the application on the robot computer, you can try to use "Restart Robot Application" function in the "Client" menu on remote computer. It can be used even when remote is not connected to the robot computer, but the robot computer has to have remote controlling enabled. If server application is restarted remotely by "Restart Robot Application" function, it will re-enable remote controlling automatically after application restarts. Restarting client and server usually solves problems with video stream (e.g. freezed video) and problems with reconnecting after disconnecting.
+</p>
+<p>
+What if it is not possible to establish connection?
+</p>
+<ul>
+    <li>Check out if both remote and robot computer are connected to the right network.</li>
+    <li>Check if it is possible to reach robot computer's IP address from remote computer. (You can use ping command in the Windows Command Prompt)</li>
+    <li>Try to disable firewalls on the robot and the remote computers. (If this step solves the problem, you should re-enable firewalls and add exception for the RP2W application to them. Remember, RP2W is using seven consecutive ports in 
+    total. The one you have set in the settings is the first of this sequence.)</li>
+</ul>
+<p>
+It may be helpful to use debug window (Tools->Show debug window...) when you are solving problems. You can see whether applications are sending something on network or not.
+</p>
+<p>
+When you'll need our assistance with solving problems, please send us detailed log files. They will be created by applications after enabling extended debug logging (Tools->Extended Debug Logging Enabled). Logs will show up on remote's or robot's desktop named as DEBUG_CLIENT_LOG.TXT or DEBUG_SERVER_LOG.TXT after you close remote or robot application. Please enable extended logging right after you start the applications (before you establish connection).
+</p><p>
+Note: Both debug window and extended debug logging are timeconsuming features. Using them may cause slower response time of the application.
+</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DA8345B9-7071-45F3-A2C1-92AE84147D6C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>TankWifi.My.MyApplication</StartupObject>
+    <RootNamespace>TankWifi</RootNamespace>
+    <AssemblyName>RP2W</AssemblyName>
+    <MyType>WindowsForms</MyType>
+    <ApplicationIcon>SDR.ico</ApplicationIcon>
+    <TargetZone>LocalIntranet</TargetZone>
+    <GenerateManifests>true</GenerateManifests>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>RP2W.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>RP2W.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>RP2W.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>RP2W.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="iConfClient.NET, Version=1.0.3801.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\iConfClient.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="iConfServer.NET, Version=1.0.3801.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\iConfServer.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.DirectX.DirectInput, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.VisualBasic.Compatibility" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="Microsoft.VisualBasic.Compatibility" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationEvents.vb" />
+    <Compile Include="ControlForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlForm.Designer.vb">
+      <DependentUpon>ControlForm.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CRs232.vb" />
+    <Compile Include="DebugForm.Designer.vb">
+      <DependentUpon>DebugForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="DebugForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DebugLog.vb" />
+    <Compile Include="DrivePanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Enum\DigitalInputFlagsEnum.vb" />
+    <Compile Include="Enum\MotorIdEnum.vb" />
+    <Compile Include="Enum\PwmStatusEnum.vb" />
+    <Compile Include="Enum\SensorLedEnum.vb" />
+    <Compile Include="Enum\TransmitOptionFlagsEnum.vb" />
+    <Compile Include="InputDevice.vb" />
+    <Compile Include="LocalCameraForm.Designer.vb">
+      <DependentUpon>LocalCameraForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LocalCameraForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="RemoteCameraForm.Designer.vb">
+      <DependentUpon>RemoteCameraForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RemoteCameraForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RemoteControlling.vb">
+    </Compile>
+    <Compile Include="Settings.vb" />
+    <Compile Include="SettingsForm.Designer.vb">
+      <DependentUpon>SettingsForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingsServerCamera.vb" />
+    <Compile Include="SettingsServerCameraForm.Designer.vb">
+      <DependentUpon>SettingsServerCameraForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsServerCameraForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashScreenForm.Designer.vb">
+      <DependentUpon>SplashScreenForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="SplashScreenForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatusIndicator.Designer.vb">
+      <DependentUpon>StatusIndicator.vb</DependentUpon>
+    </Compile>
+    <Compile Include="StatusIndicator.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TCPTunnel.vb" />
+    <Compile Include="TrackBarInvertable.Designer.vb">
+      <DependentUpon>TrackBarInvertable.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TrackBarInvertable.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UDPTunnel.vb" />
+    <Compile Include="Utils\ComboBoxItemObject.vb" />
+    <Compile Include="Utils\ComboBoxItemObjectString.vb" />
+    <Compile Include="Utils\IConfLicense.vb" />
+    <Compile Include="Utils\LockableMessage.vb" />
+    <Compile Include="Utils\LogFile.vb" />
+    <Compile Include="Utils\RxUtils.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ControlForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ControlForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DebugForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DebugForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocalCameraForm.resx">
+      <DependentUpon>LocalCameraForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemoteCameraForm.resx">
+      <DependentUpon>RemoteCameraForm.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SettingsForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsServerCameraForm.resx">
+      <DependentUpon>SettingsServerCameraForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreenForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SplashScreenForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatusIndicator.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>StatusIndicator.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BaseApplicationManifest Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="devcon.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\mic.png" />
+    <None Include="Resources\mic_muted.png" />
+    <Content Include="Help\help.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Img\sdr_logo.png" />
+    <Content Include="SDR.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\" />
+    <Folder Include="My Project\DataSources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Networking\Networking.csproj">
+      <Project>{8E5FC385-13A9-47F5-8AA3-6435AB1019F7}</Project>
+      <Name>Networking</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

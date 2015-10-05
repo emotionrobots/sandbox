@@ -9,6 +9,7 @@
  */
 #define __RP2W_SERIAL_CPP__
 
+#include <stdio.h>
 #include "rp2w_serial.h"
 
 
@@ -171,8 +172,21 @@ rp2w::Status rp2w::update()
    txPacket.cameraPanLow = (cameraPan & 0xff);
    txPacket.digital1 = digital1;
    txPacket.digital2 = digital2;
-   
-   checksum = txPacket.rightMotorSpeed 
+
+ #if 0 
+   printf("rightMotorSpeed = %4d\n", txPacket.rightMotorSpeed);
+   printf("leftMotorSpeed  = %4d\n", txPacket.leftMotorSpeed);
+   printf("cameraTiltHigh  = %4d\n", txPacket.cameraTiltHigh);
+   printf("cameraTiltLow   = %4d\n", txPacket.cameraTiltLow);
+   printf("cameraPanHigh   = %4d\n", txPacket.cameraPanHigh);
+   printf("cameraPanLow    = %4d\n", txPacket.cameraPanLow);
+   printf("digital1        = %4d\n", txPacket.digital1);
+   printf("digital2        = %4d\n", txPacket.digital2);
+   printf("startFlag       = %4d\n", txPacket.startFlag);
+#endif
+ 
+   checksum = txPacket.startFlag
+            + txPacket.rightMotorSpeed 
             + txPacket.leftMotorSpeed
             + txPacket.cameraTiltHigh
             + txPacket.cameraTiltLow
@@ -180,9 +194,15 @@ rp2w::Status rp2w::update()
             + txPacket.cameraPanLow
             + txPacket.digital1
             + txPacket.digital2;
-   txPacket.checksumHigh = checksum >> 8;
-   txPacket.checksumLow = checksum;
 
+   txPacket.checksumHigh = checksum >> 8;
+   txPacket.checksumLow = checksum & 0xff;
+
+#if 0
+   printf("checksum     = %4d\n", checksum);
+   printf("checksumHigh = %2d\n", txPacket.checksumHigh);
+   printf("checksumLow  = %2d\n", txPacket.checksumLow);
+#endif
 
    rc = txData((char *)&txPacket, sizeof(txPacket));
    if (rc != rp2w::OK) return rc;
