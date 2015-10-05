@@ -1,1 +1,0 @@
-/usr/bin/c++       CMakeFiles/testapp.dir/testapp.cpp.o CMakeFiles/testapp.dir/joystick.cpp.o CMakeFiles/testapp.dir/rp2w_serial.cpp.o  -o testapp -rdynamic -lserial 
