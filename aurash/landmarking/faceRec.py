@@ -93,7 +93,7 @@ def face_detect(picture):
 
         faceCascade = cv2.CascadeClassifier(filename+"/haarcascade_frontalface_alt2.xml")
 
-        video_capture = cv2.VideoCapture(0)
+      
         found=False
         while found==False:
             # Capture frame-by-frame

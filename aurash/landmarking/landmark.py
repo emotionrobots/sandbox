@@ -314,10 +314,10 @@ def main():
 	            raise IOError 
 	        #cv2.imwrite(filename, frame)
 	        # nasty fix .. pystasm should receive np array .. 
-	        if start == True and test % 2 == 1:
+	        if start == True:# and test % 2 == 1:
 	        	mylandmarks = mystasm.s_search_single(image)
 	        	start = False
-	        if start == False and test % 2 == 1:
+	        if start == False:# and test % 2 == 1:
 	        	landmarksOLD = mylandmarks
 	        	mylandmarks = mystasm.s_search_single(image)
 	        	alpha = .85
@@ -328,8 +328,8 @@ def main():
 			    x=draw_face(frame, mylandmarks)
 			    frame=OverlayImage(frame,x)
 	        
-	        x=draw_face(frame, mylandmarks)
-	        frame=OverlayImage(frame,x)
+	        #x=draw_face(frame, mylandmarks)
+	        #frame=OverlayImage(frame,x)
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
 	        cv2.imshow("Live Landmarking", frame)
 	        cv2.namedWindow('k', cv2.WINDOW_NORMAL)
