@@ -102,8 +102,8 @@ def draw_landmarks(frame, landmarks):
 	count=0
 	numbering = 0
         for (x, y) in landmarks:
-			if count == 52 or count == 14 or count == 13 or count == 15 or count == 65 or count == 59:
-			# if count != -11111111:
+			# if count == 52 or count == 14 or count == 13 or count == 15 or count == 65 or count == 59:
+			if count == 1111111:
 				if count != 52:
 					xcoor = (x - landmarks[52][0])*scale
 					ycoor = (landmarks[52][1] - y)*scale
@@ -202,9 +202,8 @@ def displayEmotion(frame, landmarks):
 	return myEmotion
 
 def detectEmotion(frame, landmarks, scale):
-	# Returns an Array containing each feature vector in the following format
-	# [Dist btw corners of mouth, Dist btw Eyebrows and eyes,]
-
+	# Returns an Array containing each feature vector
+		
 	# Happiness (Dist btw corners of mouth)
 	pt59 = landmarks[59]
 	pt65 = landmarks[65]
@@ -234,7 +233,33 @@ def detectEmotion(frame, landmarks, scale):
 	avgDistEyeNose = (distLeftEyeNose + distRightEyeNose)/2
 	# print avgDistEyeNose
 
-	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose]
+	# Dist btw eyebrows for anger
+	pt21 = landmarks[21]
+	pt22 = landmarks[22]
+	distEyebrow = ((pt22[0] - pt21[0]) ** 2 + (pt22[1] - pt21[1])**2)**.5
+	distEyebrow = distEyebrow * scale
+	# print distEyebrow
+ 
+	# Dist mid eye to top eye for fear
+	pt32 = landmarks[32]
+	pt38 = landmarks[38]
+	distmidEyeToTopEyelidLeft = ((pt38[0] - pt32[0])**2 + (pt38[1]-pt32[1]) ** 2) **.5
+	pt39 = landmarks[39]
+	pt42 = landmarks[42]
+	distmidEyeToTopEyelidRight = ((pt42[0] - pt39[0])**2 + (pt42[1]-pt39[1]) ** 2) **.5
+	distmidEyeToTopEyelidLeft = distmidEyeToTopEyelidLeft * scale
+	distmidEyeToTopEyelidRight = distmidEyeToTopEyelidRight * scale
+	avgDistMidEyetoTopEye = (distmidEyeToTopEyelidRight + distmidEyeToTopEyelidLeft)/2
+	# print avgDistMidEyetoTopEye
+
+	#for sadness 
+	#raised inner eyebrow and pulled toegether
+
+
+
+
+
+	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose, distEyebrow, avgDistMidEyetoTopEye]
 
 def draw_face_outline(frame, landmarks):
         return draw_loop(frame, landmarks, 0, 15)
@@ -290,6 +315,9 @@ def draw_face(frame, landmarks, notTraining):
 	if notTraining == True:
 		x = displayEmotion(frame, landmarks)
 		return x
+	else:
+		scale = normalize(frame, landmarks)
+		detectEmotion(frame, landmarks, scale)
 	return
 
 def main():
@@ -315,10 +343,10 @@ def main():
 				raise IOError 
 	        #cv2.imwrite(filename, frame)
 	        # nasty fix .. pystasm should receive np array .. 
-			if start == True and test % 2 == 1:
+			if start == True and test % 3 == 1:
 				mylandmarks = mystasm.s_search_single(image)
 				start = False
-			if start == False and test % 2 == 1:
+			if start == False and test % 3 == 1:
 				landmarksOLD = mylandmarks
 				mylandmarks = mystasm.s_search_single(image)
 				alpha = .85
@@ -334,8 +362,8 @@ def main():
 			cv2.namedWindow('k', cv2.WINDOW_NORMAL)
 			cv2.imshow("Live Landmarking", frame)
 			cv2.imshow('k',frames)
-		if cv2.waitKey(150) == 1048603:
-			done = True 
+			if cv2.waitKey(150) == 1048603:
+				done = True 
 		test = test + 1
 	    # k = cv2.waitKey(1)
 	    # if k == 32:

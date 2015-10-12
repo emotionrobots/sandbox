@@ -10,6 +10,10 @@ import landmark
 from Tkinter import *
 from threading import Thread
 import tkMessageBox
+from skimage import img_as_ubyte
+from skimage.color import rgb2gray 
+import logging
+import os
 
 root = Tk()
 frame1 = Frame(root, width=100, height=100)
@@ -30,15 +34,21 @@ global endProgram
 endProgram = False
 
 def key(event):
+	# global filename
+	# filename = os.getcwd()
 	global endProgram
 	global emoCount
 	global ready
 	if ready == True:
 		for x in range(0,9):
 			flag, frameG = cap.read()
-		filename = '/tmp/frame{}.jpg'.format(pos_frame)
-		cv2.imwrite(filename, frameG)
-		landmarksG = pyasm.STASM().s_search_single(filename)
+		try:
+			image=rgb2gray(frameG)	
+			image=img_as_ubyte(image)
+		except IOError, exc:
+			logging.error(exc.message, exc_info=True)
+			raise IOError 
+		landmarksG = pyasm.STASM().s_search_single(image)	
 		# print landmarksG
 		landmark.draw_face(frameG, landmarksG, False)
 		# print "test"
@@ -104,12 +114,32 @@ def findEmotion(landmarks, frame):
 	pt39 = landmarks[39]
 	distRightEyeNose = ((pt54[0] - pt39[0])**2 + (pt54[1] - pt39[1])**2) ** .5
 	distRightEyeNose = distRightEyeNose * scale
-	avgDistEyeNose = (distLeftEyeNose + distRightEyeNose)/2
+	avgDistEyeNose = (distLeftEyeNose + distRightEyeNose)/2 
 
-	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose]
+	# Dist btw eyebrows for anger
+	pt21 = landmarks[21]
+	pt22 = landmarks[22]
+	distEyebrow = ((pt22[0] - pt21[0]) ** 2 + (pt22[1] - pt21[1])**2)**.5
+	distEyebrow = distEyebrow * scale
+	print distEyebrow
+
+	# Dist mid eye to top eye for fear
+	pt32 = landmarks[32]
+	pt38 = landmarks[38]
+	distmidEyeToTopEyelidLeft = ((pt38[0] - pt32[0])**2 + (pt38[1]-pt32[1]) ** 2) **.5
+	pt39 = landmarks[39]
+	pt42 = landmarks[42]
+	distmidEyeToTopEyelidRight = ((pt42[0] - pt39[0])**2 + (pt42[1]-pt39[1]) ** 2) **.5
+	distmidEyeToTopEyelidLeft = distmidEyeToTopEyelidLeft * scale
+	distmidEyeToTopEyelidRight = distmidEyeToTopEyelidRight * scale
+	avgDistMidEyetoTopEye = (distmidEyeToTopEyelidRight + distmidEyeToTopEyelidLeft)/2
+	print avgDistMidEyetoTopEye
+
+	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose, distEyebrow, avgDistMidEyetoTopEye]
 
 def main():
-
+	global filename
+	filename = os.getcwd()
 	frame1.bind("<Key>", key)
 	frame1.pack()
 	frame1.focus_set()
@@ -120,25 +150,30 @@ def main():
 	cap, pos_frame = landmark.video_config()
 	done = False
 	start = True
-	cv2.namedWindow("Live Landmarking", cv2.WINDOW_OPENGL)
 	while done != True:
 		global flag
 		flag, frame = cap.read()
 		if flag:
 	        # The frame is ready and already captured
-	        # save a tmp file because pystasm receive by paramer a filename
-			filename = '/tmp/frame{}.jpg'.format(pos_frame)
-			cv2.imwrite(filename, frame)
+	        # save a tmp file because pystasm receive by parameter a filename
+			try:
+				image=rgb2gray(frame)
+				image=img_as_ubyte(image)
+			except IOError, exc:
+				logging.error(exc.message, exc_info=True)
+				raise IOError 
+	        #cv2.imwrite(filename, frame)
 	        # nasty fix .. pystasm should receive np array .. 
-			if start == True:
-				mylandmarks = mystasm.s_search_single(filename)
+			if start == True: #and test % 3 == 1:
+				mylandmarks = mystasm.s_search_single(image)
 				start = False
-			if start == False:
+			if start == False: #and test % 3 == 1:
 				landmarksOLD = mylandmarks
-				mylandmarks = mystasm.s_search_single(filename)
+				mylandmarks = mystasm.s_search_single(image)
 				alpha = .85
 				mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
 			landmark.draw_face(frame, mylandmarks, False)
+			cv2.namedWindow("Live Landmarking", cv2.WINDOW_OPENGL)
 			if ready == False:
 				cv2.putText(frames, "If you are ready to begin, please make a neutral face", (15,200), cv2.FONT_HERSHEY_COMPLEX, .70, 255)
 				cv2.putText(frames, "and press the space bar", (200,250), cv2.FONT_HERSHEY_COMPLEX, .70, 255)
