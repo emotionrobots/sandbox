@@ -5,9 +5,9 @@ def info(chain):
 	re1='.*?'	# Non-greedy match on filler
 	re2='((?:[a-z][a-z]+))'	# Word 1
 	re3='.*?'	# Non-greedy match on filler
-	re4='(chain)'	# Word 2
+	re4='((?:[a-z][a-z]+))'	# Word 2
 	re5='.*?'	# Non-greedy match on filler
-	re6='((?:[a-z][a-z0-9_]*))'	# Variable Name 1
+	re6='(".*?")'	# Double Quote String 1
 	re7='.*?'	# Non-greedy match on filler
 	re8='([+-]?\\d*\\.\\d+)(?![-+0-9\\.])'	# Float 1
 

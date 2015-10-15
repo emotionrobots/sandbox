@@ -62,14 +62,18 @@ def query_likely_cause(effect,files):
     index=0
     list=[]
     for x in lines:
+        effects=''
         try:
             forb, inital, prob= retest.info(x)
             if forb=='backward':
-                ind=x.index(prob)
-                cause=x[ind-3]
-                list.append((forb, inital, cause, float(prob)))
-                if big<prob:
-                    big=prob
+                ind=x.index(prob)-3
+                while x[ind]!='"':
+                    effects=effects+x[ind]
+                    ind=ind-1
+                effects=effects[::-1] 
+                list.append((forb, inital, effects, float(prob)))
+                if big<float(prob):
+                    big=float(prob)
                     index=count
                 count=count+1    
         except:
@@ -90,14 +94,18 @@ def query_unlikely_cause(effect,files):
     index=0
     list=[]
     for x in lines:
+        effects=''
         try:
             forb, inital, prob= retest.info(x)
             if forb=='backward':
-                ind=x.index(prob)
-                cause=x[ind-3]
-                list.append((forb, inital, cause, float(prob)))
+                ind=x.index(prob)-3
+                while x[ind]!='"':
+                    effects=effects+x[ind]
+                    ind=ind-1
+                effects=effects[::-1] 
+                list.append((forb, inital, effects, float(prob)))
                 if small>float(prob):
-                    small=prob
+                    small=float(prob)
                     index=count
                 count=count+1    
         except:
@@ -118,14 +126,18 @@ def query_likely_effect(cause,files):
     index=0
     list=[]
     for x in lines:
+        causes=''
         try:
             forb, inital, prob= retest.info(x)
             if forb=='forward':
-                ind=x.index(prob)
-                cause=x[ind-3]
-                list.append((forb, inital, cause, float(prob)))
+                ind=x.index(prob)-3
+                while x[ind]!='"':
+                    causes=causes+x[ind]
+                    ind=ind-1
+                causes=causes[::-1] 
+                list.append((forb, inital, causes, float(prob)))
                 if big<float(prob):
-                    big=prob
+                    big=float(prob)
                     index=count
                 count=count+1
         except:
@@ -145,14 +157,18 @@ def query_unlikely_effect(cause,files):
     index=0
     list=[]
     for x in lines:
+        causes=''
         try:
             forb, inital, prob= retest.info(x)
             if forb=='forward':
-                ind=x.index(prob)
-                cause=x[ind-3]
-                list.append((forb, inital, cause, float(prob)))
+                ind=x.index(prob)-3
+                while x[ind]!='"':
+                    causes=causes+x[ind]
+                    ind=ind-1
+                causes=causes[::-1]    
+                list.append((forb, inital, causes, float(prob)))
                 if small>float(prob):
-                    small=prob
+                    small=float(prob)
                     index=count
                 count=count+1    
         except:
@@ -168,14 +184,14 @@ def main():
     load_rules()
     
 
-    add_causal('a', "A", "B", "none", 0.5)
-    add_causal('b', "B", "C", "none", 0.1)
-    add_causal('c', "C", "D", "none", 0.2)
-    add_causal('d', "D", "E", "none", 0.8)
-    add_causal('e', "C", "E", "none", 0.3)
+    add_causal('a', "cold", "freeze", "none", 0.7)
+    add_causal('b', "freeze", "rain", "none", 0.3)
+    add_causal('c', "rain", "snow", "none", 0.8)
+    add_causal('d', "snow", "crash", "none", 0.5)
+    add_causal('e', "rain", "crash", "none", 0.4)
 
-    clips.Assert('(cause "A")')
-    clips.Assert('(effect "E")')
+    clips.Assert('(cause "cold")')
+    clips.Assert('(effect "crash")')
     clips.Run() 
     clips.PrintFacts()
     filename=os.getcwd()
@@ -187,7 +203,7 @@ def main():
     c=query_likely_effect("A",filename+"/savefacts.txt")
     print "\n\nLikely Effect is:  "+c
     d=query_unlikely_effect("A",filename+"/savefacts.txt")
-    print "\n\nUnlikely Effect is:  "+d+"\n\n\n\n\n\n"
+    print "\n\nUnlikely Effect is:  "+d+"\n\n\n\n"
 
 if __name__=="__main__":
     main()
