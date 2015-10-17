@@ -14,6 +14,7 @@
 #include <pcl/registration/default_convergence_criteria.h>
 #include <pcl/registration/ia_ransac.h>
 #include <pcl/registration/icp.h>
+#include <pcl/registration/icp_nl.h>
 
 class Registration
 {
@@ -38,16 +39,9 @@ class Registration
 
     bool canAlign ();
 
-    void findCorrespondences (PointCloudWithNormals::Ptr src, 
-                              PointCloudWithNormals::Ptr tgt, 
-                              pcl::Correspondences &all_correspondences);
-
-    void rejectBadCorrespondences (pcl::CorrespondencesPtr &all_correspondences,
-                               PointCloudWithNormals::Ptr rc,
-                               PointCloudWithNormals::Ptr tgt,
-                               pcl::Correspondences &remaining_correspondences);
-
     void align ();
+
+    void process (PointCloud::Ptr cloud);
 
     bool hasConverged () const;
 
@@ -60,7 +54,10 @@ class Registration
     // pcl::SampleConsensusPrerejective<PointT, PointT, FeatureT> reg_;
     // pcl::SampleConsensusInitialAlignment<PointNormalT, PointNormalT, FeatureT> sac_ia_;
 
-    // pcl::IterativeClosestPoint<PointNormalT, PointNormalT> reg_;
+    pcl::IterativeClosestPoint<PointNormalT, PointNormalT> reg_;
+    // pcl::IterativeClosestPointNonLinear<PointNormalT, PointNormalT> reg_;
+
+    Eigen::Matrix4f last_transform_;
     
     // Point cloud data
     CustomCloud source_;

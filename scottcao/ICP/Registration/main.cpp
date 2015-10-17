@@ -59,7 +59,7 @@ int main (int argc, char ** argv)
 
   cloud_viewer->addCoordinateSystem (1.0);
   cloud_viewer->setBackgroundColor (0, 0, 0);
-  cloud_viewer->setCameraClipDistances (0.0, 1.5);
+  // cloud_viewer->setCameraClipDistances (0.0, 1.5);
   cloud_viewer->initCameraParameters ();
 
   PCDWriter writer;
