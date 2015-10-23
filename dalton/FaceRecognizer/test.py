@@ -138,7 +138,6 @@ def trainer(recognizer):
             print trainingLabels.shape
             recognizer.update(trainingImages, trainingLabels)
             recognizer.save("People.xml")
-            cv2.destroyAllWindows()
             if(flag):
                 print "Using existing ID for name"
                 #writeID = open("lastID.txt", "w")
@@ -151,6 +150,7 @@ def trainer(recognizer):
                 writeID.write(str(ID))
                 writeID.close()
             #livedetect(recognizer)
+            #cv2.destroyAllWindows()
             break
 
         cv2.putText(frame, "Press 'Q' to take finish training", (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
@@ -166,7 +166,7 @@ def trainer(recognizer):
              #   count+=1
 
             #if count % 20 == 0:
-            if cv2.waitKey(12) & 0xFF == ord('b'):
+            if cv2.waitKey(150) & 0xFF == ord('b'):
                 print "Click!"
                 #directly add to array
                 trainingImages.append(face_detect(frame))
@@ -214,6 +214,9 @@ def livedetect(recognizer):
 
     video_capture = cv2.VideoCapture(0)
     found=False
+
+    prevText = ""
+
     while True:
         # Capture frame-by-frame
         ret, frame = video_capture.read()
@@ -250,13 +253,18 @@ def livedetect(recognizer):
                         text=labels[idx]
                         break
 
+                
+
             #if testLabel==2:
             #    text="Emma"
             #if testLabel==1:
             #    text="Aurash"   
                 cv2.putText(frame, "Person is:  " + text, (x+20,y-20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
                 cv2.putText(frame, "My Confidence is:  " + str(distance), (20,50), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-                print "test"
+
+                if text != prevText:
+                    print text
+                    prevText = text
 
         cv2.imshow('Video', frame)
 
