@@ -2,24 +2,21 @@
 import cv2
 import sys
 import os
-import cv2.cv as cv
+import freenect
+import frame_convert
+#import cv2.cv as cv
 
 filename = os.getcwd()+'/Data'
 faceCascade = cv2.CascadeClassifier(filename+"/haarcascade_frontalface_default.xml")
 
-video_capture = cv2.VideoCapture(900)
-print video_capture
+
+
 
 while True:
-    # If OpenCV cannot grab images
-    r=video_capture.grab()
-    print r
-    if not r:
-        print "Unable to Grab Frames from camera"
-        break
-    
+
     # Capture frame-by-frame
-    ret, frame = video_capture.retrieve(1,cv.CV_CAP_OPENNI_GRAY_IMAGE)
+    frame = frame_convert.video_cv(freenect.sync_get_video()[0])
+    print frame
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 

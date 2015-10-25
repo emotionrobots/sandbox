@@ -327,7 +327,9 @@ def main():
 	        if  mylandmarks[0][0] != 0.0:
 			    x=draw_face(frame, mylandmarks)
 			    frame=OverlayImage(frame,x)
-	        
+
+
+	        print mylandmarks
 	        #x=draw_face(frame, mylandmarks)
 	        #frame=OverlayImage(frame,x)
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
