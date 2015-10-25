@@ -1,2 +1,1 @@
-1, Dalton Ding;2, Donald Trump;3, Julian;
-4, Mark Zuckerberg;5, Jeremy Lin;5, test;5, Dalton ;6, Bill Gates;7, James Harden;8, Barack Obama;9, DDalton Ding;
+1, Dalton Ding;2, Leon Yuan;2, Scott Cao;

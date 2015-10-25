@@ -142,7 +142,7 @@ void CustomCloud::computeKeypoints()
   uniform_filter.setInputCloud(normals_);
   // We set the size of every voxel to be 1x1x1cm
   // (only one point per every cubic centimeter will survive).
-  uniform_filter.setRadiusSearch(0.02f);
+  uniform_filter.setRadiusSearch(leaf_size_2_);
   // We need an additional object to store the indices of surviving points.
   pcl::PointCloud<int> keypointIndices;
   uniform_filter.compute(keypointIndices);
