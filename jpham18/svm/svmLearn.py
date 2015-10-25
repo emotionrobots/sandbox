@@ -84,9 +84,15 @@ def keyListen():
 	root.mainloop()
 
 def trainSVM():
-	feature_vector = np.array([ emotions[0], emotions[1], emotions[2], emotions[3], emotions[4], emotions[5], emotions[6] ])
-	emotion_list = np.array(['neutral', 'happy', 'sad', 'anger', 'disgust', 'fear', 'surprise'])
-	SVM = SVC()
+	if "emotionData.bin" in os.listdir("./"):
+		SVM = joblib.load("emotionData.bin")
+	else:
+		SVM = SVC(probability=True)
+		print "test"
+	feature_vector = np.array([ emotions[0], emotions[1], emotions[2], emotions[3], emotions[4], emotions[5], emotions[6] ] * 1000)
+	emotion_list = np.array(['neutral', 'happy', 'sad', 'anger', 'disgust', 'fear', 'surprise'] * 1000)
+	# print feature_vector
+	# print emotion_list
 	SVM.fit(feature_vector, emotion_list)
 	joblib.dump(SVM, "emotionData.bin", compress=3)
 
@@ -121,7 +127,7 @@ def findEmotion(landmarks, frame):
 	pt22 = landmarks[22]
 	distEyebrow = ((pt22[0] - pt21[0]) ** 2 + (pt22[1] - pt21[1])**2)**.5
 	distEyebrow = distEyebrow * scale
-	print distEyebrow
+	# print distEyebrow
 
 	# Dist mid eye to top eye for fear
 	pt32 = landmarks[32]
@@ -133,9 +139,20 @@ def findEmotion(landmarks, frame):
 	distmidEyeToTopEyelidLeft = distmidEyeToTopEyelidLeft * scale
 	distmidEyeToTopEyelidRight = distmidEyeToTopEyelidRight * scale
 	avgDistMidEyetoTopEye = (distmidEyeToTopEyelidRight + distmidEyeToTopEyelidLeft)/2
-	print avgDistMidEyetoTopEye
+	# print avgDistMidEyetoTopEye
 
-	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose, distEyebrow, avgDistMidEyetoTopEye]
+	# Dist inner eyebrow to mid eye for sadness
+	pt20 = landmarks[20]
+	pt22 = landmarks[22]
+	pt38 = landmarks[38]
+	pt39 = landmarks[39]
+	distInsideLeft = ((pt38[0] - pt20[0])**2 + (pt38[1] - pt20[1])**2) **.5
+	distInsideLeft = distInsideLeft * scale
+	distInsideRight = ((pt39[0]-pt22[0])**2 + (pt39[1] - pt22[1])**2)**.5
+	distInsideRight = distInsideRight * scale
+	avgInside = (distInsideRight + distInsideLeft)/2
+
+	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose, distEyebrow, avgDistMidEyetoTopEye, avgInside]
 
 def main():
 	global filename

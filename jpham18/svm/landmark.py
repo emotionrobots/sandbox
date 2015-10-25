@@ -19,6 +19,8 @@ import os
 
 FILENAME =  '/tmp/out.webm'
 frames=None
+global odd
+odd = 1
 
 def video_config():
 	"""Initialize video capture, pass filename by
@@ -147,62 +149,33 @@ def draw_landmarks(frame, landmarks):
 				cv2.putText(frames, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
 				cv2.putText(frames, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 				numbering = numbering + 1
-				# cv2.putText(frame, str(scale * (landmarks[65][0] - landmarks[59][0])), (100,10), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-				# cv2.putText(frames, str(scale * (landmarks[65][0] - landmarks[59][0])), (100,10), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 			count = count + 1
 	return
 
 def displayEmotion(frame, landmarks):
-	scale = normalize(frame, landmarks)
-
-	# standard deltas on a Neutral Face
-	# stdNeutMouth = round(13.3, 0)
-	# stdNeutEyeBrow = round(7.5, 0)
-	# stdNeutNoseEye = round(13.7, 0)
-
-	# standard deltas on a Happy Face
-	# stdHappMouth = round(18.5, 0)
-	# stdHappEyeBrow = round(7.9, 0)
-	# stdHappNoseEye = round(11.9, 0)
-
-	# standard deltas on a Sad Face
-	# stdSadMouth
-	# stdSadEyeBrow
-	# stdSadNoseEye
-	
-	# standard deltas on an Angry Face
-	# stdAngryMouth
-	# stdAngryEyeBrow = round(7, 0)
-	# stdAngryNoseEye
-	# stdAngryEyebrowAngle
-
-	# standard deltas on a Disgusted Face
-	# stdDisgMouth = round(15.4, 0)
-	# stdDisgEyebrow = round(6.1, 0)
-	# stdDisgNoseEye = round(10.1, 0)
-
-	# standard deltas on a Surprised Face
-	# stdSurpMouth = round(15.4, 0)
-	# stdSurpEyeBrow  = round(9.5, 0)
-	# stdSurpNoseEye = round(14.1 , 0)
-
-	# featureVector = np.array([[stdNeutMouth, stdNeutEyeBrow, stdNeutNoseEye], [stdHappMouth, stdHappEyeBrow, stdHappNoseEye],
-	 # [-9, 0, 0], [-9, 0, 0], [stdDisgMouth, stdDisgEyebrow, stdDisgNoseEye], [-9, 0, 0], [stdSurpMouth, stdSurpEyeBrow, stdSurpNoseEye]])
 	featureVector = joblib.load("emotionData.bin")
-	# print featureVector
-	# emotion = np.array(['neutral', 'happy', 'sad', 'anger', 'disgust', 'fear', 'surprise'])
-	# clf = SVC()
-	# clf.fit(featureVector, emotion)
-	# currentEmotion = detectEmotion(frame, landmarks, scale)
-	# myEmotion = str(clf.predict(currentEmotion))
-	# print currentEmotion
-	myEmotion = str(featureVector.predict(detectEmotion(frame, landmarks, scale)))
+	featureVector.set_params(probability=True)
+	detect = detectEmotion(frame, landmarks)
+	myEmotion = str(featureVector.predict(detect))
+	probArr = featureVector.predict_proba(detect)
+	probArr = probArr * 100
+	# print probArr
+	probability = "Neutral: " + str(probArr[0][4]) + "  Happy: " + str(probArr[0][3]) + "  Sad: " + str(probArr[0][5]) + "  Angry: " + str(probArr[0][0])
+	probability2 = "Disgust: " + str(probArr[0][1]) + "  Fear: " + str(probArr[0][2]) + "  Surprise: " + str(probArr[0][6])
 	cv2.putText(frame, myEmotion, (700, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
 	cv2.putText(frames, myEmotion, (550, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
+	global odd
+	if odd % 2 == 1:
+		cv2.putText(frame, probability, (25, 390), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
+		cv2.putText(frames, probability, (25, 390), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)	
+		cv2.putText(frame, probability2, (25, 410), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
+		cv2.putText(frames, probability2, (25, 410), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
+	odd = odd + 1
 	return myEmotion
 
-def detectEmotion(frame, landmarks, scale):
+def detectEmotion(frame, landmarks):
 	# Returns an Array containing each feature vector
+	scale = normalize(frame, landmarks)
 		
 	# Happiness (Dist btw corners of mouth)
 	pt59 = landmarks[59]
@@ -252,14 +225,18 @@ def detectEmotion(frame, landmarks, scale):
 	avgDistMidEyetoTopEye = (distmidEyeToTopEyelidRight + distmidEyeToTopEyelidLeft)/2
 	# print avgDistMidEyetoTopEye
 
-	#for sadness 
-	#raised inner eyebrow and pulled toegether
+	# Dist inner eyebrow to mid eye for sadness
+	pt20 = landmarks[20]
+	pt22 = landmarks[22]
+	pt38 = landmarks[38]
+	pt39 = landmarks[39]
+	distInsideLeft = ((pt38[0] - pt20[0])**2 + (pt38[1] - pt20[1])**2) **.5
+	distInsideLeft = distInsideLeft * scale
+	distInsideRight = ((pt39[0]-pt22[0])**2 + (pt39[1] - pt22[1])**2)**.5
+	distInsideRight = distInsideRight * scale
+	avgInside = (distInsideRight + distInsideLeft)/2
 
-
-
-
-
-	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose, distEyebrow, avgDistMidEyetoTopEye]
+	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose, distEyebrow, avgDistMidEyetoTopEye, avgInside]
 
 def draw_face_outline(frame, landmarks):
         return draw_loop(frame, landmarks, 0, 15)
@@ -275,7 +252,7 @@ def normalize(frame, landmarks):
 		distLM = arrayLM[0]**2 + arrayLM[1]**2
 		distLM = distLM**.5
 		distTOTAL = distLM + distRM
-		scale = 20 / distTOTAL
+		scale = 550 / distTOTAL
 		return scale
 
 def OverlayImage(src, x):
@@ -316,8 +293,7 @@ def draw_face(frame, landmarks, notTraining):
 		x = displayEmotion(frame, landmarks)
 		return x
 	else:
-		scale = normalize(frame, landmarks)
-		detectEmotion(frame, landmarks, scale)
+		detectEmotion(frame, landmarks)
 	return
 
 def main():
@@ -343,10 +319,10 @@ def main():
 				raise IOError 
 	        #cv2.imwrite(filename, frame)
 	        # nasty fix .. pystasm should receive np array .. 
-			if start == True and test % 3 == 1:
+			if start == True: #and test % 3 == 1:
 				mylandmarks = mystasm.s_search_single(image)
 				start = False
-			if start == False and test % 3 == 1:
+			if start == False: #and test % 3 == 1:
 				landmarksOLD = mylandmarks
 				mylandmarks = mystasm.s_search_single(image)
 				alpha = .85
@@ -361,7 +337,7 @@ def main():
 			cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)
 			cv2.namedWindow('k', cv2.WINDOW_NORMAL)
 			cv2.imshow("Live Landmarking", frame)
-			cv2.imshow('k',frames)
+			cv2.imshow('k',frames)	
 			if cv2.waitKey(150) == 1048603:
 				done = True 
 		test = test + 1
