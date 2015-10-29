@@ -634,4 +634,227 @@ INFO: ms_gauden.c(354): 0 variance values floored
 INFO: s2_semi_mgau.c(904): Loading senones from dump file /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/sendump
 INFO: s2_semi_mgau.c(928): BEGIN FILE FORMAT DESCRIPTION
 INFO: s2_semi_mgau.c(1023): Using memory-mapped I/O for senones
-INFO: s2_semi_mgau.c(1294): Maxim
+INFO: s2_semi_mgau.c(1294): MaximINFO: cmd_ln.c(697): Parsing command line:
+\
+	-nfilt 20 \
+	-lowerf 1 \
+	-upperf 4000 \
+	-wlen 0.025 \
+	-transform dct \
+	-round_filters no \
+	-remove_dc yes \
+	-svspec 0-12/13-25/26-38 \
+	-feat 1s_c_d_dd \
+	-agc none \
+	-cmn current \
+	-cmninit 56,-3,1 \
+	-varnorm no 
+
+Current configuration:
+[NAME]			[DEFLT]		[VALUE]
+-agc			none		none
+-agcthresh		2.0		2.000000e+00
+-alpha			0.97		9.700000e-01
+-ceplen			13		13
+-cmn			current		current
+-cmninit		8.0		56,-3,1
+-dither			no		no
+-doublebw		no		no
+-feat			1s_c_d_dd	1s_c_d_dd
+-frate			100		100
+-input_endian		little		little
+-lda					
+-ldadim			0		0
+-lifter			0		0
+-logspec		no		no
+-lowerf			133.33334	1.000000e+00
+-ncep			13		13
+-nfft			512		512
+-nfilt			40		20
+-remove_dc		no		yes
+-remove_noise		yes		yes
+-remove_silence		yes		yes
+-round_filters		yes		no
+-samprate		16000		1.600000e+04
+-seed			-1		-1
+-smoothspec		no		no
+-svspec					0-12/13-25/26-38
+-transform		legacy		dct
+-unit_area		yes		yes
+-upperf			6855.4976	4.000000e+03
+-vad_postspeech		50		50
+-vad_prespeech		20		20
+-vad_startspeech	10		10
+-vad_threshold		2.0		2.000000e+00
+-varnorm		no		no
+-verbose		no		no
+-warp_params				
+-warp_type		inverse_linear	inverse_linear
+-wlen			0.025625	2.500000e-02
+
+INFO: acmod.c(252): Parsed model-specific feature parameters from /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/feat.params
+INFO: feat.c(715): Initializing feature stream to type: '1s_c_d_dd', ceplen=13, CMN='current', VARNORM='no', AGC='none'
+INFO: cmn.c(143): mean[0]= 12.00, mean[1..12]= 0.0
+INFO: acmod.c(171): Using subvector specification 0-12/13-25/26-38
+INFO: mdef.c(518): Reading model definition: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/mdef
+INFO: mdef.c(531): Found byte-order mark BMDF, assuming this is a binary mdef file
+INFO: bin_mdef.c(336): Reading binary model definition: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/mdef
+INFO: bin_mdef.c(516): 50 CI-phone, 143047 CD-phone, 3 emitstate/phone, 150 CI-sen, 5150 Sen, 27135 Sen-Seq
+INFO: tmat.c(206): Reading HMM transition probability matrices: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/transition_matrices
+INFO: acmod.c(124): Attempting to use PTM computation module
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/means
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/variances
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(354): 0 variance values floored
+INFO: ptm_mgau.c(805): Number of codebooks doesn't match number of ciphones, doesn't look like PTM: 1 != 50
+INFO: acmod.c(126): Attempting to use semi-continuous computation module
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/means
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/variances
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(354): 0 variance values floored
+INFO: s2_semi_mgau.c(904): Loading senones from dump file /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/sendump
+INFO: s2_semi_mgau.c(928): BEGIN FILE FORMAT DESCRIPTION
+INFO: s2_semi_mgau.c(1023): Using memory-mapped I/O for senones
+INFO: s2_semi_mgau.c(1294): Maximum top-N: 4 Top-N beams: 0 0 0
+INFO: phone_loop_search.c(114): State beam -225 Phone exit beam -225 Insertion penalty 0
+INFO: dict.c(320): Allocating 137543 * 32 bytes (4298 KiB) for word entries
+INFO: dict.c(333): Reading main dictionary: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/cmu07a.dic
+INFO: dict.c(213): Allocated 1010 KiB for strings, 1664 KiB for phones
+INFO: dict.c(336): 133436 words read
+INFO: dict.c(358): Reading filler dictionary: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/noisedict
+INFO: dict.c(213): Allocated 0 KiB for strings, 0 KiB for phones
+INFO: dict.c(361): 11 words read
+INFO: dict2pid.c(396): Building PID tables for dictionary
+INFO: dict2pid.c(406): Allocating 50^3 * 2 bytes (244 KiB) for word-initial triphones
+INFO: dict2pid.c(132): Allocated 60400 bytes (58 KiB) for word-final triphones
+INFO: dict2pid.c(196): Allocated 60400 bytes (58 KiB) for single-phone word triphones
+INFO: kws_search.c(413): KWS(beam: -1080, plp: -23, default threshold 224, delay 10)
+INFO: cmn_prior.c(131): cmn_prior_update: from < 56.00 -3.00  1.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00 >
+INFO: cmn_prior.c(149): cmn_prior_update: to   < 34.54  0.44 -3.03  1.31  2.70  0.92  0.57  0.71  0.22 -0.19  0.25  0.59 -0.35 >
+INFO: cmd_ln.c(697): Parsing command line:
+\
+	-nfilt 20 \
+	-lowerf 1 \
+	-upperf 4000 \
+	-wlen 0.025 \
+	-transform dct \
+	-round_filters no \
+	-remove_dc yes \
+	-svspec 0-12/13-25/26-38 \
+	-feat 1s_c_d_dd \
+	-agc none \
+	-cmn current \
+	-cmninit 56,-3,1 \
+	-varnorm no 
+
+Current configuration:
+[NAME]			[DEFLT]		[VALUE]
+-agc			none		none
+-agcthresh		2.0		2.000000e+00
+-alpha			0.97		9.700000e-01
+-ceplen			13		13
+-cmn			current		current
+-cmninit		8.0		56,-3,1
+-dither			no		no
+-doublebw		no		no
+-feat			1s_c_d_dd	1s_c_d_dd
+-frate			100		100
+-input_endian		little		little
+-lda					
+-ldadim			0		0
+-lifter			0		0
+-logspec		no		no
+-lowerf			133.33334	1.000000e+00
+-ncep			13		13
+-nfft			512		512
+-nfilt			40		20
+-remove_dc		no		yes
+-remove_noise		yes		yes
+-remove_silence		yes		yes
+-round_filters		yes		no
+-samprate		16000		1.600000e+04
+-seed			-1		-1
+-smoothspec		no		no
+-svspec					0-12/13-25/26-38
+-transform		legacy		dct
+-unit_area		yes		yes
+-upperf			6855.4976	4.000000e+03
+-vad_postspeech		50		50
+-vad_prespeech		20		20
+-vad_startspeech	10		10
+-vad_threshold		2.0		2.000000e+00
+-varnorm		no		no
+-verbose		no		no
+-warp_params				
+-warp_type		inverse_linear	inverse_linear
+-wlen			0.025625	2.500000e-02
+
+INFO: acmod.c(252): Parsed model-specific feature parameters from /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/feat.params
+INFO: feat.c(715): Initializing feature stream to type: '1s_c_d_dd', ceplen=13, CMN='current', VARNORM='no', AGC='none'
+INFO: cmn.c(143): mean[0]= 12.00, mean[1..12]= 0.0
+INFO: acmod.c(171): Using subvector specification 0-12/13-25/26-38
+INFO: mdef.c(518): Reading model definition: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/mdef
+INFO: mdef.c(531): Found byte-order mark BMDF, assuming this is a binary mdef file
+INFO: bin_mdef.c(336): Reading binary model definition: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/mdef
+INFO: bin_mdef.c(516): 50 CI-phone, 143047 CD-phone, 3 emitstate/phone, 150 CI-sen, 5150 Sen, 27135 Sen-Seq
+INFO: tmat.c(206): Reading HMM transition probability matrices: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/transition_matrices
+INFO: acmod.c(124): Attempting to use PTM computation module
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/means
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/variances
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(354): 0 variance values floored
+INFO: ptm_mgau.c(805): Number of codebooks doesn't match number of ciphones, doesn't look like PTM: 1 != 50
+INFO: acmod.c(126): Attempting to use semi-continuous computation module
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/means
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(198): Reading mixture gaussian parameter: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/variances
+INFO: ms_gauden.c(292): 1 codebook, 3 feature, size: 
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(294):  256x13
+INFO: ms_gauden.c(354): 0 variance values floored
+INFO: s2_semi_mgau.c(904): Loading senones from dump file /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/sendump
+INFO: s2_semi_mgau.c(928): BEGIN FILE FORMAT DESCRIPTION
+INFO: s2_semi_mgau.c(1023): Using memory-mapped I/O for senones
+INFO: s2_semi_mgau.c(1294): Maximum top-N: 4 Top-N beams: 0 0 0
+INFO: phone_loop_search.c(114): State beam -225 Phone exit beam -225 Insertion penalty 0
+INFO: dict.c(320): Allocating 137543 * 32 bytes (4298 KiB) for word entries
+INFO: dict.c(333): Reading main dictionary: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/cmu07a.dic
+INFO: dict.c(213): Allocated 1010 KiB for strings, 1664 KiB for phones
+INFO: dict.c(336): 133436 words read
+INFO: dict.c(358): Reading filler dictionary: /home/aurash/sandbox/sandbox/aurash/speech_recognition/ChatBot/models/hub4wsj_sc_8k/noisedict
+INFO: dict.c(213): Allocated 0 KiB for strings, 0 KiB for phones
+INFO: dict.c(361): 11 words read
+INFO: dict2pid.c(396): Building PID tables for dictionary
+INFO: dict2pid.c(406): Allocating 50^3 * 2 bytes (244 KiB) for word-initial triphones
+INFO: dict2pid.c(132): Allocated 60400 bytes (58 KiB) for word-final triphones
+INFO: dict2pid.c(196): Allocated 60400 bytes (58 KiB) for single-phone word triphones
+INFO: kws_search.c(413): KWS(beam: -1080, plp: -23, default threshold 224, delay 10)
+INFO: cmn_prior.c(99): cmn_prior_update: from < 56.00 -3.00  1.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00  0.00 >
+INFO: cmn_prior.c(116): cmn_prior_update: to   < 50.80 -1.70 -3.75  1.03  2.65  0.57  0.55  1.09  0.26 -0.44  0.01  0.44  0.05 >
+INFO: cmn_prior.c(131): cmn_prior_update: from < 50.80 -1.70 -3.75  1.03  2.65  0.57  0.55  1.09  0.26 -0.44  0.01  0.44  0.05 >
+INFO: cmn_prior.c(149): cmn_prior_update: to   < 51.02 -1.74 -4.11  0.92  2.72  0.67  0.64  1.27  0.21 -0.45  0.01  0.43  0.05 >

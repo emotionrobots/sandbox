@@ -3,7 +3,7 @@
 
 """In this example we can see how to call 
 the s_search_single fuction of STASM from Python 
-with a video and save the landmarks into txt"""
+with a video"""
 
 import cv2
 import numpy as np
@@ -242,7 +242,7 @@ def detectEmotion(frame, landmarks, scale):
 	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose]
 
 def draw_face_outline(frame, landmarks):
-        return draw_loop(frame, landmarks, 0, 15)
+        return draw_loop(frame, landmarks, 0, 12)
 
 def normalize(frame, landmarks):
 		mid = 14
@@ -278,7 +278,7 @@ def OverlayImage(src, x):
 
 def draw_face(frame, landmarks):
 	draw_landmarks(frame, landmarks)
-	draw_face_outline(frame, landmarks)
+	#draw_face_outline(frame, landmarks)
 	draw_lefteye(frame, landmarks)
 	draw_lefteyebrow(frame, landmarks)
 	draw_righteye(frame, landmarks)
