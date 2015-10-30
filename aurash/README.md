@@ -1,4 +1,4 @@
-![](https://github.com/emotionrobots/sandbox/tree/master/aurash/landmarking/logo.png)
+![](https://github.com/emotionrobots/sandbox/blob/master/aurash/landmarking/logo.png)
 
 
 CLIPS- Folder for rule based expert system and forward/backward-chaining
