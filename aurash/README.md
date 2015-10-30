@@ -1,12 +1,13 @@
 ![](https://github.com/emotionrobots/sandbox/blob/master/aurash/landmarking/logo.png)
 
 
-CLIPS- Folder for rule based expert system and forward/backward-chaining
 
-landmarking- Folder for Feature landmarking and Facial Expression/Recognition
+**CLIPS**- Folder for rule based expert system and forward/backward-chaining
 
-speech_recognition- Folder for chatbot program and all Speech source code
+**Landmarking**- Folder for Feature landmarking and Facial Expression/Recognition
 
-FaceRecognizer-facial recognition demo scripts
+**Speech_Recognition**- Folder for chatbot program and all Speech source code
 
-ROS- Speech Synthesis Server and CMU Pocketsphinx Publisher and Subscriber 
+**FaceRecognizer**-facial recognition demo scripts
+
+**ROS**- Speech Synthesis Server and CMU Pocketsphinx Publisher and Subscriber 
