@@ -96,7 +96,7 @@ def main():
 	mystasm = pyasm.STASM()
 	global cap
 	global pos_frame
-	frames=cv2.imread("/home/julian/sandbox/aurash/landmarking/white.jpg",1)
+	frames=cv2.imread("../../aurash/landmarking/white.jpg",1)
 	cap, pos_frame = landmark.video_config()
 	done = False
 	start = True

@@ -62,7 +62,7 @@ def trainSVM():
 	global feature_vector
 	SVM = SVC(probability=True)
 	emotion_list = np.array(['neutral', 'happy', 'sad', 'anger', 'disgust', 'fear', 'surprise'] * (len(feature_vector)/7))
-	print feature_vector
+	# print feature_vector
 	feature_vector = feature_vector * 500
 	emotion_list = emotion_list.tolist() * 500
 	# print feature_vector
@@ -104,17 +104,16 @@ def findEmotion(landmarks, frame):
 	distEyebrow = distEyebrow * scale
 	# print distEyebrow
 
-	# Dist mid eye to top eye for fear
+	# Dist bot eye to top eye for fear
 	pt32 = landmarks[32]
 	pt35 = landmarks[35]
-	distmidEyeToTopEyelidLeft = ((pt35[0] - pt32[0])**2 + (pt35[1]-pt32[1]) ** 2) **.5
+	distbotEyeToTopEyelidLeft = ((pt35[0] - pt32[0])**2 + (pt35[1]-pt32[1]) ** 2) **.5
 	pt39 = landmarks[39]
 	pt47 = landmarks[47]
-	distmidEyeToTopEyelidRight = ((pt47[0] - pt39[0])**2 + (pt47[1]-pt39[1]) ** 2) **.5
-	distmidEyeToTopEyelidLeft = distmidEyeToTopEyelidLeft * scale
-	distmidEyeToTopEyelidRight = distmidEyeToTopEyelidRight * scale
-	avgDistMidEyetoTopEye = (distmidEyeToTopEyelidRight + distmidEyeToTopEyelidLeft)/2
-	# print avgDistMidEyetoTopEye
+	distbotEyeToTopEyelidRight = ((pt47[0] - pt39[0])**2 + (pt47[1]-pt39[1]) ** 2) **.5
+	distbotEyeToTopEyelidLeft = distbotEyeToTopEyelidLeft * scale
+	distbotEyeToTopEyelidRight = distbotEyeToTopEyelidRight * scale
+	avgDistbotEyetoTopEye = (distbotEyeToTopEyelidRight + distbotEyeToTopEyelidLeft)/2
 
 	# Dist inner eyebrow to mid eye for sadness
 	pt20 = landmarks[20]
@@ -127,12 +126,12 @@ def findEmotion(landmarks, frame):
 	distInsideRight = distInsideRight * scale
 	avgInside = (distInsideRight + distInsideLeft)/2
 
-	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose, distEyebrow, avgDistMidEyetoTopEye, avgInside]
+	return [distCornersMouth, distEyebrowToEye, avgDistEyeNose, distEyebrow, avgDistbotEyetoTopEye, avgInside]
 
 def addAnother(emoArr):
 	global start
 	global feature_vector
-	print emoArr
+	# print emoArr
 	sum = feature_vector
 	for x in range(0, len(emoArr)):
 		if start == True:
