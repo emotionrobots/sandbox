@@ -159,6 +159,7 @@ def displayEmotion(frame, landmarks):
 	myEmotion = str(featureVector.predict(detect))
 	probArr = featureVector.predict_proba(detect)
 	probArr = probArr * 100
+	# print myEmotion
 	# print probArr
 	probability = "Neutral: " + str(probArr[0][4]) + "  Happy: " + str(probArr[0][3]) + "  Sad: " + str(probArr[0][5]) + "  Angry: " + str(probArr[0][0])
 	probability2 = "Disgust: " + str(probArr[0][1]) + "  Fear: " + str(probArr[0][2]) + "  Surprise: " + str(probArr[0][6])
@@ -215,11 +216,11 @@ def detectEmotion(frame, landmarks):
  
 	# Dist mid eye to top eye for fear
 	pt32 = landmarks[32]
-	pt38 = landmarks[38]
-	distmidEyeToTopEyelidLeft = ((pt38[0] - pt32[0])**2 + (pt38[1]-pt32[1]) ** 2) **.5
+	pt35 = landmarks[35]
+	distmidEyeToTopEyelidLeft = ((pt35[0] - pt32[0])**2 + (pt35[1]-pt32[1]) ** 2) **.5
 	pt39 = landmarks[39]
-	pt42 = landmarks[42]
-	distmidEyeToTopEyelidRight = ((pt42[0] - pt39[0])**2 + (pt42[1]-pt39[1]) ** 2) **.5
+	pt47 = landmarks[47]
+	distmidEyeToTopEyelidRight = ((pt47[0] - pt39[0])**2 + (pt47[1]-pt39[1]) ** 2) **.5
 	distmidEyeToTopEyelidLeft = distmidEyeToTopEyelidLeft * scale
 	distmidEyeToTopEyelidRight = distmidEyeToTopEyelidRight * scale
 	avgDistMidEyetoTopEye = (distmidEyeToTopEyelidRight + distmidEyeToTopEyelidLeft)/2
@@ -252,7 +253,7 @@ def normalize(frame, landmarks):
 		distLM = arrayLM[0]**2 + arrayLM[1]**2
 		distLM = distLM**.5
 		distTOTAL = distLM + distRM
-		scale = 550 / distTOTAL
+		scale = 50 / distTOTAL
 		return scale
 
 def OverlayImage(src, x):
@@ -274,8 +275,8 @@ def OverlayImage(src, x):
     l_img = src
     s_img = cv2.imread(overlay,)
     s_img=cv2.resize(s_img,(150,150))
-    x_offset=485
-    y_offset=54
+    x_offset=550
+    y_offset=70
     l_img[y_offset:y_offset+s_img.shape[0], x_offset:x_offset+s_img.shape[1]] = s_img
     return l_img
 
@@ -307,7 +308,7 @@ def main():
 	while done != True:
 		flag, frame = cap.read()
 		global frames
-		frames=cv2.imread("/home/julian/sandbox/aurash/landmarking/white.jpg",1)
+		frames=cv2.imread("../../aurash/landmarking/white.jpg",1)
 		if flag:
 	        # The frame is ready and already captured
 	        # save a tmp file because pystasm receive by parameter a filename
@@ -322,7 +323,7 @@ def main():
 			if start == True: #and test % 3 == 1:
 				mylandmarks = mystasm.s_search_single(image)
 				start = False
-			if start == False: #and test % 3 == 1:
+			if start == False:# and test % 3 == 1:
 				landmarksOLD = mylandmarks
 				mylandmarks = mystasm.s_search_single(image)
 				alpha = .85
