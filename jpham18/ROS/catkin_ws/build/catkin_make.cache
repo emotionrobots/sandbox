@@ -1,0 +1,2 @@
+EmotionDetectionDisplay
+-DCATKIN_DEVEL_PREFIX=/home/julian/sandbox/jpham18/ROS/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/julian/sandbox/jpham18/ROS/catkin_ws/install -G Unix Makefiles

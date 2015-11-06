@@ -1,0 +1,10 @@
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/clean_test_results.dir
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/download_extra_data.dir
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/doxygen.dir
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/gtest/CMakeFiles/gtest.dir
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/gtest/CMakeFiles/gtest_main.dir
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/run_tests.dir
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_cpp.dir
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_lisp.dir
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_py.dir
+/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/tests.dir

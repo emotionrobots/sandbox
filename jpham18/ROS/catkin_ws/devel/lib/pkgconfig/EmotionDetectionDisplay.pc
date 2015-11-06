@@ -1,0 +1,8 @@
+prefix=/home/julian/sandbox/jpham18/ROS/catkin_ws/devel
+
+Name: EmotionDetectionDisplay
+Description: Description of EmotionDetectionDisplay
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/julian/sandbox/jpham18/ROS/catkin_ws/devel/lib 
+Requires: 

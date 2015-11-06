@@ -60,19 +60,19 @@ def key(event):
 			addToEmo = tkMessageBox.askyesno("Keep Frame?", "Would you like to save the current frame?")
 			if addToEmo == True:
 				if emoCount == 0:
-					cv2.imwrite("./EmotionDatabase/"+picFile + "_1N.jpeg", temp)
+					cv2.imwrite("./EmotionDatabase/"+picFile + "_1N.jpg", temp)
 				if emoCount == 1:
-					cv2.imwrite("./EmotionDatabase/" +picFile + "_2H.jpeg", temp)
+					cv2.imwrite("./EmotionDatabase/" +picFile + "_2H.jpg", temp)
 				if emoCount == 2:
-					cv2.imwrite("./EmotionDatabase/" +picFile + "_3S.jpeg", temp)
+					cv2.imwrite("./EmotionDatabase/" +picFile + "_3S.jpg", temp)
 				if emoCount == 3:
-					cv2.imwrite("./EmotionDatabase/" +picFile + "_4A.jpeg", temp)
+					cv2.imwrite("./EmotionDatabase/" +picFile + "_4A.jpg", temp)
 				if emoCount == 4:
-					cv2.imwrite("./EmotionDatabase/" +picFile + "_5D.jpeg", temp)
+					cv2.imwrite("./EmotionDatabase/" +picFile + "_5D.jpg", temp)
 				if emoCount == 5:
-					cv2.imwrite("./EmotionDatabase/" +picFile + "_6F.jpeg", temp)
+					cv2.imwrite("./EmotionDatabase/" +picFile + "_6F.jpg", temp)
 				if emoCount == 6:
-					cv2.imwrite("./EmotionDatabase/" +picFile + "_7S.jpeg", temp)
+					cv2.imwrite("./EmotionDatabase/" +picFile + "_7S.jpg", temp)
 				emoCount = emoCount + 1
 	   		else:
 	   			for x in range(0,9):
