@@ -1,17 +1,24 @@
 #!/usr/bin/env python
-#PKG = 'numpy_tutorial'
-#import roslib; roslib.load_manifest(PKG)
 
+import numpy as np
 import rospy
-from rospy_tutorials.msg import Floats
-from rospy.numpy_msg import numpy_msg
+import cv2
+from std_msgs.msg import String
 
-def callback(data):
-    print rospy.get_name(), "I heard %s"%str(data.data)
+
+def callback_rgb(data):
+    frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
+    cv2.imshow('Frame', frame)
+    cv2.waitKey(3)
+
+def callback_depth(data):
+    frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640)
+
 
 def listener():
     rospy.init_node('listener')
-    rospy.Subscriber("ir", numpy_msg(Floats), callback)
+    rospy.Subscriber('rgb', String, callback_rgb)
+    rospy.Subscriber('depth', String, callback_depth)
     rospy.spin()
 
 if __name__ == '__main__':
