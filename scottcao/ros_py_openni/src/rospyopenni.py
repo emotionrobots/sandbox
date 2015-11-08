@@ -18,7 +18,8 @@ def publisher():
     rospy.init_node('OpenNI', anonymous=True)
     rgb_pub = rospy.Publisher('rgb', String, queue_size=10)
     depth_pub = rospy.Publisher('depth', String, queue_size=10) 
-    rate = rospy.Rate(10) # 10hz 
+    gesture_pub = rospy.Publisher('gesture', String, queue_size=10)
+    rate = rospy.Rate(30) # 10hz 
 
     # #### Create context and generators
 
@@ -33,18 +34,24 @@ def publisher():
     image_generator = opi.ImageGenerator()
     image_generator.create(ctx) 
 
+    hands_generator = opi.HandsGenerator()
+    hands_generator.create(ctx)
+
     gesture_generator = opi.GestureGenerator()
     gesture_generator.create(ctx)
+    gesture_generator.add_gesture("Click")
     gesture_generator.add_gesture('Wave') 
 
 
     # #### Write callbalks ...
 
     def gesture_detected(src, gesture, id, end_point):
-        pass 
+        pass
 
     def gesture_progress(src, gesture, point, progress):
-        print "Emma Watson is waving !!", src 
+        # print "Emma Watson is waving !!", src 
+        # print gesture
+        gesture_pub.publish(""+gesture)
 
 
     # #### Register callbacks ...

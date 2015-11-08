@@ -14,11 +14,15 @@ def callback_rgb(data):
 def callback_depth(data):
     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640)
 
+def callback_gest(data):
+    print data
+
 
 def listener():
     rospy.init_node('listener')
     rospy.Subscriber('rgb', String, callback_rgb)
     rospy.Subscriber('depth', String, callback_depth)
+    rospy.Subscriber('gesture', String, callback_gest)
     rospy.spin()
 
 if __name__ == '__main__':
