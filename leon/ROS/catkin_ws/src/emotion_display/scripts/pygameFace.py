@@ -6,49 +6,55 @@ import rospy
 from array import*
 from std_msgs.msg import String
 
-emotion = "neutral"
+global emotion 
+global emotions
+global emotionamts
+global pos
+emotion = "happy"
 emotions = ["disgust", "neutral", "happy", "fear", "surprise", "anger", "sadness"]
 emotionamts = [0, 0, 0, 0, 0, 0, 0]
+pos = -1
 def callback(data):
-	rospy.loginfo(rospy.get_caller_id()+ "%s", data.data)
+	text = str(data)
+	if(text.index(" ",0,len(text))>-1):
+		index = text.index("['",0,len(text))+2
+		index2 = text.index(", ", 0, len(text))
+		emotion = text[index:index2-2]
+		for x in xrange(0, 7):
+			if(emotions[x] == emotion):
+				emotionamts[x] = float(text[index2+2:])/float(100)
+				pos = x
+
+	print emotion +" "+ str(emotionamts) +" "+str(pos)
+
 def listener():
 	rospy.init_node('emotiondisplay', anonymous=True)
 	rospy.Subscriber("landmark", String, callback)
-	if(callback.index(" ",0,len(callback))>-1):
-		index = callback.index(" ",0,len(callback))
-		emotion = callback[:index]
-		for x in xrange(0, 7):
-			if(emotions[x] == emotion):
-				emotionamts[x] = callback[index+1:]
-	rospy.spin()
+
+
 def display():
 	screen = pygame.display.set_mode((640,480))
 
 	running = True
 	eyecoordx, eyecoordy = 0, 0
-	backwards = False
-	cnt = 0
-	pos = -1;
+
 	currentemotion = ""
-
-
 	while running:
+		listener()
 		for e in pygame.event.get():
 			if(e.type == KEYDOWN):
 				if(e.key == K_ESCAPE):
 					running = False
 			if(e.type == QUIT):
 				running = False
-		if(currentemotion != emotion):
+		if(currentemotion!=emotion):
 			for x in xrange(0,7):
 				if(emotion == emotions[x]):
 					pos = x;
 					currentemotion = emotion
-
 		screen.fill((255, 255, 255))
 		#Head of Robot
 		pygame.draw.rect(screen, (0, 0, 0), (75, 60, 490, 360), 15)
-		listener()
 		#Eyes of Robot
 		if(pos == 0):
 			pygame.draw.circle(screen, (0, 0, 0), (190 + eyecoordx, 200 + eyecoordy), 25)
