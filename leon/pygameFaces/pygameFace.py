@@ -1,10 +1,11 @@
 import pygame
 from pygame.locals import*
 import math
-#import rospy
+import rospy
 from array import*
+from std_msgs.msg import String
 
-screen = pygame.display.set_mode((640,480))
+screen = pygame.display.set_mode((640,480), FULLSCREEN)
 
 running = True
 emotion = "disgust"
@@ -33,13 +34,16 @@ while running:
 	screen.fill((255, 255, 255))
 	#Head of Robot
 	pygame.draw.rect(screen, (0, 0, 0), (75, 60, 490, 360), 15)
-	if(emotionamts[pos]<=1):
-		emotionamts[pos] += .001
-		print emotionamts[pos]
-	if(emotionamts[pos]==0.999):
-		print "Hi"
-		if(pos+1 < 7):
+	if(backwards):
+		emotionamts[pos] -= .0001
+	elif(emotionamts[pos]<=1):
+		emotionamts[pos] += .00025
+	if(emotionamts[pos]>0.999):
+		#backwards = True
+		if(pos < 6):
 			emotion = emotions[pos+1]
+	if(backwards and emotionamts[pos]<.001):
+		backwards = False
 	#Eyes of Robot
 	if(pos == 0):
 		pygame.draw.circle(screen, (0, 0, 0), (190 + eyecoordx, 200 + eyecoordy), 25)

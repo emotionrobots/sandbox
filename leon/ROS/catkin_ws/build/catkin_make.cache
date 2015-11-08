@@ -1,0 +1,2 @@
+emotion_display
+-DCATKIN_DEVEL_PREFIX=/home/leon/sandbox/leon/ROS/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/leon/sandbox/leon/ROS/catkin_ws/install -G Unix Makefiles

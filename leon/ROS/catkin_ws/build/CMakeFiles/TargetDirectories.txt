@@ -1,0 +1,10 @@
+/home/leon/sandbox/leon/ROS/catkin_ws/build/CMakeFiles/clean_test_results.dir
+/home/leon/sandbox/leon/ROS/catkin_ws/build/CMakeFiles/download_extra_data.dir
+/home/leon/sandbox/leon/ROS/catkin_ws/build/CMakeFiles/doxygen.dir
+/home/leon/sandbox/leon/ROS/catkin_ws/build/gtest/CMakeFiles/gtest.dir
+/home/leon/sandbox/leon/ROS/catkin_ws/build/gtest/CMakeFiles/gtest_main.dir
+/home/leon/sandbox/leon/ROS/catkin_ws/build/CMakeFiles/run_tests.dir
+/home/leon/sandbox/leon/ROS/catkin_ws/build/emotion_display/CMakeFiles/std_msgs_generate_messages_cpp.dir
+/home/leon/sandbox/leon/ROS/catkin_ws/build/emotion_display/CMakeFiles/std_msgs_generate_messages_lisp.dir
+/home/leon/sandbox/leon/ROS/catkin_ws/build/emotion_display/CMakeFiles/std_msgs_generate_messages_py.dir
+/home/leon/sandbox/leon/ROS/catkin_ws/build/CMakeFiles/tests.dir

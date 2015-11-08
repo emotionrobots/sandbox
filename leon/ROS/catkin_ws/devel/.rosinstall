@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/leon/sandbox/leon/ROS/catkin_ws/devel/setup.sh

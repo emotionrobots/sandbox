@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "emotion_display")
+set(emotion_display_MAINTAINER "leon <leon@todo.todo>")
+set(emotion_display_DEPRECATED "")
+set(emotion_display_VERSION "0.0.0")
+set(emotion_display_BUILD_DEPENDS "rospy" "std_msgs")
+set(emotion_display_RUN_DEPENDS "rospy" "std_msgs")
+set(emotion_display_BUILDTOOL_DEPENDS "catkin")
