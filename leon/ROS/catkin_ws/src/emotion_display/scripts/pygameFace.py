@@ -12,6 +12,7 @@ global emotionamts
 emotion = "happy"
 emotions = ["disgust", "neutral", "happy", "fear", "surprise", "anger", "sadness"]
 emotionamts = [0, 0, 0, 0, 0, 0, 0]
+pos = -1
 def callback(data):
 	text = str(data)
 	if(text.index(" ",0,len(text))>-1):
