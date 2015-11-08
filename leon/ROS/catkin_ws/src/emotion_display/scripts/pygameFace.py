@@ -6,20 +6,25 @@ import rospy
 from array import*
 from std_msgs.msg import String
 
+emotion = "neutral"
+emotions = ["disgust", "neutral", "happy", "fear", "surprise", "anger", "sadness"]
+emotionamts = [0, 0, 0, 0, 0, 0, 0]
 def callback(data):
 	rospy.loginfo(rospy.get_caller_id()+ "I heard %s", data.data)
 def listener():
 	rospy.init_node('emotiondisplay', anonymous=True)
-	rospy.Subscriber("landmark", String, callback)
-	print "Hi"
+	rospy.Subscriber("emotionpub", String, callback)
+	if(callback.index(" ",0,len(callback))>-1):
+		index = callback.index(" ",0,len(callback))
+		emotion = callback[:index]
+		for x in xrange(0, 7):
+			if(emotions[x] == emotion):
+				emotionamts[x] = callback[index+1:]
 	rospy.spin()
 def main():
 	screen = pygame.display.set_mode((640,480))
 
 	running = True
-	emotion = "sadness"
-	emotions = ["disgust", "neutral", "happy", "fear", "surprise", "anger", "sadness"]
-	emotionamts = [0, 0, 0, 0, 0, 0, 0]
 	eyecoordx, eyecoordy = 0, 0
 	backwards = False
 	cnt = 0
