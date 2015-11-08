@@ -10,10 +10,10 @@ emotion = "neutral"
 emotions = ["disgust", "neutral", "happy", "fear", "surprise", "anger", "sadness"]
 emotionamts = [0, 0, 0, 0, 0, 0, 0]
 def callback(data):
-	rospy.loginfo(rospy.get_caller_id()+ "I heard %s", data.data)
+	rospy.loginfo(rospy.get_caller_id()+ "%s", data.data)
 def listener():
 	rospy.init_node('emotiondisplay', anonymous=True)
-	rospy.Subscriber("emotionpub", String, callback)
+	rospy.Subscriber("landmark", String, callback)
 	if(callback.index(" ",0,len(callback))>-1):
 		index = callback.index(" ",0,len(callback))
 		emotion = callback[:index]
@@ -21,7 +21,7 @@ def listener():
 			if(emotions[x] == emotion):
 				emotionamts[x] = callback[index+1:]
 	rospy.spin()
-def main():
+def display():
 	screen = pygame.display.set_mode((640,480))
 
 	running = True
@@ -48,16 +48,7 @@ def main():
 		screen.fill((255, 255, 255))
 		#Head of Robot
 		pygame.draw.rect(screen, (0, 0, 0), (75, 60, 490, 360), 15)
-		if(backwards):
-			emotionamts[pos] -= .0001
-		elif(emotionamts[pos]<=1):
-			emotionamts[pos] += .0001
-		if(emotionamts[pos]>0.999):
-			backwards = True
-			#if(pos < 6):
-			#	emotion = emotions[pos+1]
-		if(backwards and emotionamts[pos]<.001):
-			backwards = False
+		listener()
 		#Eyes of Robot
 		if(pos == 0):
 			pygame.draw.circle(screen, (0, 0, 0), (190 + eyecoordx, 200 + eyecoordy), 25)
@@ -111,5 +102,7 @@ def main():
 			pygame.draw.line(screen, (0, 0, 0), (160, 300), (160, 360), 30)
 			pygame.draw.line(screen, (0, 0, 0), (480, 300), (480, 360), 30)
 		pygame.display.flip()
+def main():
+	display()
 if __name__ == '__main__':
     main()
