@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 from pocketsphinx import *
 from sphinxbase import *
 import os, sys
