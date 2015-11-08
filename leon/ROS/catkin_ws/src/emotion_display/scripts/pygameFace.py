@@ -9,11 +9,9 @@ from std_msgs.msg import String
 global emotion 
 global emotions
 global emotionamts
-global pos
 emotion = "happy"
 emotions = ["disgust", "neutral", "happy", "fear", "surprise", "anger", "sadness"]
 emotionamts = [0, 0, 0, 0, 0, 0, 0]
-pos = -1
 def callback(data):
 	text = str(data)
 	if(text.index(" ",0,len(text))>-1):
@@ -23,6 +21,7 @@ def callback(data):
 		for x in xrange(0, 7):
 			if(emotions[x] == emotion):
 				emotionamts[x] = float(text[index2+2:])/float(100)
+				global pos
 				pos = x
 
 	print emotion +" "+ str(emotionamts) +" "+str(pos)
@@ -47,11 +46,7 @@ def display():
 					running = False
 			if(e.type == QUIT):
 				running = False
-		if(currentemotion!=emotion):
-			for x in xrange(0,7):
-				if(emotion == emotions[x]):
-					pos = x;
-					currentemotion = emotion
+
 		screen.fill((255, 255, 255))
 		#Head of Robot
 		pygame.draw.rect(screen, (0, 0, 0), (75, 60, 490, 360), 15)
