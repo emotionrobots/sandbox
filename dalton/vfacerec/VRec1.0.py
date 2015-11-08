@@ -4,6 +4,11 @@ import os
 import sys
 import time
 
+import numpy as np
+import rospy
+import cv2
+from std_msgs.msg import String
+
 from facerec.model import PredictableModel
 from facerec.feature import Fisherfaces
 from facerec.distance import EuclideanDistance
@@ -170,6 +175,21 @@ def createPKL(image_size):
     print "Saving the model..."
     save_model("model.pkl", model)
 
+def callback_rgb(data):
+    frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
+    cv2.imshow('Frame', frame)
+    cv2.waitKey(3)
+
+def listener():
+    rospy.init_node('listener')
+    rospy.Subscriber('rgb', String, callback_rgb)
+    #rospy.Subscriber('depth', String, callback_depth)
+    #rospy.Subscriber('gesture', String, callback_gest)
+    rospy.spin()
+
+if __name__ == '__main__':
+    listener()
+
 def faceRec(image_size):
     model_filename = os.getcwd() + '/model.pkl'
 
@@ -203,11 +223,15 @@ def faceRec(image_size):
             # Since it's a 1-Nearest Neighbor only look take the zero-th element:
             distance = classifier_output['distances'][0]
 
+            cv2.putText(img, str(distance), (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+
             #print p2[0]
             cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
-            if distance < 10.0:
+            if distance < 600.0:
                 cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
-                cv2.putText(img, model.subject_names[predicted_label], (x+20,y-20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+                n = model.subject_names[predicted_label]
+                n =  n.replace("_", " ")
+                cv2.putText(img, n, (x+20,y-20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
                 print model.subject_names[predicted_label]
             #else:
             #    cv2.rectangle(img, (x,y),(x+w,y+h),(0,0,255),2)
