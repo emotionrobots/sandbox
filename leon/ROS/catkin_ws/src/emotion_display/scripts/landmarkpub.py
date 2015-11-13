@@ -23,6 +23,8 @@ FILENAME =  '/tmp/out.webm'
 frames=None
 global odd
 odd = 10
+global sameSpeed
+sameSpeed = True
 
 def video_config():
 	"""Initialize video capture, pass filename by
@@ -299,16 +301,32 @@ def draw_face(frame, landmarks, notTraining):
 	return
 	
 def publisher(myEmotion, prob):
-	print "test"
-	pub = rospy.Publisher('landmark', String,queue_size=10)
-	rospy.init_node('emotionpub', anonymous=True)
+	global sameSpeed
+	pub = rospy.Publisher('landmark', String,queue_size=1)
+	# rospy.init_node('emotionpub', anonymous=True)
 	msg=String()
 	msg.data= myEmotion + ", " + str(prob)
-	r = rospy.Rate(10)
-	if not rospy.is_shutdown():
+	r = rospy.Rate(1)
+	if not rospy.is_shutdown() and sameSpeed == True:
 		pub.publish(msg)
-		r.sleep()
+		# sameSpeed = False
+		print str(myEmotion)+" "+str(prob)
+
+		# r.sleep()
 	# pub.publish(msg)
+
+def callback(data):
+	global sameSpeed
+	if data.data == "True":
+		sameSpeed = True
+
+		
+
+	#print emotion +" "+ str(emotionamts) +" "+str(pos)
+
+def listener():
+	rospy.init_node('sameSpeed', anonymous=True)
+	rospy.Subscriber("pygameFace", String, callback)
 
 def main():
 	global filename
@@ -319,6 +337,7 @@ def main():
 	done = False
 	start = True	
 	while done != True:
+		listener()
 		flag, frame = cap.read()
 		global frames
 		frames=cv2.imread("white.jpg",1)
@@ -333,10 +352,10 @@ def main():
 				raise IOError 
 	        #cv2.imwrite(filename, frame)
 	        # nasty fix .. pystasm should receive np array .. 
-			if start == True and test % 3 == 1:
+			if start == True:# and test % 3 == 1:
 				mylandmarks = mystasm.s_search_single(image)
 				start = False
-			if start == False and test % 3 == 1:
+			if start == False:# and test % 3 == 1:
 				landmarksOLD = mylandmarks
 				mylandmarks = mystasm.s_search_single(image)
 				alpha = .85
