@@ -183,7 +183,7 @@ def faceRecInit():
 
     #modeltmp = load_model(model_filename)
 
-    model = load_model(model_filename)
+    #model = load_model(model_filename)
     return model
 
 def faceRec(data):
@@ -192,11 +192,10 @@ def faceRec(data):
     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
     img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imgeqh = cv2.equalizeHist(gray)
     faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
     for(x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
-        roi_gray = imgeqh[y:y+h, x:x+w]
+        roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
         face = cv2.resize(roi_gray, image_size, interpolation = cv2.INTER_CUBIC)
 
@@ -213,7 +212,7 @@ def faceRec(data):
 
         #print p2[0]
         cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
-        if distance < 600.0:
+        if distance < 5.0:
             cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
             n = model.subject_names[predicted_label]
             n =  n.replace("_", " ")
@@ -236,16 +235,15 @@ def faceRec(data):
 
 def faceDet2(data):
     nameDir = nameD
-    global trainImages
+
     #ret, frame = video_capture.read()
     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
     img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imgeqh = cv2.equalizeHist(gray)
     faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
     for(x, y, w, h) in faces:
         cv2.rectangle(img, (x-2, y-2), (x+w+2, y+h+2), (255, 0, 0), 2)
-        roi_gray = imgeqh[y:y+h, x:x+w]
+        roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
 
     ch = cv2.waitKey(1)
@@ -256,7 +254,7 @@ def faceDet2(data):
             print "Capturing & Cropping.."
             #coords = (x, y, w, h)
             #faceCropped = img.crop(coords) #cropFaceFromImage(img)
-            trainImages.append(roi_gray)
+            trainImages.append(roi_color)
             print len(trainImages)
 
         #cv2.imshow('Trainer', frame)
@@ -272,7 +270,7 @@ def faceDet2(data):
 
     if ch == 27:
         writeImagesToFile(trainImages, nameD)
-        #createPKL(image_size)
+        #reatePKL(image_size)
         return False
 
     return True
@@ -306,6 +304,7 @@ def faceDet():
     datasetD = os.getcwd()+'/dataset'
     print nameD
 
+
 def writeImagesToFile(trainImages, nameDir):
     index = 0
     print nameD
@@ -324,58 +323,39 @@ def createPKL(image_size):
     print "Saving the model..."
     save_model("model.pkl", model)
 
-def callback_rgb(data):
-    frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
-    if(test):
-        flg = faceRec(data)
-        if(flg == False):
-            rospy.signal_shutdown("")
-    else:
-        flg = faceDet2(data)
-        if(flg == False):
-            rospy.signal_shutdown("")
-    #cv2.imshow('Frame', frame)
-    #cv2.waitKey(3)
+# def callback_rgb(data):
+#     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
+#     if(test):
+#         flg = faceRec(data)
+#         if(flg == False):
+#             rospy.signal_shutdown("")
+#     else:
+#         flg = faceDet2(data)
+#         if(flg == False):
+#             rospy.signal_shutdown("")
+#     #cv2.imshow('Frame', frame)
+#     #cv2.waitKey(3)
 
-def listener():
-    rospy.init_node('listener')
-    rospy.Subscriber('rgb', String, callback_rgb)
-    #rospy.Subscriber('depth', String, callback_depth)
-    #rospy.Subscriber('gesture', String, callback_gest)
-    rospy.spin()
+# def listener():
+#     rospy.init_node('listener')
+#     rospy.Subscriber('rgb', String, callback_rgb)
+#     #rospy.Subscriber('depth', String, callback_depth)
+#     #rospy.Subscriber('gesture', String, callback_gest)
+#     rospy.spin()
 
-def setRate(rate):
-
-def setName(face_id, name):
-
-def reset():
-
-def forget(face_id):
-
-def learn(face_id, name):
-
-def getStatus():
-    
-
-def publisher():
-    rgb_pub = rospy.Publisher('recognizedFaces', String, queue_size=10)
-    rate = rospy.Rate(30)
-    rate.sleep() 
-
-if __name__ == '__main__':
-    if(c()):
-        createPKL(image_size)
-        model_filename = os.getcwd() + '/model.pkl'
-        model = load_model(model_filename)
-        test = True
-    else:
-        faceDet()
-        trainImages = []
-        test = False
-    listener()
+# if __name__ == '__main__':
+#     if(c()):
+#         createPKL(image_size)
+#         model_filename = os.getcwd() + '/model.pkl'
+#         model = load_model(model_filename)
+#         test = True
+#     else:
+#         faceDet()
+#         test = False
+#     listener()
     #if(c()):
         #faceDet()
     #else
     #main()
 
-#main()
+main()

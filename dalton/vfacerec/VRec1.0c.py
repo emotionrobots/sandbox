@@ -106,14 +106,79 @@ def c():
     else:
         return False
 
+def facerecbackup():
+    video_capture = cv2.VideoCapture(0)
+
+    model_filename = os.getcwd() + '/model.pkl'
+
+    faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
+
+    if not os.path.exists(model_filename):
+        print 'Model does not exist, please train at least 1 person'
+        sys.exit()
+
+    #modeltmp = load_model(model_filename)
+
+    model = load_model(model_filename)
+
+    while(True):
+        ret, frame = video_capture.read()
+        img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
+        for(x, y, w, h) in faces:
+            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+            roi_gray = gray[y:y+h, x:x+w]
+            roi_color = img[y:y+h, x:x+w]
+            face = cv2.resize(roi_gray, image_size, interpolation = cv2.INTER_CUBIC)
+
+            #pred = model.predict(face)
+
+            prediction = model.predict(face)
+            predicted_label = prediction[0]
+            classifier_output = prediction[1]
+            # Now let's get the distance from the assuming a 1-Nearest Neighbor.
+            # Since it's a 1-Nearest Neighbor only look take the zero-th element:
+            distance = classifier_output['distances'][0]
+
+            cv2.putText(img, str(distance), (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+
+            #print p2[0]
+            cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
+            if distance < 1000.0:
+                cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
+                n = model.subject_names[predicted_label]
+                n =  n.replace("_", " ")
+                cv2.putText(img, n, (x+20,y-20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+                print model.subject_names[predicted_label]
+            #else:
+            #    cv2.rectangle(img, (x,y),(x+w,y+h),(0,0,255),2)
+
+        ch = cv2.waitKey(1)
+
+        img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
+
+        cv2.imshow('Trainer', img2)
+        cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
+
+        if ch == 27:
+            break;
+
 def main():
     print "Starting FaceRec"
+            #faceRec(image_size)
+            #sys.exit()
 
     faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
 
     datasetDir = os.getcwd()+'/dataset'
 
-    video_capture = cv2.VideoCapture(0)
+    if len(sys.argv) > 1:
+        startTrainOrRec = sys.argv[1]
+
+        if startTrainOrRec == 'rec':
+            facerecbackup()
+            sys.exit()
 
     name = str(raw_input('What is your name, human? \n name:'))
 
@@ -125,6 +190,9 @@ def main():
 
     if not os.path.exists(nameDir):
         os.makedirs(nameDir)
+
+
+    video_capture = cv2.VideoCapture(0)
 
     while True:
         ret, frame = video_capture.read()
@@ -144,7 +212,7 @@ def main():
                 print "Capturing & Cropping.."
                 #coords = (x, y, w, h)
                 #faceCropped = img.crop(coords) #cropFaceFromImage(img)
-                trainImages.append(roi_gray)
+                trainImages.append(roi_color)
                 print len(trainImages)
 
             #cv2.imshow('Trainer', frame)
@@ -183,7 +251,7 @@ def faceRecInit():
 
     #modeltmp = load_model(model_filename)
 
-    model = load_model(model_filename)
+    #model = load_model(model_filename)
     return model
 
 def faceRec(data):
@@ -192,11 +260,10 @@ def faceRec(data):
     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
     img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imgeqh = cv2.equalizeHist(gray)
     faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
     for(x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
-        roi_gray = imgeqh[y:y+h, x:x+w]
+        roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
         face = cv2.resize(roi_gray, image_size, interpolation = cv2.INTER_CUBIC)
 
@@ -213,7 +280,7 @@ def faceRec(data):
 
         #print p2[0]
         cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
-        if distance < 600.0:
+        if distance < 5.0:
             cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
             n = model.subject_names[predicted_label]
             n =  n.replace("_", " ")
@@ -236,16 +303,15 @@ def faceRec(data):
 
 def faceDet2(data):
     nameDir = nameD
-    global trainImages
+
     #ret, frame = video_capture.read()
     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
     img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imgeqh = cv2.equalizeHist(gray)
     faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
     for(x, y, w, h) in faces:
         cv2.rectangle(img, (x-2, y-2), (x+w+2, y+h+2), (255, 0, 0), 2)
-        roi_gray = imgeqh[y:y+h, x:x+w]
+        roi_gray = gray[y:y+h, x:x+w]
         roi_color = img[y:y+h, x:x+w]
 
     ch = cv2.waitKey(1)
@@ -256,7 +322,7 @@ def faceDet2(data):
             print "Capturing & Cropping.."
             #coords = (x, y, w, h)
             #faceCropped = img.crop(coords) #cropFaceFromImage(img)
-            trainImages.append(roi_gray)
+            trainImages.append(roi_color)
             print len(trainImages)
 
         #cv2.imshow('Trainer', frame)
@@ -272,7 +338,7 @@ def faceDet2(data):
 
     if ch == 27:
         writeImagesToFile(trainImages, nameD)
-        #createPKL(image_size)
+        #reatePKL(image_size)
         return False
 
     return True
@@ -306,6 +372,7 @@ def faceDet():
     datasetD = os.getcwd()+'/dataset'
     print nameD
 
+
 def writeImagesToFile(trainImages, nameDir):
     index = 0
     print nameD
@@ -324,58 +391,39 @@ def createPKL(image_size):
     print "Saving the model..."
     save_model("model.pkl", model)
 
-def callback_rgb(data):
-    frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
-    if(test):
-        flg = faceRec(data)
-        if(flg == False):
-            rospy.signal_shutdown("")
-    else:
-        flg = faceDet2(data)
-        if(flg == False):
-            rospy.signal_shutdown("")
-    #cv2.imshow('Frame', frame)
-    #cv2.waitKey(3)
+# def callback_rgb(data):
+#     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
+#     if(test):
+#         flg = faceRec(data)
+#         if(flg == False):
+#             rospy.signal_shutdown("")
+#     else:
+#         flg = faceDet2(data)
+#         if(flg == False):
+#             rospy.signal_shutdown("")
+#     #cv2.imshow('Frame', frame)
+#     #cv2.waitKey(3)
 
-def listener():
-    rospy.init_node('listener')
-    rospy.Subscriber('rgb', String, callback_rgb)
-    #rospy.Subscriber('depth', String, callback_depth)
-    #rospy.Subscriber('gesture', String, callback_gest)
-    rospy.spin()
+# def listener():
+#     rospy.init_node('listener')
+#     rospy.Subscriber('rgb', String, callback_rgb)
+#     #rospy.Subscriber('depth', String, callback_depth)
+#     #rospy.Subscriber('gesture', String, callback_gest)
+#     rospy.spin()
 
-def setRate(rate):
-
-def setName(face_id, name):
-
-def reset():
-
-def forget(face_id):
-
-def learn(face_id, name):
-
-def getStatus():
-    
-
-def publisher():
-    rgb_pub = rospy.Publisher('recognizedFaces', String, queue_size=10)
-    rate = rospy.Rate(30)
-    rate.sleep() 
-
-if __name__ == '__main__':
-    if(c()):
-        createPKL(image_size)
-        model_filename = os.getcwd() + '/model.pkl'
-        model = load_model(model_filename)
-        test = True
-    else:
-        faceDet()
-        trainImages = []
-        test = False
-    listener()
+# if __name__ == '__main__':
+#     if(c()):
+#         createPKL(image_size)
+#         model_filename = os.getcwd() + '/model.pkl'
+#         model = load_model(model_filename)
+#         test = True
+#     else:
+#         faceDet()
+#         test = False
+#     listener()
     #if(c()):
         #faceDet()
     #else
     #main()
 
-#main()
+main()
