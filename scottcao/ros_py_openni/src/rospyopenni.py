@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 
-# coding: utf-8 
-
-# In[ ]: 
-
 import openni as opi
 import numpy as np
 from random import randrange
@@ -12,14 +8,15 @@ import rospy
 from std_msgs.msg import String
 import cv2
 
+from beginner_tutorials.msg import Skeleton
 
-def publisher(): 
-
+if __name__ == '__main__':
     rospy.init_node('OpenNI', anonymous=True)
     rgb_pub = rospy.Publisher('rgb', String, queue_size=10)
     depth_pub = rospy.Publisher('depth', String, queue_size=10) 
     gesture_pub = rospy.Publisher('gesture', String, queue_size=10)
-    rate = rospy.Rate(30) # 10hz 
+    skeleton_pub = rospy.Publisher('skeleton', Skeleton, queue_size=10)
+    rate = rospy.Rate(30) # 30hz 
 
     # #### Create context and generators
 
@@ -36,11 +33,26 @@ def publisher():
 
     hands_generator = opi.HandsGenerator()
     hands_generator.create(ctx)
+    hands = {}
 
     gesture_generator = opi.GestureGenerator()
     gesture_generator.create(ctx)
     gesture_generator.add_gesture("Click")
     gesture_generator.add_gesture('Wave') 
+
+    user = opi.UserGenerator()
+    user.create(ctx)
+
+    skel_cap = user.skeleton_cap
+    pose_cap = user.pose_detection_cap
+
+    POSE2USE = 'Psi'
+    name_joints = ['SKEL_HEAD', 'SKEL_LEFT_FOOT', 'SKEL_RIGHT_SHOULDER',
+                       'SKEL_LEFT_HAND', 'SKEL_NECK',
+                       'SKEL_RIGHT_FOOT', 'SKEL_LEFT_HIP', 'SKEL_RIGHT_HAND',
+                       'SKEL_TORSO', 'SKEL_LEFT_ELBOW', 'SKEL_LEFT_KNEE',
+                       'SKEL_RIGHT_HIP', 'SKEL_LEFT_SHOULDER',
+                       'SKEL_RIGHT_ELBOW', 'SKEL_RIGHT_KNEE']
 
 
     # #### Write callbalks ...
@@ -49,14 +61,52 @@ def publisher():
         pass
 
     def gesture_progress(src, gesture, point, progress):
-        # print "Emma Watson is waving !!", src 
+        # print src
         # print gesture
+        # print point
+        # print progress
         gesture_pub.publish(""+gesture)
+
+    def create(src, id, pos, time):
+        pass
+    
+    def update(src, id, pos, time):
+        if pos:
+            hands[id].rect.centerx, hands[id].rect.centery = tmp_pos[0], tmp_pos[1] 
+
+    def destroy(src, id, time):
+        pass
+
+    def new_user(src, id):
+        # print "Hi User %s. Make the secret pose ..." %(id)
+        pose_cap.start_detection(POSE2USE, id)
+
+    def lost_user(src, id):
+        print "Bye Bye User %s" %(id)
+
+    def pose_detected(src, pose, id):
+        print "The User %s is doing the secret pose %s, now do the calibration" %(id, pose)
+        pose_cap.stop_detection(id)
+        skel_cap.request_calibration(id, True)
+
+    def calibration_complete(src, id, status):
+        if status == opi.CALIBRATION_STATUS_OK:
+            print "Congrats User %s! You're Calibrated" %(id)
+            skel_cap.start_tracking(id)
+        else:
+            print "Something went wrong User %s :(" %(id)
+            new_user(user, id)
 
 
     # #### Register callbacks ...
 
     gesture_generator.register_gesture_cb(gesture_detected, gesture_progress)
+    hands_generator.register_hand_cb(create, update, destroy)
+
+    user.register_user_cb(new_user, lost_user)
+    pose_cap.register_pose_detected_cb(pose_detected)
+    skel_cap.register_c_complete_cb(calibration_complete)
+    skel_cap.set_profile(opi.SKEL_PROFILE_ALL)
 
 
     # #### Converting and publishing captured data
@@ -67,6 +117,19 @@ def publisher():
     def capture_depth():
         depth_pub.publish(depth_generator.get_raw_depth_map_8()) 
 
+    def get_joints():
+        for id in user.users:
+            if skel_cap.is_tracking(id) and skel_cap.is_calibrated(id):
+                joints = [skel_cap.get_joint_position(id, j)
+                      for j in map(lambda a: getattr(opi, a), name_joints)]
+
+                newpos_skeleton = depth_generator.to_projective([j.point for j in joints])
+                if newpos_skeleton:
+                    skeleton_msg = Skeleton()
+                    skeleton_msg.id = id
+                    skeleton_msg.data = str(newpos_skeleton)
+                    skeleton_pub.publish(skeleton_msg)
+
 
     ctx.start_generating_all() 
 
@@ -75,6 +138,13 @@ def publisher():
     while not rospy.is_shutdown():
         capture_rgb()
         capture_depth()
+        get_joints()
+        # newpos_skeleton = get_joints()
+        # print (type)(newpos_skeleton)
+        # if newpos_skeleton:
+            # skeleton_str = ''.join(str(e) for e in newpos_skeleton)
+            # print abc
+            # skeleton_str =  str(newpos_skeleton)
         ctx.wait_any_update_all()
         rate.sleep() 
 
@@ -84,7 +154,3 @@ def publisher():
     ctx.stop_generating_all()
 
     ctx.shutdown() 
-
-if __name__ == '__main__':
-    publisher() 
-

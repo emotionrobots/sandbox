@@ -3,6 +3,9 @@
 import numpy as np
 import rospy
 import cv2
+import ast
+
+from beginner_tutorials.msg import Skeleton
 from std_msgs.msg import String
 
 
@@ -17,13 +20,15 @@ def callback_depth(data):
 def callback_gest(data):
     print data
 
+def callback_skeleton(data):
+    newpos_skeleton = ast.literal_eval(data.data)
+    print data.id
+    # print newpos_skeleton
 
-def listener():
+if __name__ == '__main__':
     rospy.init_node('listener')
     rospy.Subscriber('rgb', String, callback_rgb)
     rospy.Subscriber('depth', String, callback_depth)
     rospy.Subscriber('gesture', String, callback_gest)
+    rospy.Subscriber('skeleton', Skeleton, callback_skeleton)
     rospy.spin()
-
-if __name__ == '__main__':
-    listener()
