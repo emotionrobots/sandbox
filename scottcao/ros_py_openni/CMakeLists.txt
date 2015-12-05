@@ -9,6 +9,10 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  OpenCV
+  sensor_msgs
+  cv_bridge
+  image_transport
 )
 
 ## System dependencies are found with CMake's conventions
@@ -130,6 +134,7 @@ include_directories(
 
 ## Declare a C++ executable
 # add_executable(ros_py_openni_node src/ros_py_openni_node.cpp)
+add_executable(image_converter src/image_converter.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -139,6 +144,12 @@ include_directories(
 # target_link_libraries(ros_py_openni_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(image_converter
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBS} 
+)
+
+add_dependencies(image_converter ros_py_openni_generate_messages_cpp)
 
 #############
 ## Install ##

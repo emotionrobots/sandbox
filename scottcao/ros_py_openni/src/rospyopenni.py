@@ -12,6 +12,7 @@ from ros_py_openni.msg import Skeleton
 if __name__ == '__main__':
     rospy.init_node('OpenNI', anonymous=True)
     rgb_pub = rospy.Publisher('rgb', String, queue_size=10)
+    rgb_pub2 = rospy.Publisher('rgb2', Image, queue_size=10)
     depth_pub = rospy.Publisher('depth', String, queue_size=10) 
     gesture_pub = rospy.Publisher('gesture', String, queue_size=10)
     skeleton_pub = rospy.Publisher('skeleton', Skeleton, queue_size=10)
@@ -30,8 +31,8 @@ if __name__ == '__main__':
     image_generator = opi.ImageGenerator()
     image_generator.create(ctx) 
 
-    hands_generator = opi.HandsGenerator()
-    hands_generator.create(ctx)
+    # hands_generator = opi.HandsGenerator()
+    # hands_generator.create(ctx)
 
     gesture_generator = opi.GestureGenerator()
     gesture_generator.create(ctx)
@@ -42,7 +43,6 @@ if __name__ == '__main__':
     user.create(ctx)
     skel_cap = user.skeleton_cap
     pose_cap = user.pose_detection_cap
-
     POSE2USE = 'Psi'
     name_joints = ['SKEL_HEAD', 'SKEL_LEFT_FOOT', 'SKEL_RIGHT_SHOULDER',
                        'SKEL_LEFT_HAND', 'SKEL_NECK',
@@ -51,6 +51,8 @@ if __name__ == '__main__':
                        'SKEL_RIGHT_HIP', 'SKEL_LEFT_SHOULDER',
                        'SKEL_RIGHT_ELBOW', 'SKEL_RIGHT_KNEE']
 
+    bridge = CvBridge()
+
 
     # #### Write callbalks ...
 
@@ -58,19 +60,18 @@ if __name__ == '__main__':
         pass
 
     def gesture_progress(src, gesture, point, progress):
-        # print (type)(point)
         gesture_pub.publish(""+gesture)
 
-    def create(src, id, pos, time):
-        pass
+    # def create(src, id, pos, time):
+    #     pass
     
-    def update(src, id, pos, time):
-        if pos:
-            tmp_pos = depth_generator.to_projective([pos])[0]
-            print (type)(tmp_pos[0]) + " " + (type)(tmp_pos[1])
+    # def update(src, id, pos, time):
+    #     if pos:
+    #         tmp_pos = depth_generator.to_projective([pos])[0]
+    #         print (type)(tmp_pos[0]) + " " + (type)(tmp_pos[1])
 
-    def destroy(src, id, time):
-        pass
+    # def destroy(src, id, time):
+    #     pass
 
     def new_user(src, id):
         # print "Hi User %s. Make the secret pose ..." %(id)
@@ -96,8 +97,7 @@ if __name__ == '__main__':
     # #### Register callbacks ...
 
     gesture_generator.register_gesture_cb(gesture_detected, gesture_progress)
-    hands_generator.register_hand_cb(create, update, destroy)
-
+    # hands_generator.register_hand_cb(create, update, destroy)
     user.register_user_cb(new_user, lost_user)
     pose_cap.register_pose_detected_cb(pose_detected)
     skel_cap.register_c_complete_cb(calibration_complete)
@@ -107,7 +107,13 @@ if __name__ == '__main__':
     # #### Converting and publishing captured data
 
     def capture_rgb():
-        rgb_pub.publish(image_generator.get_raw_image_map_bgr())
+        image_str = image_generator.get_raw_image_map_bgr()
+        rgb_pub.publish(image_str)
+        frame = np.fromstring(image_str, dtype=np.uint8).reshape(480, 640, 3)
+        try:
+            rgb_pub2.publish(bridge.cv2_to_imgmsg(frame, "bgr8"))
+        except CvBridgeError as e:
+            print(e)
 
     def capture_depth():
         depth_pub.publish(depth_generator.get_raw_depth_map_8()) 
@@ -125,8 +131,8 @@ if __name__ == '__main__':
                     skeleton_msg.data = str(newpos_skeleton)
                     skeleton_pub.publish(skeleton_msg)
 
-
     ctx.start_generating_all() 
+
 
     # #### Main loop
 
@@ -141,5 +147,4 @@ if __name__ == '__main__':
     # #### Then we stop and close the context 
 
     ctx.stop_generating_all()
-
     ctx.shutdown() 
