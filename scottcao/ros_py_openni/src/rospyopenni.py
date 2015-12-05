@@ -2,13 +2,12 @@
 
 import openni as opi
 import numpy as np
-from random import randrange
-import sys
 import rospy
-from std_msgs.msg import String
 import cv2
-
-from beginner_tutorials.msg import Skeleton
+from std_msgs.msg import String
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge, CvBridgeError
+from ros_py_openni.msg import Skeleton
 
 if __name__ == '__main__':
     rospy.init_node('OpenNI', anonymous=True)

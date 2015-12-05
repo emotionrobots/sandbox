@@ -4,8 +4,7 @@ import numpy as np
 import rospy
 import cv2
 import ast
-
-from beginner_tutorials.msg import Skeleton
+from ros_py_openni.msg import Skeleton
 from std_msgs.msg import String
 
 
