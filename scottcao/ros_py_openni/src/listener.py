@@ -22,7 +22,7 @@ def callback_gest(data):
 
 def callback_skeleton(data):
     newpos_skeleton = ast.literal_eval(data.data)
-    print data.id
+    # print data.id
     # print newpos_skeleton
 
 if __name__ == '__main__':

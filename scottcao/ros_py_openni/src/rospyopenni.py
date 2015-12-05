@@ -33,7 +33,6 @@ if __name__ == '__main__':
 
     hands_generator = opi.HandsGenerator()
     hands_generator.create(ctx)
-    hands = {}
 
     gesture_generator = opi.GestureGenerator()
     gesture_generator.create(ctx)
@@ -42,7 +41,6 @@ if __name__ == '__main__':
 
     user = opi.UserGenerator()
     user.create(ctx)
-
     skel_cap = user.skeleton_cap
     pose_cap = user.pose_detection_cap
 
@@ -61,10 +59,7 @@ if __name__ == '__main__':
         pass
 
     def gesture_progress(src, gesture, point, progress):
-        # print src
-        # print gesture
-        # print point
-        # print progress
+        # print (type)(point)
         gesture_pub.publish(""+gesture)
 
     def create(src, id, pos, time):
@@ -72,7 +67,8 @@ if __name__ == '__main__':
     
     def update(src, id, pos, time):
         if pos:
-            hands[id].rect.centerx, hands[id].rect.centery = tmp_pos[0], tmp_pos[1] 
+            tmp_pos = depth_generator.to_projective([pos])[0]
+            print (type)(tmp_pos[0]) + " " + (type)(tmp_pos[1])
 
     def destroy(src, id, time):
         pass
@@ -139,12 +135,6 @@ if __name__ == '__main__':
         capture_rgb()
         capture_depth()
         get_joints()
-        # newpos_skeleton = get_joints()
-        # print (type)(newpos_skeleton)
-        # if newpos_skeleton:
-            # skeleton_str = ''.join(str(e) for e in newpos_skeleton)
-            # print abc
-            # skeleton_str =  str(newpos_skeleton)
         ctx.wait_any_update_all()
         rate.sleep() 
 
