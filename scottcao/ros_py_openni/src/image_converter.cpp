@@ -12,7 +12,6 @@ class ImageConverter
   ros::NodeHandle nh_;
   image_transport::ImageTransport it_;
   image_transport::Subscriber image_sub_;
-  image_transport::Publisher image_pub_;
   
 public:
   ImageConverter()
@@ -21,7 +20,6 @@ public:
     // Subscrive to input video feed and publish output video feed
     image_sub_ = it_.subscribe("rgb2", 1, 
       &ImageConverter::imageCb, this);
-    image_pub_ = it_.advertise("/image_converter/output_video", 1);
 
     cv::namedWindow(OPENCV_WINDOW);
   }
@@ -47,9 +45,6 @@ public:
     // Update GUI Window
     cv::imshow(OPENCV_WINDOW, cv_ptr->image);
     cv::waitKey(3);
-    
-    // Output modified video stream
-    image_pub_.publish(cv_ptr->toImageMsg());
   }
 };
 
