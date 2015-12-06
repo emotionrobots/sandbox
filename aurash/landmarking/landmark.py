@@ -16,6 +16,7 @@ from sklearn.svm import SVC
 from sklearn.externals import joblib 
 import logging
 import os
+import time
 
 
 FILENAME =  '/tmp/out.webm'
@@ -290,6 +291,8 @@ def draw_face(frame, landmarks):
 	return x
 
 def main():
+	starts=time.time()
+	count=0
 	test = 1
 	global filename
 	filename = os.getcwd()
@@ -299,6 +302,10 @@ def main():
         start = True	
 	while done != True:
 	    flag, frame = cap.read()
+	    count=count+1
+	    fps=count/(time.time()-starts)
+	    fps=round(fps,3)
+	    #print "FPS: {0}".format(fps)
 	    global frames
 	    frames=cv2.imread(filename+"/white.jpg",1)
 	    if flag:
@@ -332,6 +339,8 @@ def main():
 	        print mylandmarks
 	        #x=draw_face(frame, mylandmarks)
 	        #frame=OverlayImage(frame,x)
+	        cv2.putText(frames, "FPS: {0}".format(str(fps)), (50,50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
+	        cv2.putText(frame, "FPS: {0}".format(str(fps)), (50,50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
 	        cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)          
 	        cv2.imshow("Live Landmarking", frame)
 	        cv2.namedWindow('k', cv2.WINDOW_NORMAL)

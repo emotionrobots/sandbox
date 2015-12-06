@@ -11,6 +11,12 @@ import aiml
 from nltk import pos_tag, word_tokenize
 import speech_recognition as sr
 import urllib2
+
+
+
+
+
+
 # Create a decoder with certain model
 class Nora(object): #Main class for Speech Reccognition
     hypo=None
@@ -56,7 +62,7 @@ class Nora(object): #Main class for Speech Reccognition
         config.set_string('-hmm',filename+'/models/hub4wsj_sc_8k')
         config.set_string('-lm', filename+'/models/hub4.5000.DMP')
         config.set_string('-dict', filename+'/models/cmu07a.dic')
-        config.set_float('-vad_threshold', 3)
+        config.set_float('-vad_threshold', 4)
         #config.set_float('-vad_postspeech', 500)
         #config.set_float('-vad_prespeech', 20)
         #config.set_float('-vad_startspeech', 20)
@@ -110,8 +116,9 @@ class Nora(object): #Main class for Speech Reccognition
 
    
     def yon(self): 
-
+       
         config = Decoder.default_config() #Create decoder
+
         config.set_string('-hmm',filename+'/models/hub4wsj_sc_8k')# set hidden markov model
         #config.set_string('-lm', '/usr/share/pocketsphinx/model/lm/en_US/hub4.5000.DMP') # set language model not needed for Keyword detection
         config.set_string('-dict', filename+'/models/cmu07a.dic') # dictionary
@@ -119,18 +126,18 @@ class Nora(object): #Main class for Speech Reccognition
         #config.set_string('-kws', '/home/aurash/keyphrase.list') # keyphrase set to "Nora"
         config.set_float('-kws_threshold', 1e+10) # keyword search threshold
         config.set_float('-vad_threshold', 4)
+       
         
-
         p = pyaudio.PyAudio()
         stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000,input=True, frames_per_buffer=1024)
         stream.start_stream() 
         decoder = Decoder(config) 
-        decoder.set_kws('keyphrase_search',filename+'keyphrase.list')
+        decoder.set_kws('keyphrase_search',filename+'/keyphrase.list')
         decoder.set_search('keyphrase_search'); 
         decoder.get_config()
         decoder.start_utt() 
         in_speech_bf = True
-        deco=True
+        deco=True 
         while deco:
             buf = stream.read(1024)
             if buf:
@@ -161,7 +168,8 @@ class Nora(object): #Main class for Speech Reccognition
     
     def tts(self,str):
         text=str
-        cm ='/home/aurash/simple-google-tts/./simple_google_tts -p  en "'+ text + '"'
+        cm ='/home/aurash/simple-google-tts/./simple_google_tts  -p en "'+ text + '"'
+        #cm="echo "+text+"|festival --tts"
         os.system(cm)
 
     
@@ -181,7 +189,7 @@ class Nora(object): #Main class for Speech Reccognition
         mybot.learn('std-startup.xml')
         mybot.respond('load aiml b')
         if os.path.isfile(filename+"/mybrain.brn"):
-            print "hello"
+            
             mybot.loadBrain(filename+"/mybrain.brn")
         if user=="cmu":
             count=0
@@ -193,6 +201,11 @@ class Nora(object): #Main class for Speech Reccognition
                     r=None
                     a=Nora.face_detect(self)
                     Nora.tts(self,"Hi! I'm Nora")
+                    frame=cv2.imread(filename+"/white.png")
+                    cv2.putText(frame,"Say Nora" , (320,240), cv2.FONT_HERSHEY_DUPLEX, 1.5, (255,0,0),1)
+                    cv2.imshow('ChattBox',frame)
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        return
                     if a:
                         r=Nora.RecNora(self)==True
                 if count>0 or r:
@@ -201,6 +214,7 @@ class Nora(object): #Main class for Speech Reccognition
                         while not recog:
                             a=Nora.RepMe(self) #gstt or RepMe
                             if a:
+                               
                                 b=Nora.yon(self)
                                 if b:
                                     #print('NLTK') # Implement NLTK method
@@ -216,10 +230,29 @@ class Nora(object): #Main class for Speech Reccognition
         else:
             a=Nora.face_detect(self)
             Nora.tts(self,"Hi! I'm Nora")
+            #frame=cv2.imread(filename+"/white.png")
+            #cv2.putText(frame,"Say Nora" , (400,540), cv2.FONT_HERSHEY_DUPLEX, 2.5, (255,0,0),2)
+            #cv2.namedWindow("ChattBox", cv2.WINDOW_NORMAL) 
+            #cv2.imshow('ChattBox',frame)
+            #if cv2.waitKey(1) & 0xFF == ord('q'):
+             #           return
             if a:
                 if Nora.RecNora(self)==True:
                     while True:
+                        #frames=cv2.imread(filename+"/white.png")
+                        #cv2.putText(frames,"Give me a question, statement, or response" , (50,500), cv2.FONT_HERSHEY_DUPLEX, 1.5, (255,0,0),1)
+                        #cv2.namedWindow("ChattBox", cv2.WINDOW_NORMAL) 
+                        #cv2.imshow('ChattBox',frames)
+                        #if cv2.waitKey(1) & 0xFF == ord('q'):
+                         #   return
                         a=Nora.gstt(self)
+                        #framess=cv2.imread(filename+"/white.png")
+                        #cv2.putText(framess,"You said: "+a , (20,350), cv2.FONT_HERSHEY_DUPLEX, .8, (255,0,0),1)
+                        #cv2.putText(framess,"Replying...." , (200,580), cv2.FONT_HERSHEY_DUPLEX, 1.5, (255,0,0),1)
+                        #cv2.namedWindow("ChattBox", cv2.WINDOW_NORMAL) 
+                        #cv2.imshow('ChattBox',framess)
+                        #if cv2.waitKey(1) & 0xFF == ord('q'):
+                         #   return
                         Nora.pyaiml(self,a)                        
 
     def nlp(self):
@@ -290,7 +323,7 @@ class Nora(object): #Main class for Speech Reccognition
         exit=False      
         while exit==False:
             r = sr.Recognizer()
-            r.energy_threshold= 30000
+            r.energy_threshold= 10000
             hyper=None
             with sr.Microphone() as source:                # use the default microphone as the audio source
                 audio = r.listen(source)                   # listen for the first phrase and extract it into audio data
@@ -301,6 +334,7 @@ class Nora(object): #Main class for Speech Reccognition
                 hyper=r.recognize_google(audio)#, app_key=ATT_APP_KEY, app_secret=ATT_APP_SECRET)
             except sr.UnknownValueError:
                 print("Speech to Text could not understand audio")
+                Nora.tts(self,"I didn't quite get that!")
                 exit=False
             except sr.RequestError:
                 print("Could not request results from Speech to Text service")
@@ -355,7 +389,7 @@ class Nora(object): #Main class for Speech Reccognition
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
-            if len(faces)>0 and len(eyes)>1 and len(smile)>0 and len(nose)>0:
+            if len(faces)>0 and len(smile)>0 and len(nose)>0:
                 found=True
                 #video_capture.release()
                 #cv2.destroyAllWindows()

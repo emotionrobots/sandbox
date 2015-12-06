@@ -1,5 +1,6 @@
 FILE(REMOVE_RECURSE
   "CMakeFiles/skeleton_generate_messages_lisp"
+  "/home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/Skeleton.lisp"
   "/home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/srv/festTTS.lisp"
 )
 

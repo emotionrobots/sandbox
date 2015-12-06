@@ -6,8 +6,13 @@ import rospy
 def handle_utterance(req):
     import subprocess
     text = str(req)
-    text=text[4:]
-    print text
+    text=text[5:]
+    #count=0
+    #for x in text:
+     #   if x=="'":
+      #      text=text[0:count]+"\'"+text[count+1:(len(text))]
+       #     count=count+1
+    print text        
     subprocess.call("echo "+text+"|festival --tts", shell=True)
     return festTTSResponse("The deed has been done")
 

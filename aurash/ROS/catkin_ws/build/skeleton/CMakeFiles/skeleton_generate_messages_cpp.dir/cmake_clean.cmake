@@ -1,5 +1,6 @@
 FILE(REMOVE_RECURSE
   "CMakeFiles/skeleton_generate_messages_cpp"
+  "/home/aurash/catkin_ws/devel/include/skeleton/Skeleton.h"
   "/home/aurash/catkin_ws/devel/include/skeleton/festTTS.h"
 )
 

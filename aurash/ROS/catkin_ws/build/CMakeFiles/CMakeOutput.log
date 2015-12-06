@@ -291,3 +291,258 @@ Linking C executable cmTryCompileExec2238020615
 make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
 
 
+Determining if the function XOpenDisplay exists in the /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2209768379/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2209768379.dir/build.make CMakeFiles/cmTryCompileExec2209768379.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2209768379.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay   -o CMakeFiles/cmTryCompileExec2209768379.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec2209768379
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2209768379.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay    CMakeFiles/cmTryCompileExec2209768379.dir/CheckFunctionExists.c.o  -o cmTryCompileExec2209768379 -rdynamic -lX11 -lXext 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function gethostbyname exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3270207272/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3270207272.dir/build.make CMakeFiles/cmTryCompileExec3270207272.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3270207272.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname   -o CMakeFiles/cmTryCompileExec3270207272.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3270207272
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3270207272.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname    CMakeFiles/cmTryCompileExec3270207272.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3270207272 -rdynamic 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function connect exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2848702859/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2848702859.dir/build.make CMakeFiles/cmTryCompileExec2848702859.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2848702859.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect   -o CMakeFiles/cmTryCompileExec2848702859.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec2848702859
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2848702859.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect    CMakeFiles/cmTryCompileExec2848702859.dir/CheckFunctionExists.c.o  -o cmTryCompileExec2848702859 -rdynamic 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function remove exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3730885662/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3730885662.dir/build.make CMakeFiles/cmTryCompileExec3730885662.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3730885662.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove   -o CMakeFiles/cmTryCompileExec3730885662.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3730885662
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3730885662.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove    CMakeFiles/cmTryCompileExec3730885662.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3730885662 -rdynamic 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function shmat exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec117166379/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec117166379.dir/build.make CMakeFiles/cmTryCompileExec117166379.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec117166379.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat   -o CMakeFiles/cmTryCompileExec117166379.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec117166379
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec117166379.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat    CMakeFiles/cmTryCompileExec117166379.dir/CheckFunctionExists.c.o  -o cmTryCompileExec117166379 -rdynamic 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function IceConnectionNumber exists in the ICE passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec1847689648/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1847689648.dir/build.make CMakeFiles/cmTryCompileExec1847689648.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1847689648.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber   -o CMakeFiles/cmTryCompileExec1847689648.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec1847689648
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1847689648.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber    CMakeFiles/cmTryCompileExec1847689648.dir/CheckFunctionExists.c.o  -o cmTryCompileExec1847689648 -rdynamic -lICE 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function png_create_read_struct exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec30456244/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec30456244.dir/build.make CMakeFiles/cmTryCompileExec30456244.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec30456244.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=png_create_read_struct   -o CMakeFiles/cmTryCompileExec30456244.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec30456244
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec30456244.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=png_create_read_struct    CMakeFiles/cmTryCompileExec30456244.dir/CheckFunctionExists.c.o  -o cmTryCompileExec30456244 -rdynamic -lpng 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function jpeg_read_header exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3091303035/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3091303035.dir/build.make CMakeFiles/cmTryCompileExec3091303035.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3091303035.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=jpeg_read_header   -o CMakeFiles/cmTryCompileExec3091303035.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3091303035
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3091303035.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=jpeg_read_header    CMakeFiles/cmTryCompileExec3091303035.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3091303035 -rdynamic -ljpeg 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec638505356/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec638505356.dir/build.make CMakeFiles/cmTryCompileExec638505356.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec638505356.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec638505356.dir/CheckIncludeFile.c.o   -c /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec638505356
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec638505356.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec638505356.dir/CheckIncludeFile.c.o  -o cmTryCompileExec638505356 -rdynamic 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec50328992/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec50328992.dir/build.make CMakeFiles/cmTryCompileExec50328992.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec50328992.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec50328992.dir/CheckIncludeFile.c.o   -c /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec50328992
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec50328992.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec50328992.dir/CheckIncludeFile.c.o  -o cmTryCompileExec50328992 -rdynamic 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec641578265/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec641578265.dir/build.make CMakeFiles/cmTryCompileExec641578265.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec641578265.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec641578265.dir/CheckIncludeFile.c.o   -c /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec641578265
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec641578265.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec641578265.dir/CheckIncludeFile.c.o  -o cmTryCompileExec641578265 -rdynamic 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining size of void* passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec1812834164/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1812834164.dir/build.make CMakeFiles/cmTryCompileExec1812834164.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1812834164.dir/SIZE_OF_VOID_PTR.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec1812834164.dir/SIZE_OF_VOID_PTR.c.o   -c /home/aurash/catkin_ws/build/CMakeFiles/CheckTypeSize/SIZE_OF_VOID_PTR.c
+Linking C executable cmTryCompileExec1812834164
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1812834164.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec1812834164.dir/SIZE_OF_VOID_PTR.c.o  -o cmTryCompileExec1812834164 -rdynamic -ljpeg 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function cblas_ddot exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec4109864149/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec4109864149.dir/build.make CMakeFiles/cmTryCompileExec4109864149.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec4109864149.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=cblas_ddot   -o CMakeFiles/cmTryCompileExec4109864149.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec4109864149
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec4109864149.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=cblas_ddot    CMakeFiles/cmTryCompileExec4109864149.dir/CheckFunctionExists.c.o  -o cmTryCompileExec4109864149 -rdynamic -lblas 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the CXX compiler has std namespace passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3553564711/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3553564711.dir/build.make CMakeFiles/cmTryCompileExec3553564711.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3553564711.dir/TestForSTDNamespace.cxx.o
+/usr/bin/c++    -Wreturn-type    -o CMakeFiles/cmTryCompileExec3553564711.dir/TestForSTDNamespace.cxx.o -c /usr/share/cmake-2.8/Modules/TestForSTDNamespace.cxx
+Linking CXX executable cmTryCompileExec3553564711
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3553564711.dir/link.txt --verbose=1
+/usr/bin/c++    -Wreturn-type     CMakeFiles/cmTryCompileExec3553564711.dir/TestForSTDNamespace.cxx.o  -o cmTryCompileExec3553564711 -rdynamic 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file iostream exists passed with the following output:
+Change Dir: /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec1180380846/fast"
+make[1]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1180380846.dir/build.make CMakeFiles/cmTryCompileExec1180380846.dir/build
+make[2]: Entering directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec1180380846.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -Wreturn-type    -o CMakeFiles/cmTryCompileExec1180380846.dir/CheckIncludeFile.cxx.o -c /home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+Linking CXX executable cmTryCompileExec1180380846
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1180380846.dir/link.txt --verbose=1
+/usr/bin/c++    -Wreturn-type     CMakeFiles/cmTryCompileExec1180380846.dir/CheckIncludeFile.cxx.o  -o cmTryCompileExec1180380846 -rdynamic 
+make[2]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+make[1]: Leaving directory `/home/aurash/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+

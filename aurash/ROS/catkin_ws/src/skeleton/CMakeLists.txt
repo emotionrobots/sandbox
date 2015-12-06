@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(skeleton)
 
+include(/home/aurash/dlib/dlib/cmake)
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -9,7 +11,14 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  genmsg
+  OpenCV
+  sensor_msgs
+  cv_bridge
+  image_transport
 )
+
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -45,9 +54,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-# )
+ add_message_files(
+   FILES
+   Skeleton.msg
+ )
 
 ## Generate services in the 'srv' folder
  add_service_files(
@@ -81,7 +91,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES skeleton
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
 
@@ -112,6 +122,30 @@ include_directories(
 # target_link_libraries(skeleton_node
 #   ${catkin_LIBRARIES}
 # )
+
+
+
+find_package(OpenCV)
+if (OpenCV_FOUND)
+add_executable(image_converter scripts/image_converter.cpp)
+target_link_libraries(image_converter ${catkin_LIBRARIES})
+include_directories(${OpenCV_INCLUDE_DIRS})
+target_link_libraries(image_converter dlib ${OpenCV_LIBS})
+add_executable(listening scripts/listening.cpp)
+target_link_libraries(listening ${catkin_LIBRARIES})
+include_directories(${OpenCV_INCLUDE_DIRS})
+target_link_libraries(listening dlib ${OpenCV_LIBS})
+#target_link_libraries(listening libdlib.a)
+add_executable(listenc scripts/listenc.cpp)
+target_link_libraries(listenc ${catkin_LIBRARIES})
+include_directories(${OpenCV_INCLUDE_DIRS})
+target_link_libraries(listenc dlib ${OpenCV_LIBS})
+#target_link_libraries(listenc libdlib.a)
+
+endif()
+add_dependencies(listening beginner_tutorials_generate_messages_cpp)
+add_dependencies(image_converter beginner_tutorials_generate_messages_cpp)
+add_dependencies(image_converter skeleton_generate_messages_cpp)
 
 #############
 ## Install ##

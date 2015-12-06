@@ -39,6 +39,7 @@ import dlib
 import cv2
 import numpy as np
 import Image
+import time
 
 
 
@@ -51,10 +52,15 @@ win = dlib.image_window()
 
 video_capture = cv2.VideoCapture(0)
 
+start=time.time()
+count=0
 
 while True:
     # Capture frame-by-frame
     ret, img = video_capture.read()
+    count=count+1
+    fps=count/(time.time()-start)
+    print fps   
     list=[]
     b,g,r = cv2.split(img)
     img = cv2.merge([r,g,b])
@@ -69,10 +75,12 @@ while True:
             b=shape.part(a)
             list.append((b.x,b.y))
 
+
     #Draw the face landmarks on the screen.
   
         win.clear_overlay()
         win.add_overlay(shape)
         win.set_image(img)
         win.add_overlay(dets)
+
     
