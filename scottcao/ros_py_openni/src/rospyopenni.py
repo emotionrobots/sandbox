@@ -16,6 +16,7 @@ if __name__ == '__main__':
     depth_pub = rospy.Publisher('depth', String, queue_size=10) 
     gesture_pub = rospy.Publisher('gesture', String, queue_size=10)
     skeleton_pub = rospy.Publisher('skeleton', Skeleton, queue_size=10)
+    skeleton_msg_pub = rospy.Publisher('skeleton_msg', String, queue_size=10)
     rate = rospy.Rate(30) # 30hz 
 
     # #### Create context and generators
@@ -74,23 +75,23 @@ if __name__ == '__main__':
     #     pass
 
     def new_user(src, id):
-        # print "Hi User %s. Make the secret pose ..." %(id)
+        skeleton_msg_pub.publish("Hi User %s. Make the secret pose ..." %(id))
         pose_cap.start_detection(POSE2USE, id)
 
     def lost_user(src, id):
-        print "Bye Bye User %s" %(id)
+        skeleton_msg_pub.publish("Bye Bye User %s" %(id))
 
     def pose_detected(src, pose, id):
-        print "The User %s is doing the secret pose %s, now do the calibration" %(id, pose)
+        skeleton_msg_pub.publish("The User %s is doing the secret pose %s, now do the calibration" %(id, pose))
         pose_cap.stop_detection(id)
         skel_cap.request_calibration(id, True)
 
     def calibration_complete(src, id, status):
         if status == opi.CALIBRATION_STATUS_OK:
-            print "Congrats User %s! You're Calibrated" %(id)
+            skeleton_msg_pub.publish("Congrats User %s! You're Calibrated" %(id))
             skel_cap.start_tracking(id)
         else:
-            print "Something went wrong User %s :(" %(id)
+            skeleton_msg_pub.publish("Something went wrong User %s :(" %(id))
             new_user(user, id)
 
 
