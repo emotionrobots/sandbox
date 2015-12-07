@@ -1,3 +1,5 @@
+
+
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
@@ -11,15 +13,21 @@
 #include </home/aurash/dlib/dlib/gui_widgets.h>
 #include <vector>
 #include <sstream>
+#include "std_msgs/MultiArrayLayout.h"
+#include "std_msgs/MultiArrayDimension.h"
+#include "std_msgs/UInt32MultiArray.h"
+
+
 
 using namespace dlib;
 using namespace std;
 
+
 shape_predictor pose_model;
 frontal_face_detector detector;
-std::vector<cv::Point>number;
+std::vector<int>number;
 
-static const std::string OPENCV_WINDOW = "Image window";
+//static const std::string OPENCV_WINDOW = "Image window";
 
 class ImageConverter
 {
@@ -27,6 +35,7 @@ class ImageConverter
   image_transport::ImageTransport it_;
   image_transport::Subscriber image_sub_;
   image_transport::Publisher image_pub_;
+  ros::Publisher face_points_;
   
 public:
   ImageConverter()
@@ -36,14 +45,27 @@ public:
     image_sub_ = it_.subscribe("rgb2", 1, 
       &ImageConverter::imageCb, this);
     image_pub_ = it_.advertise("/image_converter/output_video", 1);
+    face_points_ = nh_.advertise<std_msgs::UInt32MultiArray>("face_points", 1000);
 
-    cv::namedWindow(OPENCV_WINDOW);
+    //cv::namedWindow(OPENCV_WINDOW);
   }
+
+
+
 
   ~ImageConverter()
   {
-    cv::destroyWindow(OPENCV_WINDOW);
+    //cv::destroyWindow(OPENCV_WINDOW);
   }
+
+  /*boost::python::list toPythonList(std::vector<cv::Point> vector) {
+  typename std::vector<cv::Point>::iterator iter;
+  boost::python::list list;
+  for (iter = vector.begin(); iter != vector.end(); ++iter) {
+    list.append(*iter);
+  }
+  return list;
+}*/
 
   void imageCb(const sensor_msgs::ImageConstPtr& msg)
   {
@@ -83,7 +105,7 @@ public:
             // Find the pose of each face.
             std::vector<full_object_detection> shapes;
             cv::Mat temp2;
-            temp2= dlib::toMat(cimg);
+            temp2= toMat(cimg);
             for (unsigned long i = 0; i < faces.size(); ++i)
                 {
                   //shapes.push_back(pose_model(cimg, faces[i]));
@@ -91,8 +113,14 @@ public:
                   
                   for( int i=0; i<shape.num_parts();i++)
                     {
-                      number.push_back(cv::Point(shape.part(i).x(),shape.part(i).y()));
+                      std_msgs::UInt32MultiArray array;
+                      //assign array a random number between 0 and 255.
+                      array.data.push_back(int(shape.part(i).x()));
+                      array.data.push_back(int(shape.part(i).y()));
+                      face_points_.publish(array);
+                      
                       cv::circle(temp2, cv::Point(shape.part(i).x(),shape.part(i).y()), 2, (0,0,255), CV_FILLED, CV_AA, 0);
+                      }
                       //int fontFace = CV_FONT_HERSHEY_SCRIPT_SIMPLEX;
                       //double fontScale = .3;
                       //int thickness = 1;  
@@ -105,7 +133,7 @@ public:
                   //cout << "number of parts: "<< shape.num_parts() << endl;
                   //cout << "pixel position of first part:  " << shape.part(0) << endl;
                   //cout << "pixel position of second part: " << shape.part(1) << endl;
-                }
+                
             // Display it all on the screen
             //win.clear_overlay();
             //win.set_image(cimg);
