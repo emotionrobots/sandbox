@@ -8,6 +8,8 @@ import numpy as np
 import rospy
 import cv2
 from std_msgs.msg import String
+# from geometry_msgs.msg import Point
+from vfacerec.msg import Face
 
 from facerec.model import PredictableModel
 from facerec.feature import Fisherfaces
@@ -169,6 +171,7 @@ datasetD = ""
 model = None
 faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
 trainImages = []
+recognizedFaces = []
 
 def faceRecInit():
     model_filename = os.getcwd() + '/model.pkl'
@@ -344,23 +347,39 @@ def listener():
     #rospy.Subscriber('gesture', String, callback_gest)
     rospy.spin()
 
+pubRate = 30
+
 def setRate(rate):
+    global pubRate
+    pubRate = rate
 
-def setName(face_id, name):
+# def setName(face_id, name):
 
-def reset():
+# def reset():
 
-def forget(face_id):
+# def forget(face_id):
 
-def learn(face_id, name):
+# def learn(face_id, name):
 
 def getStatus():
-    
+    return 0
 
 def publisher():
-    rgb_pub = rospy.Publisher('recognizedFaces', String, queue_size=10)
-    rate = rospy.Rate(30)
-    rate.sleep() 
+    recFaceImg_pub = rospy.Publisher('recFace', Face, queue_size=10)
+    #recFaceName_pub = rospy.Publisher('recFaceName', String, queue_size=10)
+    #recFaceLL_pub = rospy.Publisher('recFaceLL', geometry_msgs.msg.Point, queue_size=10)
+    #recFaceUR_pub = rospy.Publisher('recFaceUR', geometry_msgs.msg.Point, queue_size=10)
+    rate = rospy.Rate(pubRate)
+    rate.sleep()
+
+    def publishRFI():
+        recFaceImg_pub.publish()
+
+    # #### Main loop
+
+    while not rospy.is_shutdown():
+        publishRFI()
+        rate.sleep()
 
 if __name__ == '__main__':
     if(c()):
