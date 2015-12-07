@@ -41,16 +41,16 @@ def video_config():
 def draw_seg(frame, landmarks, start, end):
 	(startx, starty) = landmarks[start]
 	(endx, endy) = landmarks[end]
-        cv2.line(frame,(int(startx),int(starty)),(int(endx),int(endy)),(0,0,255), 1)
-        cv2.line(frames,(int(startx),int(starty)),(int(endx),int(endy)),(0,0,255), 1)
+        cv2.line(frame,(int(startx),int(starty)),(int(endx),int(endy)),(255,255,255), 1)
+        cv2.line(frames,(int(startx),int(starty)),(int(endx),int(endy)),255, 1)
 	return
 
 def draw_arc(frame, landmarks, start, end):
 	count = 0
         (tempx, tempy) = landmarks[start]
 	for (x, y) in landmarks[start+1:end+1]:
-            cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
-            cv2.line(frames,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
+            cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(255,255,255), 1)
+            cv2.line(frames,(int(tempx),int(tempy)),(int(x),int(y)),255, 1)
             count=count+1
             tempx=x
             tempy=y
@@ -60,14 +60,14 @@ def draw_loop(frame, landmarks, start, end):
         count = 0
         (tempx, tempy) = landmarks[start]
 	for (x, y) in landmarks[start+1:end+1]:
-            cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
-            cv2.line(frames,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
+            cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(255,255,255), 1)
+            cv2.line(frames,(int(tempx),int(tempy)),(int(x),int(y)),255, 1)
             count=count+1
             tempx=x
             tempy=y
         (x, y) = landmarks[start]
-        cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
-        cv2.line(frames,(int(tempx),int(tempy)),(int(x),int(y)),(0,0,255), 1)
+        cv2.line(frame,(int(tempx),int(tempy)),(int(x),int(y)),(255,255,255), 1)
+        cv2.line(frames,(int(tempx),int(tempy)),(int(x),int(y)),255, 1)
 	return
 
 def draw_righteyebrow(frame, landmarks):
@@ -101,8 +101,8 @@ def draw_nosebridge(frame, landmarks):
 
 def draw_landmarks(frame, landmarks):
 	scale = normalize(frame, landmarks)
-	cv2.putText(frame, "Scale:  "  + str(scale), (100,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-	cv2.putText(frames, "Scale:  "  + str(scale), (100,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+	cv2.putText(frame, "Scale:  "  + str(scale), (50,50), cv2.FONT_HERSHEY_TRIPLEX, .5, (255,255,255))
+	cv2.putText(frames, "Scale:  "  + str(scale), (50,50), cv2.FONT_HERSHEY_TRIPLEX, .5, 255)
 	map(lambda p: cv2.circle(frame, (int(p[0]), int(p[1])), 1, (512,512,255), -1), landmarks)
 	map(lambda p: cv2.circle(frames, (int(p[0]), int(p[1])), 1, (512,512,255), -1), landmarks)
 	count=0
@@ -148,10 +148,10 @@ def draw_landmarks(frame, landmarks):
 					ycoor = 0
 				# print str(xcoor) + "  " + str(ycoor)
 				coorPair = str(count) + ":   (" + str(round(xcoor, 2)) + ", " + str(round(ycoor, 2)) + ")"
-				cv2.putText(frame, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
-				cv2.putText(frame, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-				cv2.putText(frames, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
-				cv2.putText(frames, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+				cv2.putText(frame, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_TRIPLEX, .4, (255,255,255))
+				cv2.putText(frame, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_TRIPLEX, .5, (255,255,255))
+				cv2.putText(frames, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_TRIPLEX, .4, (255,255,255))
+				cv2.putText(frames, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_TRIPLEX, .5, (255,255,255))
 				numbering = numbering + 1
 			count = count + 1
 	return
@@ -160,20 +160,24 @@ def displayEmotion(frame, landmarks):
 	featureVector = joblib.load("emotionData.bin")
 	featureVector.set_params(probability=True)
 	detect = detectEmotion(frame, landmarks)
-	myEmotion = str(featureVector.predict(detect))
+	myEmotion = str(featureVector.predict(detect))[2:len(str(featureVector.predict(detect)))-2]
 	probArr = featureVector.predict_proba(detect)
 	probArr = probArr * 100
 	probability = "Neutral: " + str(probArr[0][4]) + "  Happy: " + str(probArr[0][3]) + "  Sad: " + str(probArr[0][5]) + "  Angry: " + str(probArr[0][0])
 	probability2 = "Disgust: " + str(probArr[0][1]) + "  Fear: " + str(probArr[0][2]) + "  Surprise: " + str(probArr[0][6])
-	cv2.putText(frame, myEmotion, (700, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
-	cv2.putText(frames, myEmotion, (550, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
-	global odd
-	if odd % 2 == 1:
-		cv2.putText(frame, probability, (25, 390), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
-		cv2.putText(frames, probability, (25, 390), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)	
-		cv2.putText(frame, probability2, (25, 410), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
-		cv2.putText(frames, probability2, (25, 410), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
-	odd = odd + 1
+	cv2.putText(frame, myEmotion, (650, 100), cv2.FONT_HERSHEY_TRIPLEX, 1, (255,255,255))
+	cv2.putText(frames, myEmotion, (550, 50), cv2.FONT_HERSHEY_TRIPLEX, 1, (0,0,255))
+	# global odd
+	# if odd % 2 == 1:
+	# 	cv2.putText(frame, probability, (25, 390), cv2.FONT_HERSHEY_TRIPLEX, .45, 255)
+	# 	cv2.putText(frames, probability, (25, 390), cv2.FONT_HERSHEY_TRIPLEX, .45, 255)	
+	# 	cv2.putText(frame, probability2, (25, 410), cv2.FONT_HERSHEY_TRIPLEX, .45, 255)
+	# 	cv2.putText(frames, probability2, (25, 410), cv2.FONT_HERSHEY_TRIPLEX, .45, 255)
+	# odd = odd + 1
+	cv2.putText(frame, probability, (25, 430), cv2.FONT_HERSHEY_TRIPLEX, .48, (255,255,255))
+	cv2.putText(frames, probability, (25, 430), cv2.FONT_HERSHEY_TRIPLEX, .48, (255,255,255))	
+	cv2.putText(frame, probability2, (25, 450), cv2.FONT_HERSHEY_TRIPLEX, .48, (255,255,255))
+	cv2.putText(frames, probability2, (25, 430), cv2.FONT_HERSHEY_TRIPLEX, .48, (255,255,255))
 	publisher(myEmotion, probArr.max())
 	return myEmotion
 
@@ -256,7 +260,10 @@ def normalize(frame, landmarks):
 		distLM = arrayLM[0]**2 + arrayLM[1]**2
 		distLM = distLM**.5
 		distTOTAL = distLM + distRM
-		scale = 50 / distTOTAL
+		if distTOTAL != 0:
+			scale = 50 / distTOTAL
+		else:
+			scale = 0
 		return scale
 
 def OverlayImage(src, x):
@@ -310,7 +317,7 @@ def publisher(myEmotion, prob):
 	if not rospy.is_shutdown() and sameSpeed == True:
 		pub.publish(msg)
 		# sameSpeed = False
-		print str(myEmotion)+" "+str(prob)
+		# print str(myEmotion)+" "+str(prob)
 
 		# r.sleep()
 	# pub.publish(msg)
@@ -361,12 +368,12 @@ def main():
 				alpha = .85
 				mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
 			# draw the landmarks point as circles
-			if  mylandmarks[0][0] != 0.0:
-				x=draw_face(frame, mylandmarks, True)
-				frame=OverlayImage(frame,x)
+			# if  mylandmarks[0][0] != 0.0:
+				# x=draw_face(frame, mylandmarks, True)
+				# frame=OverlayImage(frame,x)
 	        
 			x=draw_face(frame, mylandmarks, True)
-			frame=OverlayImage(frame,x)
+			# frame=OverlayImage(frame,x)
 			cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)
 			cv2.namedWindow('k', cv2.WINDOW_NORMAL)
 			cv2.imshow("Live Landmarking", frame)
