@@ -24,10 +24,14 @@ def callback_skeleton(data):
     # print data.id
     # print newpos_skeleton
 
+def callback_skeleton_msg(data):
+    print data
+
 if __name__ == '__main__':
     rospy.init_node('listener')
     rospy.Subscriber('rgb', String, callback_rgb)
     rospy.Subscriber('depth', String, callback_depth)
     rospy.Subscriber('gesture', String, callback_gest)
     rospy.Subscriber('skeleton', Skeleton, callback_skeleton)
+    rospy.Subscriber('skeleton_msg', String, callback_skeleton_msg)
     rospy.spin()
