@@ -1,0 +1,3 @@
+// the configured options and settings for Tutorial
+#define Bam_VERSION_MAJOR @Bam_VERSION_MAJOR@
+#define Bam_VERSION_MINOR @Bam_VERSION_MINOR@
