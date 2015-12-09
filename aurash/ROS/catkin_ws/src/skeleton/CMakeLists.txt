@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   cv_bridge
   image_transport
+
 )
 
 
@@ -57,6 +58,7 @@ find_package(catkin REQUIRED COMPONENTS
  add_message_files(
    FILES
    Skeleton.msg
+   face_p.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -77,6 +79,7 @@ find_package(catkin REQUIRED COMPONENTS
  generate_messages(
    DEPENDENCIES
    std_msgs
+   sensor_msgs
  )
 
 ###################################
@@ -91,8 +94,8 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES skeleton
-  CATKIN_DEPENDS roscpp rospy std_msgs
-#  DEPENDS system_lib
+  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime 
+DEPENDS system_lib message_runtime
 )
 
 ###########
@@ -146,6 +149,7 @@ endif()
 add_dependencies(listening beginner_tutorials_generate_messages_cpp)
 add_dependencies(image_converter beginner_tutorials_generate_messages_cpp)
 add_dependencies(image_converter skeleton_generate_messages_cpp)
+#add_dependencies(image_converter face_p_generate_messages_cpp)
 
 #############
 ## Install ##

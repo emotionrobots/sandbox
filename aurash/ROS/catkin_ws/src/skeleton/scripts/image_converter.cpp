@@ -16,7 +16,7 @@
 #include "std_msgs/MultiArrayLayout.h"
 #include "std_msgs/MultiArrayDimension.h"
 #include "std_msgs/UInt32MultiArray.h"
-
+#include "skeleton/face_p.h"
 
 
 using namespace dlib;
@@ -45,7 +45,7 @@ public:
     image_sub_ = it_.subscribe("rgb2", 1, 
       &ImageConverter::imageCb, this);
     image_pub_ = it_.advertise("/image_converter/output_video", 1);
-    face_points_ = nh_.advertise<std_msgs::UInt32MultiArray>("face_points", 1000);
+    face_points_ = nh_.advertise<skeleton::face_p>("face_points", 1000);
 
     //cv::namedWindow(OPENCV_WINDOW);
   }
@@ -117,7 +117,10 @@ public:
                       //assign array a random number between 0 and 255.
                       array.data.push_back(int(shape.part(i).x()));
                       array.data.push_back(int(shape.part(i).y()));
-                      face_points_.publish(array);
+                      skeleton::face_p msg2;
+                      msg2.arr=array;
+                      msg2.image = *cv_ptr->toImageMsg();
+                      face_points_.publish(msg2);
                       
                       cv::circle(temp2, cv::Point(shape.part(i).x(),shape.part(i).y()), 2, (0,0,255), CV_FILLED, CV_AA, 0);
                       }
