@@ -40,7 +40,7 @@ to
 
 Next add the line below to SerialPort.h 
 
-    #include <unistd.h>
+    #include <uinstd.h>
 
 
 Before we can build libserial, we need to first install 'sip', a prerequsite of libserial:
