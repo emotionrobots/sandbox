@@ -10,6 +10,7 @@ import cv2
 from std_msgs.msg import String
 # from geometry_msgs.msg import Point
 from vfacerec.msg import Face
+from vfacerec.msg import UnknownFace
 
 from facerec.model import PredictableModel
 from facerec.feature import Fisherfaces
@@ -108,6 +109,10 @@ def c():
     else:
         return False
 
+def convertToStr(image):
+    img_str = cv2.imencode('.jpg', image)[1].tostring()
+    return img_str
+
 def main():
     print "Starting FaceRec"
 
@@ -171,7 +176,23 @@ datasetD = ""
 model = None
 faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
 trainImages = []
-recognizedFaces = []
+
+
+pubRate = 30
+rateCounter = 30
+
+recognizedFaceName = []
+recognizedFaceImg = []
+recognizedFaceLLx = []
+recognizedFaceLLy = []
+recognizedFaceURx = []
+recognizedFaceURy = []
+
+unknownFaceName = []
+unknownFaceLLx = []
+unknownFaceLLy = []
+unknownFaceURx = []
+unknownFaceURy = []
 
 def faceRecInit():
     model_filename = os.getcwd() + '/model.pkl'
@@ -191,50 +212,84 @@ def faceRecInit():
 
 def faceRec(data):
 
-    #ret, frame = video_capture.read()
-    frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
-    img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imgeqh = cv2.equalizeHist(gray)
-    faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
-    for(x, y, w, h) in faces:
-        cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
-        roi_gray = imgeqh[y:y+h, x:x+w]
-        roi_color = img[y:y+h, x:x+w]
-        face = cv2.resize(roi_gray, image_size, interpolation = cv2.INTER_CUBIC)
+    frameshow = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
 
-        #pred = model.predict(face)
+    if rateCounter == 0:
+        #ret, frame = video_capture.read()
+        frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
+        img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        imgeqh = cv2.equalizeHist(gray)
+        faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
+        unknownfaceCount = 1 #Works so I'm leaving this
+        for(x, y, w, h) in faces:
+            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+            roi_gray = imgeqh[y:y+h, x:x+w]
+            roi_color = img[y:y+h, x:x+w]
+            face = cv2.resize(roi_gray, image_size, interpolation = cv2.INTER_CUBIC)
 
-        prediction = model.predict(face)
-        predicted_label = prediction[0]
-        classifier_output = prediction[1]
-        # Now let's get the distance from the assuming a 1-Nearest Neighbor.
-        # Since it's a 1-Nearest Neighbor only look take the zero-th element:
-        distance = classifier_output['distances'][0]
+            #pred = model.predict(face)
 
-        cv2.putText(img, str(distance), (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+            prediction = model.predict(face)
+            predicted_label = prediction[0]
+            classifier_output = prediction[1]
+            # Now let's get the distance from the assuming a 1-Nearest Neighbor.
+            # Since it's a 1-Nearest Neighbor only look take the zero-th element:
+            distance = classifier_output['distances'][0]
 
-        #print p2[0]
-        cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
-        if distance < 600.0:
+            cv2.putText(img, str(distance), (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+
+            #print p2[0]
             cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
-            n = model.subject_names[predicted_label]
-            n =  n.replace("_", " ")
-            cv2.putText(img, n, (x+20,y-20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-            print model.subject_names[predicted_label]
-        #else:
-        #    cv2.rectangle(img, (x,y),(x+w,y+h),(0,0,255),2)
+            if distance < 600.0:
+                cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
+                n = model.subject_names[predicted_label]
+                n =  n.replace("_", " ")
+                cv2.putText(img, n, (x+20,y-20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+                boo = n in recognizedFaceName
+                if boo is False:
+                    global recognizedFaceName
+                    recognizedFaceName.append(n)
+                    global recognizedFaceImg
+                    recognizedFaceImg.append(convertToStr(face))
+                    global recognizedFaceURx
+                    recognizedFaceURx.append(x+w)
+                    global recognizedFaceURy
+                    recognizedFaceURy.append(y)
+                    global recognizedFaceLLx
+                    recognizedFaceLLx.append(x)
+                    global recognizedFaceLLy
+                    recognizedFaceLLy.append(y+h)
 
-    ch = cv2.waitKey(1)
+                print model.subject_names[predicted_label]
 
-    img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
+            if distance >= 600.0:
+                unknownFaceName.append("unknown-" + unknownfaceCount)
+                unknownFaceURx.append(x+w)
+                unknownFaceURy.append(y)
+                unknownFaceLLx.append(x)
+                unknownFaceLLy.append(y+h)
+                unknownfaceCount = unknownfaceCount + 1
+            #else:
+            #    cv2.rectangle(img, (x,y),(x+w,y+h),(0,0,255),2)
 
-    cv2.imshow('Trainer', img2)
-    cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
+        ch = cv2.waitKey(1)
 
+        img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
+
+        #cv2.imshow('Recognizer', img2)
+        frameshow = img2
+        #cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
+
+        rateCounter = pubRate
+        return True
+    else:
+        rateCounter = rateCounter - 1
+    
     if ch == 27:
         return False
-
+    cv2.imshow('Recognizer', frameshow)
+    cv2.namedWindow("Recognizer", cv2.WINDOW_NORMAL)
     return True
 
 def faceDet2(data):
@@ -347,11 +402,11 @@ def listener():
     #rospy.Subscriber('gesture', String, callback_gest)
     rospy.spin()
 
-pubRate = 30
-
 def setRate(rate):
     global pubRate
     pubRate = rate
+    global rateCounter
+    rateCounter = pubRate
 
 # def setName(face_id, name):
 
@@ -365,21 +420,58 @@ def getStatus():
     return 0
 
 def publisher():
-    recFaceImg_pub = rospy.Publisher('recFace', Face, queue_size=10)
+    known_pub = rospy.Publisher('known_faces', Face, queue_size=10)
+    unknown_pub = rospy.Publisher('unknown_faces', UnknownFace, queue_size=10)
     #recFaceName_pub = rospy.Publisher('recFaceName', String, queue_size=10)
     #recFaceLL_pub = rospy.Publisher('recFaceLL', geometry_msgs.msg.Point, queue_size=10)
     #recFaceUR_pub = rospy.Publisher('recFaceUR', geometry_msgs.msg.Point, queue_size=10)
-    rate = rospy.Rate(pubRate)
-    rate.sleep()
+    #rate = rospy.Rate(pubRate)
+    #rate.sleep()
 
     def publishRFI():
-        recFaceImg_pub.publish()
+        #for each face in array
+        #publish info and face
+        #remove from array
+
+        for i in range(len(recognizedFaceName)):
+            face_msg = Face()
+            face_msg.name = recognizedFaceName[i]
+            face_msg.image = recognizedFaceImg[i]
+            face_msg.llx = recognizedFaceLLx[i]
+            face_msg.lly = recognizedFaceLLy[i]
+            face_msg.urx = recognizedFaceURx[i]
+            face_msg.ury = recognizedFaceURy[i]
+            known_pub.publish(face_msg)
+
+        for i in range(len(unknownFaceName)):
+            face_msg_unknown = UnknownFace()
+            face_msg_unknown.name = unknownFaceName[i]
+            face_msg_unknown.llx = unknownFaceLLx[i]
+            face_msg_unknown.lly = unknownFaceLLy[i]
+            face_msg_unknown.urx = unknownFaceURx[i]
+            face_msg_unknown.ury = unknownFaceURy[i]
+            unknown_pub.publish(face_msg_unknown)
+
+        del recognizedFaceName[:]
+        del recognizedFaceImg[:]
+        del recognizedFaceLLx[:]
+        del recognizedFaceLLy[:]
+        del recognizedFaceURx[:]
+        del recognizedFaceURy[:]
+
+        del unknownFaceName[:]
+        del unknownFaceLLx[:]
+        del unknownFaceLLy[:]
+        del unknownFaceURx[:]
+        del unknownFaceURy[:]
+
+        #recFaceImg_pub.publish()
 
     # #### Main loop
 
-    while not rospy.is_shutdown():
-        publishRFI()
-        rate.sleep()
+    #while not rospy.is_shutdown():
+    #    publishRFI()
+    #    rate.sleep()
 
 if __name__ == '__main__':
     if(c()):
@@ -392,6 +484,7 @@ if __name__ == '__main__':
         trainImages = []
         test = False
     listener()
+    publisher()
     #if(c()):
         #faceDet()
     #else
