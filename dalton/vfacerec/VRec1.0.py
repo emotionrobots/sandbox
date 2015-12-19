@@ -264,10 +264,15 @@ def faceRec(data):
                 print model.subject_names[predicted_label]
 
             if distance >= 600.0:
+                global unknownFaceName
                 unknownFaceName.append("unknown-" + unknownfaceCount)
+                global unknownFaceURx
                 unknownFaceURx.append(x+w)
+                global unknownFaceURy
                 unknownFaceURy.append(y)
+                global unknownFaceLLx
                 unknownFaceLLx.append(x)
+                global unknownFaceLLy
                 unknownFaceLLy.append(y+h)
                 unknownfaceCount = unknownfaceCount + 1
             #else:
@@ -452,17 +457,28 @@ def publisher():
             face_msg_unknown.ury = unknownFaceURy[i]
             unknown_pub.publish(face_msg_unknown)
 
+        global recognizedFaceName
         del recognizedFaceName[:]
+        global recognizedFaceImg
         del recognizedFaceImg[:]
+        global recognizedFaceLLx
         del recognizedFaceLLx[:]
+        global recognizedFaceLLy
         del recognizedFaceLLy[:]
+        global recognizedFaceURx
         del recognizedFaceURx[:]
+        global recognizedFaceURy
         del recognizedFaceURy[:]
 
+        global unknownFaceName
         del unknownFaceName[:]
+        global unknownFaceLLx
         del unknownFaceLLx[:]
+        global unknownFaceLLy
         del unknownFaceLLy[:]
+        global unknownFaceURx
         del unknownFaceURx[:]
+        global unknownFaceURy
         del unknownFaceURy[:]
 
         #recFaceImg_pub.publish()
