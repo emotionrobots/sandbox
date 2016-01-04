@@ -2,10 +2,10 @@ uint8 rightMotorSpeed
 bool rightMotorSpeedCommand
 uint8 leftMotorSpeed
 bool leftMotorSpeedCommand
-int16 cameraTilt
-bool cameraTiltCommand
-int16 cameraPan
-bool cameraPanCommand
+int16 cameraTiltShift
+bool cameraTiltShiftCommand
+int16 cameraPanShift
+bool cameraPanShiftCommand
 uint8 digital1
 bool digital1Command
 uint8 digital2

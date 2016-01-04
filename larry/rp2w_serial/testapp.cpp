@@ -195,10 +195,20 @@ int main(int argc, char *argv[])
        robot.setLeftMotorSpeed(left_motor);
        robot.setRightMotorSpeed(right_motor);
 
+	// cerr << "Left Motor Speed: " << left_speed << endl;
+	// cerr << "Right Motor Speed: " << right_speed << endl;
+
        pan_pos -= pan_speed;
        tilt_pos -= tilt_speed;
        robot.setCameraPan(pan_pos);
        robot.setCameraTilt(tilt_pos);
+
+  if (pan_speed >= 0) {
+    cerr << "Camera Pan Speed: " << pan_speed << endl;
+  }
+	if (tilt_speed >= 0) {
+	 cerr << "Camera Tilt Speed: " << tilt_speed << endl;
+  }
 
 #if 0 
        printf("DIG=0x%02X LM=%04d RM=%04d PAN=%04d TILT=%04d\n",

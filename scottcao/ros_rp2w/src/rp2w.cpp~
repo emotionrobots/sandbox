@@ -17,16 +17,15 @@ using namespace LibSerial;
 rp2w::Status rc;
 rp2w robot;
 
-ros_rp2w::Command::Request master;
+ros_rp2w::Command::Request master_req;
 
 boost::mutex mutex;
 
 bool command(ros_rp2w::Command::Request  &req,
   ros_rp2w::Command::Response &res) {
   boost::mutex::scoped_lock lock(mutex);
-  master = req;
+  master_req = req;
   cout << "Master Request Updated." << endl;
-  res.commandSuccessful = true;
   return true;
 }
 
@@ -81,100 +80,78 @@ int main(int argc, char **argv) {
      cout << "RP2W Initialized. " << endl;
    }
 
-   // if (mutex.try_lock()) {
-   //   master.leftMotorSpeed = 0;
-   //   master.rightMotorSpeed = 0;
-   //   master.cameraTiltShift = -1560;
-   //   master.cameraPanShift = -1500;
-   //   master.digital1 = 0;
-   //   master.digital2 = 0; 
-   //   mutex.unlock();
-   //   cout << "Setup complete" << endl;
-   // }
+   if (mutex.try_lock()) {
+     master_req.rightMotorSpeed = 0;
+     master_req.leftMotorSpeed = 0;
+     master_req.cameraTilt = 0;
+     master_req.cameraPan = 0;
+     master_req.digital1 = 0;
+     master_req.digital2 = 0; 
+     mutex.unlock();
+   }
 
-   int count = 0;
    while (ros::ok()) {
     if (mutex.try_lock()) {
-      if (master.leftMotorSpeedCommand) {
-        if (master.leftMotorSpeed >= 0) {
-          master.digital1 &= ~(0x80);
-        }
-        else {
-          master.digital1 |= 0x80;
-        }
-        printf("Left Motor Speed changed to %u\n", (unsigned char)(master.leftMotorSpeed));
-        robot.setLeftMotorSpeed(abs(master.leftMotorSpeed));
-      }
-      if (master.rightMotorSpeedCommand) {
-        if (master.rightMotorSpeed >= 0) {
-          master.digital1 &= ~(0x40);
-        }
-        else {
-          master.digital1 |= 0x40;
-        }
-        printf("Right Motor Speed changed to %u\n", (unsigned char)(master.rightMotorSpeed));
-        robot.setRightMotorSpeed(abs(master.rightMotorSpeed));
-      }
-      if (master.cameraTiltShiftCommand) {
-        cout << "Camera tilt changed to " << robot.getCameraTilt()-master.cameraTiltShift << endl;
-        robot.setCameraTilt(robot.getCameraTilt()-master.cameraTiltShift);
-        master.cameraTiltShift = 0;
-      }
-      if (master.cameraPanShiftCommand) {
-        cout << "Camera pan changed to " << robot.getCameraPan()-master.cameraPanShift << endl;
-        robot.setCameraPan(robot.getCameraPan()-master.cameraPanShift);
-        master.cameraPanShift = 0;
-      }
-      if (master.digital1Command) {
-        printf("GPIO1 changed to %u\n", (unsigned char)(master.digital1));
-        robot.setGPIO1(master.digital1);
-      }
-      if (master.digital2Command) {
-        printf("GPIO2 changed to %u\n", (unsigned char)(master.digital2));
-        robot.setGPIO2(master.digital2);
-      }
-      mutex.unlock();
+    if (master_req.rightMotorSpeedCommand) {
+      cout << "Right Motor Speed changed to " << master_req.rightMotorSpeed;
+      robot.setRightMotorSpeed(master_req.rightMotorSpeed);
     }
-
+    if (master_req.leftMotorSpeedCommand) {
+      cout << "Right Motor Speed changed to " << master_req.leftMotorSpeed;
+      robot.setLeftMotorSpeed(master_req.leftMotorSpeed);
+    }
+    if (master_req.cameraTiltCommand) {
+      cout << "Camera tilt changed to " << master_req.cameraTilt;
+      robot.setCameraTilt(master_req.cameraTilt);
+    }
+    if (master_req.cameraPanCommand) {
+      cout << "Camera tilt changed to " << master_req.cameraPan;
+      robot.setCameraPan(master_req.cameraPan);
+    }
+    if (master_req.digital1Command) {
+      cout << "GPIO1 changed to " << master_req.digital1;
+      robot.setGPIO1(master_req.digital1);
+    }
+    if (master_req.digital2Command) {
+      cout << "GPIO2 changed to " << master_req.digital2;
+      robot.setGPIO2(master_req.digital2);
+    }
     rc = robot.update();
+    
     if (rc != rp2w::OK) {
       cout << "robot.update failed (" << rc << ")";
     }
     else {
-      // cout << "robot.update successful" << endl;
+      cout << "robot.update successful" << endl;
+      boost::mutex::scoped_lock lock(mutex);
       ros_rp2w::Packet packet;
 
-      packet.leftMotorSpeed = (uint8_t)(robot.getLeftMotorSpeed());
-      packet.rightMotorSpeed = (uint8_t)(robot.getRightMotorSpeed());
+      packet.rightMotorSpeed = (uint8_t)(robot.getLeftMotorSpeed());
+      cout << packet.rightMotorSpeed << endl;
+      packet.leftMotorSpeed = (uint8_t)(robot.getRightMotorSpeed());
       packet.cameraTilt = robot.getCameraTilt();
       packet.cameraPan = robot.getCameraPan();
       packet.digital1 = (uint8_t)(robot.getGPIO1());
       packet.digital2 = (uint8_t)(robot.getGPIO2());
 
       packet.encoderA = (int32_t)(robot.getEncoderA());
-      // cout << packet.encoderA << endl;
       packet.encoderB = (int32_t)(robot.getEncoderB());
-      // cout << packet.encoderB << endl;
       packet.batteryVoltage = (uint8_t)(robot.getBatteryVoltage());
-      // printf("battery voltage: %u\n", (unsigned char)(packet.batteryVoltage));
       packet.frontSonar = (uint8_t)(robot.getFrontSonar());
-      // printf("front sonar: %u\n", (unsigned char)(packet.frontSonar));
       packet.rearSonar = (uint8_t)(robot.getRearSonar());
-      // printf("rear sonar: %u\n", (unsigned char)(packet.rearSonar));
       packet.bumper = (uint8_t)(robot.getBumper());
-      // printf("bumper: %2X\n", packet.bumper);
-      // printf("bumper: %u\n", (unsigned char)(packet.bumper));
-    //   /**
-    //  * The publish() function is how you send messages. The parameter
-    //  * is the message object. The type of this object must agree with the type
-    //  * given as a template parameter to the advertise<>() call, as was done
-    //  * in the constructor above.
-    //  */
-      pub.publish(packet);
-    }
-    ros::spinOnce();
-    loop_rate.sleep();
+      /**
+     * The publish() function is how you send messages. The parameter
+     * is the message object. The type of this object must agree with the type
+     * given as a template parameter to the advertise<>() call, as was done
+     * in the constructor above.
+     */
+     pub.publish(packet);
+   }
   }
+  ros::spinOnce();
+  loop_rate.sleep();
+}
 
-  return 0;
+return 0;
 }
