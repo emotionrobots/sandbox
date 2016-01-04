@@ -22,7 +22,7 @@ def callback_gest(data):
 
 def listener():
     rospy.init_node('listener')
-    rospy.Subscriber('rgbs', String, callback_rgb)
+    rospy.Subscriber('rgb', String, callback_rgb)
     rospy.Subscriber('depth', String, callback_depth)
     rospy.Subscriber('gesture', String, callback_gest)
     rospy.spin()

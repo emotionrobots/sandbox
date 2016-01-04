@@ -33,7 +33,12 @@ IF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/skeleton/msg" TYPE FILE FILES "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg")
+  FILE(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/skeleton/msg" TYPE FILE FILES
+    "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg"
+    "/home/aurash/catkin_ws/src/skeleton/msg/face_p.msg"
+    "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg"
+    "/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg"
+    )
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")

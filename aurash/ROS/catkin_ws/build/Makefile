@@ -244,6 +244,71 @@ gtest_main/fast:
 .PHONY : gtest_main/fast
 
 #=============================================================================
+# Target rules for targets named _catkin_empty_exported_target
+
+# Build rule for target.
+_catkin_empty_exported_target: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _catkin_empty_exported_target
+.PHONY : _catkin_empty_exported_target
+
+# fast build rule for target.
+_catkin_empty_exported_target/fast:
+	$(MAKE) -f skeleton/CMakeFiles/_catkin_empty_exported_target.dir/build.make skeleton/CMakeFiles/_catkin_empty_exported_target.dir/build
+.PHONY : _catkin_empty_exported_target/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_skeleton
+
+# Build rule for target.
+_run_tests_skeleton: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_skeleton
+.PHONY : _run_tests_skeleton
+
+# fast build rule for target.
+_run_tests_skeleton/fast:
+	$(MAKE) -f skeleton/CMakeFiles/_run_tests_skeleton.dir/build.make skeleton/CMakeFiles/_run_tests_skeleton.dir/build
+.PHONY : _run_tests_skeleton/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_skeleton_roslaunch-check
+
+# Build rule for target.
+_run_tests_skeleton_roslaunch-check: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_skeleton_roslaunch-check
+.PHONY : _run_tests_skeleton_roslaunch-check
+
+# fast build rule for target.
+_run_tests_skeleton_roslaunch-check/fast:
+	$(MAKE) -f skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/build.make skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/build
+.PHONY : _run_tests_skeleton_roslaunch-check/fast
+
+#=============================================================================
+# Target rules for targets named _run_tests_skeleton_roslaunch-check_launch
+
+# Build rule for target.
+_run_tests_skeleton_roslaunch-check_launch: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _run_tests_skeleton_roslaunch-check_launch
+.PHONY : _run_tests_skeleton_roslaunch-check_launch
+
+# fast build rule for target.
+_run_tests_skeleton_roslaunch-check_launch/fast:
+	$(MAKE) -f skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/build.make skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/build
+.PHONY : _run_tests_skeleton_roslaunch-check_launch/fast
+
+#=============================================================================
+# Target rules for targets named _skeleton_generate_messages_check_deps_Face
+
+# Build rule for target.
+_skeleton_generate_messages_check_deps_Face: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _skeleton_generate_messages_check_deps_Face
+.PHONY : _skeleton_generate_messages_check_deps_Face
+
+# fast build rule for target.
+_skeleton_generate_messages_check_deps_Face/fast:
+	$(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/build
+.PHONY : _skeleton_generate_messages_check_deps_Face/fast
+
+#=============================================================================
 # Target rules for targets named _skeleton_generate_messages_check_deps_Skeleton
 
 # Build rule for target.
@@ -255,6 +320,32 @@ _skeleton_generate_messages_check_deps_Skeleton: cmake_check_build_system
 _skeleton_generate_messages_check_deps_Skeleton/fast:
 	$(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/build
 .PHONY : _skeleton_generate_messages_check_deps_Skeleton/fast
+
+#=============================================================================
+# Target rules for targets named _skeleton_generate_messages_check_deps_UnknownFace
+
+# Build rule for target.
+_skeleton_generate_messages_check_deps_UnknownFace: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _skeleton_generate_messages_check_deps_UnknownFace
+.PHONY : _skeleton_generate_messages_check_deps_UnknownFace
+
+# fast build rule for target.
+_skeleton_generate_messages_check_deps_UnknownFace/fast:
+	$(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/build
+.PHONY : _skeleton_generate_messages_check_deps_UnknownFace/fast
+
+#=============================================================================
+# Target rules for targets named _skeleton_generate_messages_check_deps_face_p
+
+# Build rule for target.
+_skeleton_generate_messages_check_deps_face_p: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _skeleton_generate_messages_check_deps_face_p
+.PHONY : _skeleton_generate_messages_check_deps_face_p
+
+# fast build rule for target.
+_skeleton_generate_messages_check_deps_face_p/fast:
+	$(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/build
+.PHONY : _skeleton_generate_messages_check_deps_face_p/fast
 
 #=============================================================================
 # Target rules for targets named _skeleton_generate_messages_check_deps_festTTS
@@ -424,6 +515,45 @@ rosgraph_msgs_generate_messages_py: cmake_check_build_system
 rosgraph_msgs_generate_messages_py/fast:
 	$(MAKE) -f skeleton/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make skeleton/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
 .PHONY : rosgraph_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_skeleton
+
+# Build rule for target.
+run_tests_skeleton: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_skeleton
+.PHONY : run_tests_skeleton
+
+# fast build rule for target.
+run_tests_skeleton/fast:
+	$(MAKE) -f skeleton/CMakeFiles/run_tests_skeleton.dir/build.make skeleton/CMakeFiles/run_tests_skeleton.dir/build
+.PHONY : run_tests_skeleton/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_skeleton_roslaunch-check
+
+# Build rule for target.
+run_tests_skeleton_roslaunch-check: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_skeleton_roslaunch-check
+.PHONY : run_tests_skeleton_roslaunch-check
+
+# fast build rule for target.
+run_tests_skeleton_roslaunch-check/fast:
+	$(MAKE) -f skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check.dir/build.make skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check.dir/build
+.PHONY : run_tests_skeleton_roslaunch-check/fast
+
+#=============================================================================
+# Target rules for targets named run_tests_skeleton_roslaunch-check_launch
+
+# Build rule for target.
+run_tests_skeleton_roslaunch-check_launch: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 run_tests_skeleton_roslaunch-check_launch
+.PHONY : run_tests_skeleton_roslaunch-check_launch
+
+# fast build rule for target.
+run_tests_skeleton_roslaunch-check_launch/fast:
+	$(MAKE) -f skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check_launch.dir/build.make skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check_launch.dir/build
+.PHONY : run_tests_skeleton_roslaunch-check_launch/fast
 
 #=============================================================================
 # Target rules for targets named sensor_msgs_generate_messages_cpp
@@ -627,7 +757,14 @@ help:
 	@echo "... tests"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... _catkin_empty_exported_target"
+	@echo "... _run_tests_skeleton"
+	@echo "... _run_tests_skeleton_roslaunch-check"
+	@echo "... _run_tests_skeleton_roslaunch-check_launch"
+	@echo "... _skeleton_generate_messages_check_deps_Face"
 	@echo "... _skeleton_generate_messages_check_deps_Skeleton"
+	@echo "... _skeleton_generate_messages_check_deps_UnknownFace"
+	@echo "... _skeleton_generate_messages_check_deps_face_p"
 	@echo "... _skeleton_generate_messages_check_deps_festTTS"
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... geometry_msgs_generate_messages_lisp"
@@ -641,6 +778,9 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
+	@echo "... run_tests_skeleton"
+	@echo "... run_tests_skeleton_roslaunch-check"
+	@echo "... run_tests_skeleton_roslaunch-check_launch"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_py"

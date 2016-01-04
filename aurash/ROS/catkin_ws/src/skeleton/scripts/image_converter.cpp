@@ -106,24 +106,23 @@ public:
             std::vector<full_object_detection> shapes;
             cv::Mat temp2;
             temp2= toMat(cimg);
+            std_msgs::UInt32MultiArray array;
+            skeleton::face_p msg2;
             for (unsigned long i = 0; i < faces.size(); ++i)
                 {
                   //shapes.push_back(pose_model(cimg, faces[i]));
                   full_object_detection shape = pose_model(cimg, faces[i]);
-                  
+
                   for( int i=0; i<shape.num_parts();i++)
                     {
-                      std_msgs::UInt32MultiArray array;
+                      
                       //assign array a random number between 0 and 255.
                       array.data.push_back(int(shape.part(i).x()));
                       array.data.push_back(int(shape.part(i).y()));
-                      skeleton::face_p msg2;
-                      msg2.arr=array;
                       msg2.image = *cv_ptr->toImageMsg();
-                      face_points_.publish(msg2);
-                      
                       cv::circle(temp2, cv::Point(shape.part(i).x(),shape.part(i).y()), 2, (0,0,255), CV_FILLED, CV_AA, 0);
                       }
+
                       //int fontFace = CV_FONT_HERSHEY_SCRIPT_SIMPLEX;
                       //double fontScale = .3;
                       //int thickness = 1;  
@@ -131,6 +130,9 @@ public:
                       //convert << i; 
                       //cv::putText(temp2, convert.str(), cv::Point(shape.part(i).x(),shape.part(i).y()), fontFace, fontScale, (0,0,255), thickness,8);
                     }
+                    msg2.arr=array;
+                    cout <<array<< endl;
+                    face_points_.publish(msg2);
                     
                  
                   //cout << "number of parts: "<< shape.num_parts() << endl;
@@ -165,7 +167,7 @@ public:
 
     
     // Output modified video stream
-    image_pub_.publish(cv_ptr->toImageMsg());
+    //image_pub_.publish(cv_ptr->toImageMsg());
   }
 };
 

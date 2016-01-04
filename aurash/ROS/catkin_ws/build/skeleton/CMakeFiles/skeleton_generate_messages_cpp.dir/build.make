@@ -48,26 +48,58 @@ CMAKE_BINARY_DIR = /home/aurash/catkin_ws/build
 # Include the progress variables for this target.
 include skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/progress.make
 
+skeleton/CMakeFiles/skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/UnknownFace.h
 skeleton/CMakeFiles/skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/Skeleton.h
+skeleton/CMakeFiles/skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/Face.h
+skeleton/CMakeFiles/skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/face_p.h
 skeleton/CMakeFiles/skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/festTTS.h
+
+/home/aurash/catkin_ws/devel/include/skeleton/UnknownFace.h: /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py
+/home/aurash/catkin_ws/devel/include/skeleton/UnknownFace.h: /home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg
+/home/aurash/catkin_ws/devel/include/skeleton/UnknownFace.h: /opt/ros/indigo/share/gencpp/cmake/../msg.h.template
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating C++ code from skeleton/UnknownFace.msg"
+	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/include/skeleton -e /opt/ros/indigo/share/gencpp/cmake/..
 
 /home/aurash/catkin_ws/devel/include/skeleton/Skeleton.h: /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py
 /home/aurash/catkin_ws/devel/include/skeleton/Skeleton.h: /home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg
 /home/aurash/catkin_ws/devel/include/skeleton/Skeleton.h: /opt/ros/indigo/share/gencpp/cmake/../msg.h.template
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_1)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_2)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating C++ code from skeleton/Skeleton.msg"
-	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/include/skeleton -e /opt/ros/indigo/share/gencpp/cmake/..
+	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/include/skeleton -e /opt/ros/indigo/share/gencpp/cmake/..
+
+/home/aurash/catkin_ws/devel/include/skeleton/Face.h: /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py
+/home/aurash/catkin_ws/devel/include/skeleton/Face.h: /home/aurash/catkin_ws/src/skeleton/msg/Face.msg
+/home/aurash/catkin_ws/devel/include/skeleton/Face.h: /opt/ros/indigo/share/gencpp/cmake/../msg.h.template
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating C++ code from skeleton/Face.msg"
+	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/aurash/catkin_ws/src/skeleton/msg/Face.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/include/skeleton -e /opt/ros/indigo/share/gencpp/cmake/..
+
+/home/aurash/catkin_ws/devel/include/skeleton/face_p.h: /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py
+/home/aurash/catkin_ws/devel/include/skeleton/face_p.h: /home/aurash/catkin_ws/src/skeleton/msg/face_p.msg
+/home/aurash/catkin_ws/devel/include/skeleton/face_p.h: /opt/ros/indigo/share/std_msgs/cmake/../msg/UInt32MultiArray.msg
+/home/aurash/catkin_ws/devel/include/skeleton/face_p.h: /opt/ros/indigo/share/std_msgs/cmake/../msg/MultiArrayDimension.msg
+/home/aurash/catkin_ws/devel/include/skeleton/face_p.h: /opt/ros/indigo/share/sensor_msgs/cmake/../msg/Image.msg
+/home/aurash/catkin_ws/devel/include/skeleton/face_p.h: /opt/ros/indigo/share/std_msgs/cmake/../msg/Header.msg
+/home/aurash/catkin_ws/devel/include/skeleton/face_p.h: /opt/ros/indigo/share/std_msgs/cmake/../msg/MultiArrayLayout.msg
+/home/aurash/catkin_ws/devel/include/skeleton/face_p.h: /opt/ros/indigo/share/gencpp/cmake/../msg.h.template
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating C++ code from skeleton/face_p.msg"
+	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/aurash/catkin_ws/src/skeleton/msg/face_p.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/include/skeleton -e /opt/ros/indigo/share/gencpp/cmake/..
 
 /home/aurash/catkin_ws/devel/include/skeleton/festTTS.h: /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py
 /home/aurash/catkin_ws/devel/include/skeleton/festTTS.h: /home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv
 /home/aurash/catkin_ws/devel/include/skeleton/festTTS.h: /opt/ros/indigo/share/gencpp/cmake/../msg.h.template
 /home/aurash/catkin_ws/devel/include/skeleton/festTTS.h: /opt/ros/indigo/share/gencpp/cmake/../srv.h.template
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating C++ code from skeleton/festTTS.srv"
-	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/include/skeleton -e /opt/ros/indigo/share/gencpp/cmake/..
+	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/gencpp/cmake/../../../lib/gencpp/gen_cpp.py /home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/include/skeleton -e /opt/ros/indigo/share/gencpp/cmake/..
 
 skeleton_generate_messages_cpp: skeleton/CMakeFiles/skeleton_generate_messages_cpp
+skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/UnknownFace.h
 skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/Skeleton.h
+skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/Face.h
+skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/face_p.h
 skeleton_generate_messages_cpp: /home/aurash/catkin_ws/devel/include/skeleton/festTTS.h
 skeleton_generate_messages_cpp: skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/build.make
 .PHONY : skeleton_generate_messages_cpp

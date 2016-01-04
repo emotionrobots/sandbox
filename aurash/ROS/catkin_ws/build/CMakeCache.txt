@@ -629,6 +629,9 @@ mkl_rt:FILEPATH=mkl_rt-NOTFOUND
 //Path to a library.
 mkl_thread:FILEPATH=mkl_thread-NOTFOUND
 
+//The directory containing a CMake configuration file for msg/face_p.
+msg/face_p_DIR:PATH=msg/face_p_DIR-NOTFOUND
+
 //Path to a library.
 nsllib:FILEPATH=/usr/lib/x86_64-linux-gnu/libnsl.so
 
@@ -652,6 +655,9 @@ roscpp_traits_DIR:PATH=/opt/ros/indigo/share/roscpp_traits/cmake
 
 //The directory containing a CMake configuration file for rosgraph_msgs.
 rosgraph_msgs_DIR:PATH=/opt/ros/indigo/share/rosgraph_msgs/cmake
+
+//The directory containing a CMake configuration file for roslaunch.
+roslaunch_DIR:PATH=/opt/ros/indigo/share/roslaunch/cmake
 
 //The directory containing a CMake configuration file for roslib.
 roslib_DIR:PATH=/opt/ros/indigo/share/roslib/cmake

@@ -1,2 +1,2 @@
-UInt32MultiArray arr
+int32[] arr
 sensor_msgs/Image image
