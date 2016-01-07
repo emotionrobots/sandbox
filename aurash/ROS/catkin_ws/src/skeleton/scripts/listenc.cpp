@@ -52,7 +52,7 @@ void callback_rgb(const std_msgs::String::ConstPtr& msg)
   
         cv::VideoCapture cap(0);
         //cv::Mat::Mat(640,480,CV_8UC3,msg->data.c_str());
-        image_window win;
+        //image_window win;
 
         // Load face detection and pose estimation models.
         frontal_face_detector detector = get_frontal_face_detector();

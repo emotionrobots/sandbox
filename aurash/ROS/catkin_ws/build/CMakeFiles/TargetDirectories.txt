@@ -2,6 +2,7 @@
 /home/aurash/catkin_ws/build/skeleton/CMakeFiles/_run_tests_skeleton.dir
 /home/aurash/catkin_ws/build/skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir
 /home/aurash/catkin_ws/build/skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir
+/home/aurash/catkin_ws/build/skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir
 /home/aurash/catkin_ws/build/skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir
 /home/aurash/catkin_ws/build/skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir
 /home/aurash/catkin_ws/build/skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir

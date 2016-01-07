@@ -304,6 +304,7 @@ skeleton/clean: skeleton/CMakeFiles/_catkin_empty_exported_target.dir/clean
 skeleton/clean: skeleton/CMakeFiles/_run_tests_skeleton.dir/clean
 skeleton/clean: skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/clean
 skeleton/clean: skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/clean
+skeleton/clean: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/clean
 skeleton/clean: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/clean
 skeleton/clean: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/clean
 skeleton/clean: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/clean
@@ -467,6 +468,37 @@ skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/clean:
 
 # clean rule for target.
 clean: skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir
+
+# All Build rule for target.
+skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/all:
+	$(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/depend
+	$(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles 
+	@echo "Built target _skeleton_generate_messages_check_deps_CustomString"
+.PHONY : skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/all
+
+# Build rule for subdir invocation for target.
+skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
+.PHONY : skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/rule
+
+# Convenience name for target.
+_skeleton_generate_messages_check_deps_CustomString: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/rule
+.PHONY : _skeleton_generate_messages_check_deps_CustomString
+
+# clean rule for target.
+skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/clean:
+	$(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/clean
+.PHONY : skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/clean
+
+# clean rule for target.
+clean: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -721,8 +753,8 @@ clean: skeleton/CMakeFiles/geometry_msgs_generate_messages_py.dir/clean
 # Target rules for target skeleton/CMakeFiles/image_converter.dir
 
 # All Build rule for target.
-skeleton/CMakeFiles/image_converter.dir/all: skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all
 skeleton/CMakeFiles/image_converter.dir/all: skeleton/dlib_build/CMakeFiles/dlib.dir/all
+skeleton/CMakeFiles/image_converter.dir/all: skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all
 	$(MAKE) -f skeleton/CMakeFiles/image_converter.dir/build.make skeleton/CMakeFiles/image_converter.dir/depend
 	$(MAKE) -f skeleton/CMakeFiles/image_converter.dir/build.make skeleton/CMakeFiles/image_converter.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles  53
@@ -735,7 +767,7 @@ all: skeleton/CMakeFiles/image_converter.dir/all
 
 # Build rule for subdir invocation for target.
 skeleton/CMakeFiles/image_converter.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 56
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 57
 	$(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/image_converter.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
 .PHONY : skeleton/CMakeFiles/image_converter.dir/rule
@@ -1208,7 +1240,7 @@ skeleton/CMakeFiles/skeleton_gencpp.dir/all: skeleton/CMakeFiles/skeleton_genera
 
 # Build rule for subdir invocation for target.
 skeleton/CMakeFiles/skeleton_gencpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/skeleton_gencpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
 .PHONY : skeleton/CMakeFiles/skeleton_gencpp.dir/rule
@@ -1231,8 +1263,8 @@ clean: skeleton/CMakeFiles/skeleton_gencpp.dir/clean
 
 # All Build rule for target.
 skeleton/CMakeFiles/skeleton_generate_messages.dir/all: skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages.dir/all: skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all
 skeleton/CMakeFiles/skeleton_generate_messages.dir/all: skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages.dir/all: skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all
 	$(MAKE) -f skeleton/CMakeFiles/skeleton_generate_messages.dir/build.make skeleton/CMakeFiles/skeleton_generate_messages.dir/depend
 	$(MAKE) -f skeleton/CMakeFiles/skeleton_generate_messages.dir/build.make skeleton/CMakeFiles/skeleton_generate_messages.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles 
@@ -1245,7 +1277,7 @@ all: skeleton/CMakeFiles/skeleton_generate_messages.dir/all
 
 # Build rule for subdir invocation for target.
 skeleton/CMakeFiles/skeleton_generate_messages.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 17
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 20
 	$(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/skeleton_generate_messages.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
 .PHONY : skeleton/CMakeFiles/skeleton_generate_messages.dir/rule
@@ -1267,22 +1299,23 @@ clean: skeleton/CMakeFiles/skeleton_generate_messages.dir/clean
 # Target rules for target skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir
 
 # All Build rule for target.
-skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/all
 skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/std_msgs_generate_messages_cpp.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_festTTS.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/all
 skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/all
 skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_festTTS.dir/all
 	$(MAKE) -f skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/build.make skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/depend
 	$(MAKE) -f skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/build.make skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles  56 57 58 59 60
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles  56 57 58 59 60 61
 	@echo "Built target skeleton_generate_messages_cpp"
 .PHONY : skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all
 
 # Build rule for subdir invocation for target.
 skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
 .PHONY : skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/rule
@@ -1304,22 +1337,23 @@ clean: skeleton/CMakeFiles/skeleton_generate_messages_cpp.dir/clean
 # Target rules for target skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir
 
 # All Build rule for target.
-skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_festTTS.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/all
 skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/std_msgs_generate_messages_lisp.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/all
 skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_festTTS.dir/all
 	$(MAKE) -f skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/build.make skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/depend
 	$(MAKE) -f skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/build.make skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles  61 62 63 64 65
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles  62 63 64 65 66 67
 	@echo "Built target skeleton_generate_messages_lisp"
 .PHONY : skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all
 
 # Build rule for subdir invocation for target.
 skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
 .PHONY : skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/rule
@@ -1341,22 +1375,23 @@ clean: skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/clean
 # Target rules for target skeleton/CMakeFiles/skeleton_generate_messages_py.dir
 
 # All Build rule for target.
-skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/all
 skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/std_msgs_generate_messages_py.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_festTTS.dir/all
-skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/all
 skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/sensor_msgs_generate_messages_py.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/all
 skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/all
+skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_festTTS.dir/all
 	$(MAKE) -f skeleton/CMakeFiles/skeleton_generate_messages_py.dir/build.make skeleton/CMakeFiles/skeleton_generate_messages_py.dir/depend
 	$(MAKE) -f skeleton/CMakeFiles/skeleton_generate_messages_py.dir/build.make skeleton/CMakeFiles/skeleton_generate_messages_py.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles  66 67 68 69 70 71 72
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles  68 69 70 71 72 73 74 75
 	@echo "Built target skeleton_generate_messages_py"
 .PHONY : skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
 skeleton/CMakeFiles/skeleton_generate_messages_py.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/skeleton_generate_messages_py.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
 .PHONY : skeleton/CMakeFiles/skeleton_generate_messages_py.dir/rule
@@ -1387,7 +1422,7 @@ skeleton/CMakeFiles/skeleton_genlisp.dir/all: skeleton/CMakeFiles/skeleton_gener
 
 # Build rule for subdir invocation for target.
 skeleton/CMakeFiles/skeleton_genlisp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/skeleton_genlisp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
 .PHONY : skeleton/CMakeFiles/skeleton_genlisp.dir/rule
@@ -1418,7 +1453,7 @@ skeleton/CMakeFiles/skeleton_genpy.dir/all: skeleton/CMakeFiles/skeleton_generat
 
 # Build rule for subdir invocation for target.
 skeleton/CMakeFiles/skeleton_genpy.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/skeleton_genpy.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aurash/catkin_ws/build/CMakeFiles 0
 .PHONY : skeleton/CMakeFiles/skeleton_genpy.dir/rule

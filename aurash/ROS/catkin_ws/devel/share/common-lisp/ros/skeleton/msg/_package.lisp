@@ -1,6 +1,8 @@
 (cl:defpackage skeleton-msg
   (:use )
   (:export
+   "<CUSTOMSTRING>"
+   "CUSTOMSTRING"
    "<OPENCV>"
    "OPENCV"
    "<SKELETON>"

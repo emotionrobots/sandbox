@@ -1,6 +1,7 @@
 FILE(REMOVE_RECURSE
   "CMakeFiles/skeleton_generate_messages_cpp"
   "/home/aurash/catkin_ws/devel/include/skeleton/UnknownFace.h"
+  "/home/aurash/catkin_ws/devel/include/skeleton/CustomString.h"
   "/home/aurash/catkin_ws/devel/include/skeleton/Skeleton.h"
   "/home/aurash/catkin_ws/devel/include/skeleton/Face.h"
   "/home/aurash/catkin_ws/devel/include/skeleton/face_p.h"

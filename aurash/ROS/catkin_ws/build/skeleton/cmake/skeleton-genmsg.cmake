@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "skeleton: 4 messages, 1 services")
+message(STATUS "skeleton: 5 messages, 1 services")
 
 set(MSG_I_FLAGS "-Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg;-Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg;-Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg")
 
@@ -15,9 +15,14 @@ add_custom_target(skeleton_generate_messages ALL)
 
 
 
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg" NAME_WE)
 add_custom_target(_skeleton_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "skeleton" "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" ""
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "skeleton" "/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg" "std_msgs/Header"
+)
+
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" NAME_WE)
+add_custom_target(_skeleton_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "skeleton" "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" ""
 )
 
 get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/face_p.msg" NAME_WE)
@@ -25,14 +30,14 @@ add_custom_target(_skeleton_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "skeleton" "/home/aurash/catkin_ws/src/skeleton/msg/face_p.msg" "std_msgs/UInt32MultiArray:std_msgs/MultiArrayDimension:sensor_msgs/Image:std_msgs/Header:std_msgs/MultiArrayLayout"
 )
 
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" NAME_WE)
+add_custom_target(_skeleton_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "skeleton" "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" ""
+)
+
 get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg" NAME_WE)
 add_custom_target(_skeleton_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "skeleton" "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg" ""
-)
-
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" NAME_WE)
-add_custom_target(_skeleton_generate_messages_check_deps_${_filename}
-  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "skeleton" "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" ""
 )
 
 get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg" NAME_WE)
@@ -50,6 +55,12 @@ _generate_msg_cpp(skeleton
   "/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg"
   "${MSG_I_FLAGS}"
   ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/skeleton
+)
+_generate_msg_cpp(skeleton
+  "/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/indigo/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/skeleton
 )
 _generate_msg_cpp(skeleton
@@ -91,13 +102,15 @@ add_custom_target(skeleton_generate_messages_cpp
 add_dependencies(skeleton_generate_messages skeleton_generate_messages_cpp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg" NAME_WE)
+add_dependencies(skeleton_generate_messages_cpp _skeleton_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_cpp _skeleton_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/face_p.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_cpp _skeleton_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" NAME_WE)
 add_dependencies(skeleton_generate_messages_cpp _skeleton_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_cpp _skeleton_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_cpp _skeleton_generate_messages_check_deps_${_filename})
@@ -115,6 +128,12 @@ _generate_msg_lisp(skeleton
   "/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg"
   "${MSG_I_FLAGS}"
   ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/skeleton
+)
+_generate_msg_lisp(skeleton
+  "/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/indigo/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/skeleton
 )
 _generate_msg_lisp(skeleton
@@ -156,13 +175,15 @@ add_custom_target(skeleton_generate_messages_lisp
 add_dependencies(skeleton_generate_messages skeleton_generate_messages_lisp)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg" NAME_WE)
+add_dependencies(skeleton_generate_messages_lisp _skeleton_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_lisp _skeleton_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/face_p.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_lisp _skeleton_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" NAME_WE)
 add_dependencies(skeleton_generate_messages_lisp _skeleton_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_lisp _skeleton_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_lisp _skeleton_generate_messages_check_deps_${_filename})
@@ -180,6 +201,12 @@ _generate_msg_py(skeleton
   "/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg"
   "${MSG_I_FLAGS}"
   ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/skeleton
+)
+_generate_msg_py(skeleton
+  "/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg"
+  "${MSG_I_FLAGS}"
+  "/opt/ros/indigo/share/std_msgs/cmake/../msg/Header.msg"
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/skeleton
 )
 _generate_msg_py(skeleton
@@ -221,13 +248,15 @@ add_custom_target(skeleton_generate_messages_py
 add_dependencies(skeleton_generate_messages skeleton_generate_messages_py)
 
 # add dependencies to all check dependencies targets
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg" NAME_WE)
+add_dependencies(skeleton_generate_messages_py _skeleton_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_py _skeleton_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/face_p.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_py _skeleton_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv" NAME_WE)
 add_dependencies(skeleton_generate_messages_py _skeleton_generate_messages_check_deps_${_filename})
-get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg" NAME_WE)
+get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_py _skeleton_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg" NAME_WE)
 add_dependencies(skeleton_generate_messages_py _skeleton_generate_messages_check_deps_${_filename})

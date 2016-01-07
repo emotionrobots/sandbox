@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg;/home/aurash/catkin_ws/src/skeleton/msg/face_p.msg;/home/aurash/catkin_ws/src/skeleton/msg/Face.msg;/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg"
+messages_str = "/home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg;/home/aurash/catkin_ws/src/skeleton/msg/face_p.msg;/home/aurash/catkin_ws/src/skeleton/msg/Face.msg;/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg;/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg"
 services_str = "/home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv"
 pkg_name = "skeleton"
 dependencies_str = "std_msgs;sensor_msgs"

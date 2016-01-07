@@ -14,7 +14,7 @@
 
 <node name="listenface" pkg="skeleton" type="listenfrec.py" respawn="true" />
 
-
+<node name="listenpoints" pkg="skeleton" type="listenpoints.py" respawn="true" />
 
 <node name="imageconverter" pkg="skeleton" type="image_converter" respawn="true" />
 

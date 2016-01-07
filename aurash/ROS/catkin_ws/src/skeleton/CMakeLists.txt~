@@ -63,6 +63,7 @@ find_package(catkin REQUIRED COMPONENTS
    face_p.msg
    Face.msg
    UnknownFace.msg
+CustomString.msg
 )
 
 ## Generate services in the 'srv' folder

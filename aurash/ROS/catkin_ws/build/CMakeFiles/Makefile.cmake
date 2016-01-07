@@ -230,6 +230,7 @@ SET(CMAKE_DEPEND_INFO_FILES
   "skeleton/CMakeFiles/_run_tests_skeleton.dir/DependInfo.cmake"
   "skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/DependInfo.cmake"
   "skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/DependInfo.cmake"
+  "skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/DependInfo.cmake"
   "skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/DependInfo.cmake"
   "skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/DependInfo.cmake"
   "skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/DependInfo.cmake"

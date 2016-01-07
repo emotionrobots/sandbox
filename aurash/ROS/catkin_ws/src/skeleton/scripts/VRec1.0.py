@@ -12,6 +12,8 @@ from std_msgs.msg import String
 # from geometry_msgs.msg import Point
 from skeleton.msg import Face
 from skeleton.msg import UnknownFace
+from skeleton.msg import CustomString
+
 
 from facerec.model import PredictableModel
 from facerec.feature import Fisherfaces
@@ -415,7 +417,7 @@ def callback_rgb(data):
 
 def listener():
     rospy.init_node('listener')
-    rospy.Subscriber('rgb', String, callback_rgb)
+    rospy.Subscriber('rgb', CustomString, callback_rgb)
     #rospy.Subscriber('depth', String, callback_depth)
     #rospy.Subscriber('gesture', String, callback_gest)
     rospy.spin()

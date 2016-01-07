@@ -49,6 +49,7 @@ CMAKE_BINARY_DIR = /home/aurash/catkin_ws/build
 include skeleton/CMakeFiles/skeleton_generate_messages_lisp.dir/progress.make
 
 skeleton/CMakeFiles/skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/UnknownFace.lisp
+skeleton/CMakeFiles/skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/CustomString.lisp
 skeleton/CMakeFiles/skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/Skeleton.lisp
 skeleton/CMakeFiles/skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/Face.lisp
 skeleton/CMakeFiles/skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/face_p.lisp
@@ -60,15 +61,22 @@ skeleton/CMakeFiles/skeleton_generate_messages_lisp: /home/aurash/catkin_ws/deve
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Lisp code from skeleton/UnknownFace.msg"
 	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg
 
+/home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/CustomString.lisp: /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py
+/home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/CustomString.lisp: /home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg
+/home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/CustomString.lisp: /opt/ros/indigo/share/std_msgs/cmake/../msg/Header.msg
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Lisp code from skeleton/CustomString.msg"
+	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg
+
 /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/Skeleton.lisp: /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py
 /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/Skeleton.lisp: /home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_2)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_3)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Lisp code from skeleton/Skeleton.msg"
 	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/aurash/catkin_ws/src/skeleton/msg/Skeleton.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg
 
 /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/Face.lisp: /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py
 /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/Face.lisp: /home/aurash/catkin_ws/src/skeleton/msg/Face.msg
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_3)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_4)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Lisp code from skeleton/Face.msg"
 	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/aurash/catkin_ws/src/skeleton/msg/Face.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg
 
@@ -79,18 +87,19 @@ skeleton/CMakeFiles/skeleton_generate_messages_lisp: /home/aurash/catkin_ws/deve
 /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/face_p.lisp: /opt/ros/indigo/share/sensor_msgs/cmake/../msg/Image.msg
 /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/face_p.lisp: /opt/ros/indigo/share/std_msgs/cmake/../msg/Header.msg
 /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/face_p.lisp: /opt/ros/indigo/share/std_msgs/cmake/../msg/MultiArrayLayout.msg
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_4)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_5)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Lisp code from skeleton/face_p.msg"
 	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/aurash/catkin_ws/src/skeleton/msg/face_p.msg -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg
 
 /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/srv/festTTS.lisp: /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py
 /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/srv/festTTS.lisp: /home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/aurash/catkin_ws/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating Lisp code from skeleton/festTTS.srv"
 	cd /home/aurash/catkin_ws/build/skeleton && ../catkin_generated/env_cached.sh /usr/bin/python /opt/ros/indigo/share/genlisp/cmake/../../../lib/genlisp/gen_lisp.py /home/aurash/catkin_ws/src/skeleton/srv/festTTS.srv -Iskeleton:/home/aurash/catkin_ws/src/skeleton/msg -Istd_msgs:/opt/ros/indigo/share/std_msgs/cmake/../msg -Isensor_msgs:/opt/ros/indigo/share/sensor_msgs/cmake/../msg -Igeometry_msgs:/opt/ros/indigo/share/geometry_msgs/cmake/../msg -p skeleton -o /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/srv
 
 skeleton_generate_messages_lisp: skeleton/CMakeFiles/skeleton_generate_messages_lisp
 skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/UnknownFace.lisp
+skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/CustomString.lisp
 skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/Skeleton.lisp
 skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/Face.lisp
 skeleton_generate_messages_lisp: /home/aurash/catkin_ws/devel/share/common-lisp/ros/skeleton/msg/face_p.lisp

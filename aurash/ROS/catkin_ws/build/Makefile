@@ -296,6 +296,19 @@ _run_tests_skeleton_roslaunch-check_launch/fast:
 .PHONY : _run_tests_skeleton_roslaunch-check_launch/fast
 
 #=============================================================================
+# Target rules for targets named _skeleton_generate_messages_check_deps_CustomString
+
+# Build rule for target.
+_skeleton_generate_messages_check_deps_CustomString: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _skeleton_generate_messages_check_deps_CustomString
+.PHONY : _skeleton_generate_messages_check_deps_CustomString
+
+# fast build rule for target.
+_skeleton_generate_messages_check_deps_CustomString/fast:
+	$(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/build
+.PHONY : _skeleton_generate_messages_check_deps_CustomString/fast
+
+#=============================================================================
 # Target rules for targets named _skeleton_generate_messages_check_deps_Face
 
 # Build rule for target.
@@ -761,6 +774,7 @@ help:
 	@echo "... _run_tests_skeleton"
 	@echo "... _run_tests_skeleton_roslaunch-check"
 	@echo "... _run_tests_skeleton_roslaunch-check_launch"
+	@echo "... _skeleton_generate_messages_check_deps_CustomString"
 	@echo "... _skeleton_generate_messages_check_deps_Face"
 	@echo "... _skeleton_generate_messages_check_deps_Skeleton"
 	@echo "... _skeleton_generate_messages_check_deps_UnknownFace"

@@ -8,8 +8,10 @@
 /home/aurash/catkin_ws/install/share/skeleton/msg/face_p.msg
 /home/aurash/catkin_ws/install/share/skeleton/msg/Face.msg
 /home/aurash/catkin_ws/install/share/skeleton/msg/UnknownFace.msg
+/home/aurash/catkin_ws/install/share/skeleton/msg/CustomString.msg
 /home/aurash/catkin_ws/install/share/skeleton/srv/festTTS.srv
 /home/aurash/catkin_ws/install/share/skeleton/cmake/skeleton-msg-paths.cmake
+/home/aurash/catkin_ws/install/include/skeleton/CustomString.h
 /home/aurash/catkin_ws/install/include/skeleton/Skeleton.h
 /home/aurash/catkin_ws/install/include/skeleton/UnknownFace.h
 /home/aurash/catkin_ws/install/include/skeleton/festTTS.h
@@ -23,9 +25,11 @@
 /home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/srv/festTTS.lisp
 /home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/_package_face_p.lisp
 /home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/face_p.lisp
+/home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/_package_CustomString.lisp
 /home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/_package.lisp
 /home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/skeleton-msg.asd
 /home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/_package_Face.lisp
+/home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/CustomString.lisp
 /home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/_package_UnknownFace.lisp
 /home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/UnknownFace.lisp
 /home/aurash/catkin_ws/install/share/common-lisp/ros/skeleton/msg/Skeleton.lisp
@@ -37,8 +41,10 @@
 /home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/srv/_festTTS.py
 /home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/__init__.pyc
 /home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/msg/_UnknownFace.py
+/home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/msg/_CustomString.py
 /home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/msg/_UnknownFace.pyc
 /home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/msg/__init__.pyc
+/home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/msg/_CustomString.pyc
 /home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/msg/_Skeleton.py
 /home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/msg/_face_p.pyc
 /home/aurash/catkin_ws/install/lib/python2.7/dist-packages/skeleton/msg/__init__.py

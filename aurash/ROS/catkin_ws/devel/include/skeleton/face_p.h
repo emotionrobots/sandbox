@@ -15,6 +15,7 @@
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
 
+#include <std_msgs/Header.h>
 #include <std_msgs/UInt32MultiArray.h>
 #include <sensor_msgs/Image.h>
 
@@ -26,15 +27,20 @@ struct face_p_
   typedef face_p_<ContainerAllocator> Type;
 
   face_p_()
-    : arr()
+    : header()
+    , arr()
     , image()  {
     }
   face_p_(const ContainerAllocator& _alloc)
-    : arr(_alloc)
+    : header(_alloc)
+    , arr(_alloc)
     , image(_alloc)  {
     }
 
 
+
+   typedef  ::std_msgs::Header_<ContainerAllocator>  _header_type;
+  _header_type header;
 
    typedef  ::std_msgs::UInt32MultiArray_<ContainerAllocator>  _arr_type;
   _arr_type arr;
@@ -75,7 +81,7 @@ namespace message_traits
 
 
 
-// BOOLTRAITS {'IsFixedSize': False, 'IsMessage': True, 'HasHeader': False}
+// BOOLTRAITS {'IsFixedSize': False, 'IsMessage': True, 'HasHeader': True}
 // {'sensor_msgs': ['/opt/ros/indigo/share/sensor_msgs/cmake/../msg'], 'geometry_msgs': ['/opt/ros/indigo/share/geometry_msgs/cmake/../msg'], 'std_msgs': ['/opt/ros/indigo/share/std_msgs/cmake/../msg'], 'skeleton': ['/home/aurash/catkin_ws/src/skeleton/msg']}
 
 // !!!!!!!!!!! ['__class__', '__delattr__', '__dict__', '__doc__', '__eq__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_parsed_fields', 'constants', 'fields', 'full_name', 'has_header', 'header_present', 'names', 'package', 'parsed_fields', 'short_name', 'text', 'types']
@@ -105,12 +111,12 @@ struct IsMessage< ::skeleton::face_p_<ContainerAllocator> const>
 
 template <class ContainerAllocator>
 struct HasHeader< ::skeleton::face_p_<ContainerAllocator> >
-  : FalseType
+  : TrueType
   { };
 
 template <class ContainerAllocator>
 struct HasHeader< ::skeleton::face_p_<ContainerAllocator> const>
-  : FalseType
+  : TrueType
   { };
 
 
@@ -119,12 +125,12 @@ struct MD5Sum< ::skeleton::face_p_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "4b7de952b6c4c53d07ff22da05c45445";
+    return "ef577c59b680f9e7134aea7b455ed9f7";
   }
 
   static const char* value(const ::skeleton::face_p_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x4b7de952b6c4c53dULL;
-  static const uint64_t static_value2 = 0x07ff22da05c45445ULL;
+  static const uint64_t static_value1 = 0xef577c59b680f9e7ULL;
+  static const uint64_t static_value2 = 0x134aea7b455ed9f7ULL;
 };
 
 template<class ContainerAllocator>
@@ -143,8 +149,27 @@ struct Definition< ::skeleton::face_p_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "std_msgs/UInt32MultiArray arr\n\
+    return "Header header\n\
+std_msgs/UInt32MultiArray arr\n\
 sensor_msgs/Image image\n\
+\n\
+================================================================================\n\
+MSG: std_msgs/Header\n\
+# Standard metadata for higher-level stamped data types.\n\
+# This is generally used to communicate timestamped data \n\
+# in a particular coordinate frame.\n\
+# \n\
+# sequence ID: consecutively increasing ID \n\
+uint32 seq\n\
+#Two-integer timestamp that is expressed as:\n\
+# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n\
+# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n\
+# time-handling sugar is provided by the client library\n\
+time stamp\n\
+#Frame this data is associated with\n\
+# 0: no frame\n\
+# 1: global frame\n\
+string frame_id\n\
 \n\
 ================================================================================\n\
 MSG: std_msgs/UInt32MultiArray\n\
@@ -217,24 +242,6 @@ string encoding       # Encoding of pixels -- channel meaning, ordering, size\n\
 uint8 is_bigendian    # is this data bigendian?\n\
 uint32 step           # Full row length in bytes\n\
 uint8[] data          # actual matrix data, size is (step * rows)\n\
-\n\
-================================================================================\n\
-MSG: std_msgs/Header\n\
-# Standard metadata for higher-level stamped data types.\n\
-# This is generally used to communicate timestamped data \n\
-# in a particular coordinate frame.\n\
-# \n\
-# sequence ID: consecutively increasing ID \n\
-uint32 seq\n\
-#Two-integer timestamp that is expressed as:\n\
-# * stamp.sec: seconds (stamp_secs) since epoch (in Python the variable is called 'secs')\n\
-# * stamp.nsec: nanoseconds since stamp_secs (in Python the variable is called 'nsecs')\n\
-# time-handling sugar is provided by the client library\n\
-time stamp\n\
-#Frame this data is associated with\n\
-# 0: no frame\n\
-# 1: global frame\n\
-string frame_id\n\
 ";
   }
 
@@ -253,6 +260,7 @@ namespace serialization
   {
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
+      stream.next(m.header);
       stream.next(m.arr);
       stream.next(m.image);
     }
@@ -273,6 +281,9 @@ struct Printer< ::skeleton::face_p_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::skeleton::face_p_<ContainerAllocator>& v)
   {
+    s << indent << "header: ";
+    s << std::endl;
+    Printer< ::std_msgs::Header_<ContainerAllocator> >::stream(s, indent + "  ", v.header);
     s << indent << "arr: ";
     s << std::endl;
     Printer< ::std_msgs::UInt32MultiArray_<ContainerAllocator> >::stream(s, indent + "  ", v.arr);

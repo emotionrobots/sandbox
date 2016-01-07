@@ -1,6 +1,7 @@
 FILE(REMOVE_RECURSE
   "CMakeFiles/skeleton_generate_messages_py"
   "/home/aurash/catkin_ws/devel/lib/python2.7/dist-packages/skeleton/msg/_UnknownFace.py"
+  "/home/aurash/catkin_ws/devel/lib/python2.7/dist-packages/skeleton/msg/_CustomString.py"
   "/home/aurash/catkin_ws/devel/lib/python2.7/dist-packages/skeleton/msg/_Skeleton.py"
   "/home/aurash/catkin_ws/devel/lib/python2.7/dist-packages/skeleton/msg/_Face.py"
   "/home/aurash/catkin_ws/devel/lib/python2.7/dist-packages/skeleton/msg/_face_p.py"

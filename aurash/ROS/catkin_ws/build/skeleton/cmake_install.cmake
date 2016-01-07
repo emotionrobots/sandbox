@@ -38,6 +38,7 @@ IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
     "/home/aurash/catkin_ws/src/skeleton/msg/face_p.msg"
     "/home/aurash/catkin_ws/src/skeleton/msg/Face.msg"
     "/home/aurash/catkin_ws/src/skeleton/msg/UnknownFace.msg"
+    "/home/aurash/catkin_ws/src/skeleton/msg/CustomString.msg"
     )
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 

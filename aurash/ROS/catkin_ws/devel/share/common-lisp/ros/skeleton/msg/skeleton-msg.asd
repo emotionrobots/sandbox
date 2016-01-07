@@ -6,6 +6,8 @@
                :std_msgs-msg
 )
   :components ((:file "_package")
+    (:file "CustomString" :depends-on ("_package_CustomString"))
+    (:file "_package_CustomString" :depends-on ("_package"))
     (:file "opencv" :depends-on ("_package_opencv"))
     (:file "_package_opencv" :depends-on ("_package"))
     (:file "Skeleton" :depends-on ("_package_Skeleton"))

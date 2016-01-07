@@ -14,9 +14,11 @@
 #include <vector>
 #include <sstream>
 #include "std_msgs/MultiArrayLayout.h"
+#include "std_msgs/Header.h"
 #include "std_msgs/MultiArrayDimension.h"
 #include "std_msgs/UInt32MultiArray.h"
 #include "skeleton/face_p.h"
+
 
 
 using namespace dlib;
@@ -132,6 +134,7 @@ public:
                     }
                     msg2.arr=array;
                     cout <<array<< endl;
+                    msg2.header.stamp=  ros::Time::now();
                     face_points_.publish(msg2);
                     
                  
