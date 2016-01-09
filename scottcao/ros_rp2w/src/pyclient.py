@@ -10,8 +10,8 @@ def client(a, b, c, d):
         rp2w_command = rospy.ServiceProxy('rp2w_command', Command)
         resp = rp2w_command(rightMotorSpeedCommand = True, rightMotorSpeed = a, 
                             leftMotorSpeedCommand = True, leftMotorSpeed = b, 
-                            cameraTiltShiftCommand = True, cameraTiltShift = c, 
-                            cameraPanShiftCommand = True, cameraPanShift = d)
+                            cameraTiltCommand = True, cameraTilt = c, 
+                            cameraPanCommand = True, cameraPan = d)
         print resp.commandSuccessful
     except rospy.ServiceException, e:
         print "Service call failed: %s"%e

@@ -118,7 +118,7 @@ set (testapp_VERSION_MINOR 0)
 configure_file (
    "src/rp2wConfig.h.in"
    "src/rp2wConfig.h"
-   )
+)
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
@@ -142,15 +142,20 @@ include_directories(
 
 ## Declare a C++ executable
 add_executable(rp2w src/rp2w.cpp src/rp2w_serial.cpp)
+add_executable(controller src/controller.cpp src/joystick.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(rp2w ros_rp2w_generate_messages_cpp)
+add_dependencies(controller ros_rp2w_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(rp2w
   ${catkin_LIBRARIES}
   serial
+)
+target_link_libraries(controller
+  ${catkin_LIBRARIES}
 )
 
 #############
