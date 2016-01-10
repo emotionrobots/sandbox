@@ -9,6 +9,8 @@
 #include <termio.h>
 #include "joystick.h"
 
+using namespace std;
+
 #define JS_TYPE_BUTTON    1
 #define JS_TYPE_JOYSTICK  2
 
@@ -21,7 +23,6 @@
 #define JS_JOYSTICK_TILT  1
 #define JS_JOYSTICK_TURN  2
 #define JS_JOYSTICK_TRAV  3
-
 
 boost::mutex mutex;
 ros_rp2w::Packet::ConstPtr packet;
@@ -66,12 +67,17 @@ int main(int argc, char **argv) {
   while (ros::ok) {  
     ros_rp2w::Command srv;
     if (mutex.try_lock()) {
-      srv.request.digital1 = packet->digital1;
+      if (packet) {
+        srv.request.digital1 = packet->digital1;
+      }
+      else {
+        srv.request.digital1 = 0;
+      }
       mutex.unlock();
     }
 
     if (read_joystick_event(&jse)) {
-      ROS_INFO("Joystick type=%2d num=%2d\n", jse.type, jse.number);
+      ROS_INFO("Joystick type=%2d num=%2d", jse.type, jse.number);
 
       switch (jse.type) {
 
@@ -143,6 +149,7 @@ int main(int argc, char **argv) {
       else {
         srv.request.digital1 |= 0x40;
       }
+      cout << left_speed << " " << right_speed;
       srv.request.leftMotorSpeed = abs(left_speed);
       srv.request.rightMotorSpeed = abs(right_speed);
 
@@ -150,6 +157,12 @@ int main(int argc, char **argv) {
       tilt_pos -= tilt_speed;
       srv.request.cameraPan = pan_pos;
       srv.request.cameraTilt = tilt_pos;
+
+      srv.request.rightMotorSpeedCommand = true;
+      srv.request.leftMotorSpeedCommand = true;
+      srv.request.cameraTiltCommand = true;
+      srv.request.cameraPanCommand = true;
+      srv.request.digital1Command = true;
     }
 
     if (client.call(srv)) {
