@@ -1,0 +1,2 @@
+set(DLIB_MESSAGE_FILES "/home/julian/sandbox/jpham18/ROS/catkin_ws/src/DLIB/msg/Skeleton.msg;/home/julian/sandbox/jpham18/ROS/catkin_ws/src/DLIB/msg/face_p.msg;/home/julian/sandbox/jpham18/ROS/catkin_ws/src/DLIB/msg/Face.msg;/home/julian/sandbox/jpham18/ROS/catkin_ws/src/DLIB/msg/UnknownFace.msg;/home/julian/sandbox/jpham18/ROS/catkin_ws/src/DLIB/msg/CustomString.msg")
+set(DLIB_SERVICE_FILES "/home/julian/sandbox/jpham18/ROS/catkin_ws/src/DLIB/srv/festTTS.srv")

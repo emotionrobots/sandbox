@@ -291,3 +291,228 @@ Linking C executable cmTryCompileExec1208812325
 make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
 
 
+Determining if the function XOpenDisplay exists in the /usr/lib/x86_64-linux-gnu/libX11.so;/usr/lib/x86_64-linux-gnu/libXext.so passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec1808218294/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1808218294.dir/build.make CMakeFiles/cmTryCompileExec1808218294.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1808218294.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay   -o CMakeFiles/cmTryCompileExec1808218294.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec1808218294
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1808218294.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay    CMakeFiles/cmTryCompileExec1808218294.dir/CheckFunctionExists.c.o  -o cmTryCompileExec1808218294 -rdynamic -lX11 -lXext 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function gethostbyname exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3306681064/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3306681064.dir/build.make CMakeFiles/cmTryCompileExec3306681064.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3306681064.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname   -o CMakeFiles/cmTryCompileExec3306681064.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3306681064
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3306681064.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname    CMakeFiles/cmTryCompileExec3306681064.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3306681064 -rdynamic 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function connect exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2571007580/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2571007580.dir/build.make CMakeFiles/cmTryCompileExec2571007580.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2571007580.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect   -o CMakeFiles/cmTryCompileExec2571007580.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec2571007580
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2571007580.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect    CMakeFiles/cmTryCompileExec2571007580.dir/CheckFunctionExists.c.o  -o cmTryCompileExec2571007580 -rdynamic 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function remove exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2641234038/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2641234038.dir/build.make CMakeFiles/cmTryCompileExec2641234038.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2641234038.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove   -o CMakeFiles/cmTryCompileExec2641234038.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec2641234038
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2641234038.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove    CMakeFiles/cmTryCompileExec2641234038.dir/CheckFunctionExists.c.o  -o cmTryCompileExec2641234038 -rdynamic 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function shmat exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3480834115/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3480834115.dir/build.make CMakeFiles/cmTryCompileExec3480834115.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3480834115.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat   -o CMakeFiles/cmTryCompileExec3480834115.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3480834115
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3480834115.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat    CMakeFiles/cmTryCompileExec3480834115.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3480834115 -rdynamic 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function IceConnectionNumber exists in the ICE passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2787942552/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2787942552.dir/build.make CMakeFiles/cmTryCompileExec2787942552.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2787942552.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber   -o CMakeFiles/cmTryCompileExec2787942552.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec2787942552
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2787942552.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber    CMakeFiles/cmTryCompileExec2787942552.dir/CheckFunctionExists.c.o  -o cmTryCompileExec2787942552 -rdynamic -lICE 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function png_create_read_struct exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2239557210/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2239557210.dir/build.make CMakeFiles/cmTryCompileExec2239557210.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec2239557210.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=png_create_read_struct   -o CMakeFiles/cmTryCompileExec2239557210.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec2239557210
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2239557210.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=png_create_read_struct    CMakeFiles/cmTryCompileExec2239557210.dir/CheckFunctionExists.c.o  -o cmTryCompileExec2239557210 -rdynamic -lpng 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function jpeg_read_header exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3758211078/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3758211078.dir/build.make CMakeFiles/cmTryCompileExec3758211078.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3758211078.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=jpeg_read_header   -o CMakeFiles/cmTryCompileExec3758211078.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3758211078
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3758211078.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=jpeg_read_header    CMakeFiles/cmTryCompileExec3758211078.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3758211078 -rdynamic -ljpeg 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec319003765/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec319003765.dir/build.make CMakeFiles/cmTryCompileExec319003765.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec319003765.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec319003765.dir/CheckIncludeFile.c.o   -c /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec319003765
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec319003765.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec319003765.dir/CheckIncludeFile.c.o  -o cmTryCompileExec319003765 -rdynamic 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec545135328/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec545135328.dir/build.make CMakeFiles/cmTryCompileExec545135328.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec545135328.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec545135328.dir/CheckIncludeFile.c.o   -c /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec545135328
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec545135328.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec545135328.dir/CheckIncludeFile.c.o  -o cmTryCompileExec545135328 -rdynamic 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec1118311500/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec1118311500.dir/build.make CMakeFiles/cmTryCompileExec1118311500.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec1118311500.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec1118311500.dir/CheckIncludeFile.c.o   -c /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTryCompileExec1118311500
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec1118311500.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec1118311500.dir/CheckIncludeFile.c.o  -o cmTryCompileExec1118311500 -rdynamic 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining size of void* passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3858702625/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3858702625.dir/build.make CMakeFiles/cmTryCompileExec3858702625.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3858702625.dir/SIZE_OF_VOID_PTR.c.o
+/usr/bin/cc    -o CMakeFiles/cmTryCompileExec3858702625.dir/SIZE_OF_VOID_PTR.c.o   -c /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CheckTypeSize/SIZE_OF_VOID_PTR.c
+Linking C executable cmTryCompileExec3858702625
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3858702625.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTryCompileExec3858702625.dir/SIZE_OF_VOID_PTR.c.o  -o cmTryCompileExec3858702625 -rdynamic -ljpeg 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function cblas_ddot exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3146899723/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3146899723.dir/build.make CMakeFiles/cmTryCompileExec3146899723.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec3146899723.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=cblas_ddot   -o CMakeFiles/cmTryCompileExec3146899723.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+Linking C executable cmTryCompileExec3146899723
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3146899723.dir/link.txt --verbose=1
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=cblas_ddot    CMakeFiles/cmTryCompileExec3146899723.dir/CheckFunctionExists.c.o  -o cmTryCompileExec3146899723 -rdynamic -lblas 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the CXX compiler has std namespace passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec3444167130/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec3444167130.dir/build.make CMakeFiles/cmTryCompileExec3444167130.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec3444167130.dir/TestForSTDNamespace.cxx.o
+/usr/bin/c++    -Wreturn-type    -o CMakeFiles/cmTryCompileExec3444167130.dir/TestForSTDNamespace.cxx.o -c /usr/share/cmake-2.8/Modules/TestForSTDNamespace.cxx
+Linking CXX executable cmTryCompileExec3444167130
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec3444167130.dir/link.txt --verbose=1
+/usr/bin/c++    -Wreturn-type     CMakeFiles/cmTryCompileExec3444167130.dir/TestForSTDNamespace.cxx.o  -o cmTryCompileExec3444167130 -rdynamic 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the include file iostream exists passed with the following output:
+Change Dir: /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec2012933102/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec2012933102.dir/build.make CMakeFiles/cmTryCompileExec2012933102.dir/build
+make[1]: Entering directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec2012933102.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -Wreturn-type    -o CMakeFiles/cmTryCompileExec2012933102.dir/CheckIncludeFile.cxx.o -c /home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+Linking CXX executable cmTryCompileExec2012933102
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec2012933102.dir/link.txt --verbose=1
+/usr/bin/c++    -Wreturn-type     CMakeFiles/cmTryCompileExec2012933102.dir/CheckIncludeFile.cxx.o  -o cmTryCompileExec2012933102 -rdynamic 
+make[1]: Leaving directory `/home/julian/sandbox/jpham18/ROS/catkin_ws/build/CMakeFiles/CMakeTmp'
+
+

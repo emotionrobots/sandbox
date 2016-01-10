@@ -152,48 +152,6 @@ depend:
 	cd /home/julian/sandbox/jpham18/ROS/catkin_ws/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
-	cd /home/julian/sandbox/jpham18/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
-.PHONY : EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_cpp: EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
-.PHONY : std_msgs_generate_messages_cpp
-
-# fast build rule for target.
-std_msgs_generate_messages_cpp/fast:
-	cd /home/julian/sandbox/jpham18/ROS/catkin_ws/build && $(MAKE) -f EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
-.PHONY : std_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
-	cd /home/julian/sandbox/jpham18/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-.PHONY : EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_lisp: EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-.PHONY : std_msgs_generate_messages_lisp
-
-# fast build rule for target.
-std_msgs_generate_messages_lisp/fast:
-	cd /home/julian/sandbox/jpham18/ROS/catkin_ws/build && $(MAKE) -f EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
-.PHONY : std_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
-	cd /home/julian/sandbox/jpham18/ROS/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_py.dir/rule
-.PHONY : EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_py: EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_py.dir/rule
-.PHONY : std_msgs_generate_messages_py
-
-# fast build rule for target.
-std_msgs_generate_messages_py/fast:
-	cd /home/julian/sandbox/jpham18/ROS/catkin_ws/build && $(MAKE) -f EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_py.dir/build.make EmotionDetectionDisplay/CMakeFiles/std_msgs_generate_messages_py.dir/build
-.PHONY : std_msgs_generate_messages_py/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -206,9 +164,6 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... std_msgs_generate_messages_cpp"
-	@echo "... std_msgs_generate_messages_lisp"
-	@echo "... std_msgs_generate_messages_py"
 	@echo "... test"
 .PHONY : help
 
