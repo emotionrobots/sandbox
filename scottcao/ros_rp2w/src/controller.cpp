@@ -36,12 +36,12 @@ int main(int argc, char **argv) {
   ros::init(argc, argv, "rp2w_controller");
 
   if (argc != 2) {
-    ROS_INFO("Usage: testapp <joystick>\n");
+    ROS_INFO("Usage: testapp <joystick>");
     return 1;
   }
   int fd = open_joystick(argv[1]);
   if (fd < 0) {
-    ROS_ERROR("No joystick at %s\n", argv[1]);
+    ROS_ERROR("No joystick at %s", argv[1]);
     return 1;
   }
 
@@ -59,7 +59,8 @@ int main(int argc, char **argv) {
   int16_t trav_speed = 0;
   char servo_pwr = 0; 
   char servo_reset = 0; 
-  char light_on = 0;
+  bool light_on = false;
+  bool light_button = false;
   int16_t left_speed = 0;
   int16_t right_speed = 0;
   int16_t l_speed = 0;
@@ -90,7 +91,10 @@ int main(int argc, char **argv) {
             // if (light_on == 0 && jse.value == 1) { 
             //   srv.request.digital1 ^= 0x04; 
             // }
-            light_on = jse.value; 
+            if (!light_button) {
+              light_on = !light_on; 
+            }
+            light_button = !light_button;
           break;   
 
           case JS_BUTTON_MOTOR_PWR:
@@ -173,7 +177,7 @@ int main(int argc, char **argv) {
         srv.request.cameraTilt = tilt_pos;
       }
 
-      if (light_on == 1) {
+      if (light_on) {
         srv.request.digital1 ^= 0x04; 
       }
       srv.request.digital1Command = true;

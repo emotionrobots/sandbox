@@ -22,11 +22,11 @@ bool command(ros_rp2w::Command::Request  &req,
   ros_rp2w::Command::Response &res) {
   boost::mutex::scoped_lock lock(mutex);
   if (req.leftMotorSpeedCommand) {
-    ROS_INFO("Left Motor Speed changed to %u\n", (unsigned char)(req.leftMotorSpeed));
+    // ROS_INFO("Left Motor Speed changed to %u", (unsigned char)(req.leftMotorSpeed));
     robot.setLeftMotorSpeed(req.leftMotorSpeed);
   }
   if (req.rightMotorSpeedCommand) {
-    ROS_INFO("Right Motor Speed changed to %u\n", (unsigned char)(req.rightMotorSpeed));
+    // ROS_INFO("Right Motor Speed changed to %u", (unsigned char)(req.rightMotorSpeed));
     robot.setRightMotorSpeed(req.rightMotorSpeed);
   }
   if (req.cameraTiltCommand) {
@@ -38,11 +38,11 @@ bool command(ros_rp2w::Command::Request  &req,
     robot.setCameraPan(req.cameraPan);
   }
   if (req.digital1Command) {
-    ROS_INFO("GPIO1 changed to %u\n", (unsigned char)(req.digital1));
+    // ROS_INFO("GPIO1 changed to %u", (unsigned char)(req.digital1));
     robot.setGPIO1(req.digital1);
   }
   if (req.digital2Command) {
-    ROS_INFO("GPIO2 changed to %u\n", (unsigned char)(req.digital2));
+    // ROS_INFO("GPIO2 changed to %u", (unsigned char)(req.digital2));
     robot.setGPIO2(req.digital2);
   }
   // res.commandSuccessful = true;
@@ -70,8 +70,8 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
    ros::NodeHandle n;
-   ros::Publisher pub = n.advertise<ros_rp2w::Packet>("rp2w_packet", 1000);
-   ros::Rate loop_rate(20);
+   ros::Publisher pub = n.advertise<ros_rp2w::Packet>("rp2w_packet", 10);
+   ros::Rate loop_rate(5);
 
    ros::ServiceServer service = n.advertiseService("rp2w_command", command);
 
@@ -106,14 +106,14 @@ int main(int argc, char **argv) {
         packet.encoderB = (int32_t)(robot.getEncoderB());
         // cout << packet.encoderB << endl;
         packet.batteryVoltage = (uint8_t)(robot.getBatteryVoltage());
-        // ROS_INFO("battery voltage: %u\n", (unsigned char)(packet.batteryVoltage));
+        // ROS_INFO("battery voltage: %u", (unsigned char)(packet.batteryVoltage));
         packet.frontSonar = (uint8_t)(robot.getFrontSonar());
-        // ROS_INFO("front sonar: %u\n", (unsigned char)(packet.frontSonar));
+        // ROS_INFO("front sonar: %u", (unsigned char)(packet.frontSonar));
         packet.rearSonar = (uint8_t)(robot.getRearSonar());
-        // ROS_INFO("rear sonar: %u\n", (unsigned char)(packet.rearSonar));
+        // ROS_INFO("rear sonar: %u", (unsigned char)(packet.rearSonar));
         packet.bumper = (uint8_t)(robot.getBumper());
-        // ROS_INFO("bumper: %2X\n", packet.bumper);
-        // ROS_INFO("bumper: %u\n", (unsigned char)(packet.bumper));
+        // ROS_INFO("bumper: %2X", packet.bumper);
+        // ROS_INFO("bumper: %u", (unsigned char)(packet.bumper));
         //   /**
         //  * The publish() function is how you send messages. The parameter
         //  * is the message object. The type of this object must agree with the type
