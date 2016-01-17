@@ -7,45 +7,41 @@ from array import*
 from std_msgs.msg import String
 import thread
 import time
+import threading
 
 global emotion 
 global emotions
 global emotionamts
+global pos
 emotion = "happy"
 emotions = ["anger", "disgust", "fear", "happy", "neutral", "sad", "surprise"]
 emotionamts = [0, 0, 0, 0, 0, 0, 0]
 pos = 4
-direcpos = 1;
+direcpos = 4
 running = True
 wanted = 0
+lock = threading.Lock()
+pygame.init()
+screen = pygame.display.set_mode((640,480))
 
 
 def callback(data):
-	text = str(data.data)
-	index = text.index(" ",0,len(text))
-	emotion = text[:index-1];
-	for x in xrange(0, 7):
-		if(emotions[x] == emotion):
-			global wanted
-			wanted = float(text[index+1:])/float(100)
-			global direcpos
-			direcpos = x
-	global pos
-	if(direcpos != pos):
-		if(emotionamts[pos] == 0):
-			pos = direcpos
-		else:
-			emotionamts[pos] -= .1
-		if(emotionamts[pos] < 0):
-			emotionamts[pos] = 0
-	else:
-		if(emotionamts[pos] < wanted):
-			emotionamts[pos] += .1
-		if(emotionamts[pos] > wanted):
-			emotionamts[pos] = wanted
-
-	if(running):	
-		display()
+	with lock:
+		text = str(data.data)
+		index = text.index(" ",0,len(text))
+		emotion = text[:index];
+		print emotion
+		for x in xrange(0, 7):
+			if(emotions[x] == emotion):
+				global wanted
+				wanted = float(text[index+1:])
+				global direcpos
+				global pos
+				direcpos = x
+				if(pos == -1):
+					pos = x
+					emotionamts[pos] = wanted
+		print str(pos)+ " "+ str(emotionamts[pos])+ " "+str(direcpos)+ " " + str(wanted)
 	# print emotion +" "+ str(emotionamts) +" "+str(pos)
 
 def listener():
@@ -65,13 +61,10 @@ def publisher(done):
 
 
 def display():
-	screen = pygame.display.set_mode((640,480))
-
+	
+	global screen
 	running = True
 	eyecoordx, eyecoordy = 0, 0
-
-	currentemotion = ""
-
 	# while running:
 	# 	for e in pygame.event.get():
 	# 		if(e.type == KEYDOWN):
@@ -82,8 +75,6 @@ def display():
 
 		# listener()
 		# print str(pos)
-	print str(pos) 
-	print str(wanted)
 	screen.fill((255, 255, 255))
 	#Head of Robot
 	pygame.draw.arc(screen, (0, 0, 0), (155, 145, 30, 30), math.pi/2, math.pi, 5)
@@ -100,7 +91,7 @@ def display():
 	if(pos == 3 or pos == 6):
 		pygame.draw.line(screen, (0, 0, 0), (305, 115), (305 + int(15 * (emotionamts[pos])), 65 + int(15 * (emotionamts[pos]))), 15)
 		pygame.draw.circle(screen, (0, 0, 0), (305 + int(15 * (emotionamts[pos])), 65 + int(15 * (emotionamts[pos]))), 15)
-	if(pos == 4):
+	elif(pos == 4):
 		pygame.draw.line(screen, (0, 0, 0), (305, 115), (305, 65), 15)
 		pygame.draw.circle(screen, (0, 0, 0), (305, 65), 15)
 	else:
@@ -110,14 +101,14 @@ def display():
 
 	#Eyes of Robot
 	if(pos == 1):
-		pygame.draw.ellipse(screen, (0, 0, 0), (240 + eyecoordx, 250 + int(7 * emotionamts[1]) + eyecoordy, 30, 30 - int(15 * emotionamts[1])), 0)
-		pygame.draw.ellipse(screen, (0, 0, 0), (340 + eyecoordx, 250 + int(7 * emotionamts[1]) + eyecoordy, 30, 30 - int(15 * emotionamts[1])), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (240 + eyecoordx, 235 + int(8 * emotionamts[1]) + eyecoordy, 30, 30 - int(16 * emotionamts[1])), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (340 + eyecoordx, 235 + int(8 * emotionamts[1]) + eyecoordy, 30, 30 - int(16 * emotionamts[1])), 0)
 	elif(pos == 2):
-		pygame.draw.ellipse(screen, (0, 0, 0), (233 + int(7 * (1 - emotionamts[2])) + eyecoordx, 235 + eyecoordy, 30 + int(15 * emotionamts[2]), 30), 0)
-		pygame.draw.ellipse(screen, (0, 0, 0), (333 + int(7 * (1 - emotionamts[2])) + eyecoordx, 235 + eyecoordy, 30 + int(15 * emotionamts[2]), 30), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (240 - int(8 * emotionamts[2]) + eyecoordx, 235 + eyecoordy, 30 + int(16 * emotionamts[2]), 30), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (340 - int(8 * emotionamts[2]) + eyecoordx, 235 + eyecoordy, 30 + int(16 * emotionamts[2]), 30), 0)
 	elif(pos == 6):
-		pygame.draw.ellipse(screen, (0, 0, 0), (255 + eyecoordx, 235 + eyecoordy, 30, 30), 0)
-		pygame.draw.ellipse(screen, (0, 0, 0), (355 + eyecoordx, 235 + eyecoordy, 30 ,30), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (240 + eyecoordx, 235 - int(6 * emotionamts[6]) + eyecoordy, 30, 30 + int(12 * emotionamts[6])), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (340 + eyecoordx, 235 - int(6 * emotionamts[6]) + eyecoordy, 30 ,30 + int(12 * emotionamts[6])), 0)
 	else:
 		pygame.draw.circle(screen, (0, 0, 0), (255 + eyecoordx, 250 + eyecoordy), 15)
 		pygame.draw.circle(screen, (0, 0, 0), (355 + eyecoordx, 250 + eyecoordy), 15)
@@ -140,7 +131,7 @@ def display():
 		if(emotionamts[pos] == 0):
 			pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
 		else:	
-			pygame.draw.ellipse(screen, (0, 0, 0), (240 + int(33 * emotionamts[2]), 355 - int(33 * emotionamts[2]), 130 - int(65 * emotionamts[2]), 0 + int(65 * emotionamts[2])), 0)
+			pygame.draw.ellipse(screen, (0, 0, 0), (240 + int(33 * emotionamts[pos]), 355 - int(33 * emotionamts[pos]), 130 - int(65 * emotionamts[pos]), 0 + int(65 * emotionamts[pos])), 0)
 	elif(pos == 3):
 		pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
 		pygame.draw.line(screen, (0, 0, 0), (240, 355), (240, 355 - int(15 * emotionamts[3])), 5)
@@ -151,13 +142,41 @@ def display():
 		pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
 		pygame.draw.line(screen, (0, 0, 0), (240, 355), (240, 355 + int(15 * emotionamts[5])), 5)
 		pygame.draw.line(screen, (0, 0, 0), (370, 355), (370, 355 + int(15 * emotionamts[5])), 5)
-		pygame.display.flip()
-	publisher(True)
+
+	pygame.display.flip()
+
+def func(delay):
+	print "hey"
+	done = False
+	first = True
+	while(not done):
+		with lock:
+			display()	
+		time.sleep(delay)
+		if(not first):
+			global pos
+			if(direcpos != pos):
+				if(emotionamts[pos] <= 0):
+					pos = direcpos
+				else:
+					emotionamts[pos] -= .025
+			else:
+				if(emotionamts[pos] < wanted+.025 and emotionamts[pos] > wanted-.025):
+					emotionamts[pos] = wanted
+				if(emotionamts[pos] < wanted):
+					emotionamts[pos] += .025
+				if(emotionamts[pos] > wanted):
+					emotionamts[pos] -= .025
+		else:
+			first = False
 
 def main():
-	display()
-
-	# listener()
+	print "hi"
+	try:
+		thread.start_new_thread(func, (.01,)) 
+		listener()
+	except Exception, e:
+		print str(e)
 
 if __name__ == '__main__':
     main()
