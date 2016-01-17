@@ -41,7 +41,6 @@ def callback(data):
 				if(pos == -1):
 					pos = x
 					emotionamts[pos] = wanted
-		print str(pos)+ " "+ str(emotionamts[pos])+ " "+str(direcpos)+ " " + str(wanted)
 	# print emotion +" "+ str(emotionamts) +" "+str(pos)
 
 def listener():
@@ -65,6 +64,7 @@ def display():
 	global screen
 	running = True
 	eyecoordx, eyecoordy = 0, 0
+	print str(pos)+ " "+ str(emotionamts[pos])+ " "+str(direcpos)+ " " + str(wanted)
 	# while running:
 	# 	for e in pygame.event.get():
 	# 		if(e.type == KEYDOWN):
@@ -131,11 +131,11 @@ def display():
 		if(emotionamts[pos] == 0):
 			pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
 		else:	
-			pygame.draw.ellipse(screen, (0, 0, 0), (240 + int(33 * emotionamts[pos]), 355 - int(33 * emotionamts[pos]), 130 - int(65 * emotionamts[pos]), 0 + int(65 * emotionamts[pos])), 0)
+			pygame.draw.ellipse(screen, (0, 0, 0), (240 + int(33 * emotionamts[pos]), 355 - int(33 * emotionamts[pos]), 125 - int(65 * emotionamts[pos]), 5 + int(65 * emotionamts[pos])), 0)
 	elif(pos == 3):
 		pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
-		pygame.draw.line(screen, (0, 0, 0), (240, 355), (240, 355 - int(15 * emotionamts[3])), 5)
-		pygame.draw.line(screen, (0, 0, 0), (370, 355), (370, 355 - int(15 * emotionamts[3])), 5)			
+		pygame.draw.line(screen, (0, 0, 0), (240, 355), (240, 355 - int(25 * emotionamts[3])), 5)
+		pygame.draw.line(screen, (0, 0, 0), (370, 355), (370, 355 - int(25 * emotionamts[3])), 5)			
 	elif(pos == 4):
 		pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
 	elif(pos == 5):
@@ -152,23 +152,22 @@ def func(delay):
 	while(not done):
 		with lock:
 			display()	
-		time.sleep(delay)
-		if(not first):
-			global pos
-			if(direcpos != pos):
+			if(not first):
+				global pos
+				if(direcpos != pos):
+					emotionamts[pos] -= .05
+				else:
+					if(emotionamts[pos] < wanted+.05 and emotionamts[pos] > wanted-.05):
+						emotionamts[pos] = wanted
+					if(emotionamts[pos] < wanted):
+						emotionamts[pos] += .05
+					if(emotionamts[pos] > wanted):
+						emotionamts[pos] -= .05
 				if(emotionamts[pos] <= 0):
 					pos = direcpos
-				else:
-					emotionamts[pos] -= .025
 			else:
-				if(emotionamts[pos] < wanted+.025 and emotionamts[pos] > wanted-.025):
-					emotionamts[pos] = wanted
-				if(emotionamts[pos] < wanted):
-					emotionamts[pos] += .025
-				if(emotionamts[pos] > wanted):
-					emotionamts[pos] -= .025
-		else:
-			first = False
+				first = False
+		time.sleep(delay)
 
 def main():
 	print "hi"

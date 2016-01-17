@@ -332,14 +332,14 @@ def main():
 			# draw the landmarks point as circles
 			if  mylandmarks[0][0] != 0.0:
 				x=draw_face(frame, mylandmarks, True)
-				frame=OverlayImage(frame,x)
+				# frame=OverlayImage(frame,x)
 	        
 			x=draw_face(frame, mylandmarks, True)
-			frame=OverlayImage(frame,x)
+			# frame=OverlayImage(frame,x)
 			cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)
-			cv2.namedWindow('k', cv2.WINDOW_NORMAL)
+			# cv2.namedWindow('k', cv2.WINDOW_NORMAL)
 			cv2.imshow("Live Landmarking", frame)
-			cv2.imshow('k',frames)	
+			# cv2.imshow('k',frames)	
 			if cv2.waitKey(150) == 1048603:
 				done = True 
 		test = test + 1
