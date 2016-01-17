@@ -12,8 +12,8 @@ import math
 from sklearn.svm import SVC
 from sklearn.externals import joblib
 import skimage.io as io
-from skimage import img_as_ubyte
-from skimage.color import rgb2gray 
+# from skimage import img_as_ubyte
+# from skimage.color import rgb2gray 
 import logging
 import os
 import rospy
@@ -98,11 +98,12 @@ def draw_mouth(frame, landmarks):
 def draw_nosebridge(frame, landmarks):
 	return draw_arc(frame, landmarks, 48, 50)
 
-def draw_landmarks(frame, landmarks, printScale):
+def draw_landmarks(frame, landmarks, printScale):	
 	scale = normalize(landmarks)
 	if printScale:	
 		cv2.putText(frame, "Scale:  "  + str(scale), (100,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 		cv2.putText(frames, "Scale:  "  + str(scale), (100,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+	# print landmarks
 	map(lambda p: cv2.circle(frame, (int(p[0]), int(p[1])), 1, (512,512,255), -1), landmarks)
 	# map(lambda p: cv2.circle(frames, (int(p[0]), int(p[1])), 1, (512,512,255), -1), landmarks)
 	count=0
@@ -119,7 +120,7 @@ def draw_landmarks(frame, landmarks, printScale):
        			if xcoor < 0 and ycoor < 0:
        				quadrant = 3
        			if xcoor > 0 and ycoor < 0:
-       				quadrant = 450
+       				quadrant = 4
        			dist = (xcoor**2 + ycoor**2)**.5
        			Xdist27toPoint = (x - landmarks[27][0]) * scale
        			Ydist27toPoint = (landmarks[27][1] - y) * scale
@@ -128,7 +129,19 @@ def draw_landmarks(frame, landmarks, printScale):
        			stdDistY = (landmarks[30][1] - landmarks[27][1]) * scale
        			stdDist = (stdDistX**2 + stdDistY**2)**.5
        			theta = (absDist27toPoint**2 - dist**2 - stdDist**2)/(-2* dist * stdDist)
-       			theta = math.degrees(math.acos(theta))	
+       			if abs(theta - 1) < .0000001:
+       				theta = 0
+       			elif abs(theta - (-1)) < .0000001:
+       				theta = 180
+       			else:
+	       			theta = math.degrees(math.acos(theta))
+	       		# print theta
+       # 			try:
+	      #  			theta = math.degrees(math.acos(theta))	
+	      #  			print "worked"
+    			# except:
+    			# 	print "error"
+    			# 	print theta 
        			if quadrant == 2 or quadrant == 3:
 					theta = 90+theta
 					xcoor = dist * math.cos(math.radians(theta))
@@ -143,28 +156,28 @@ def draw_landmarks(frame, landmarks, printScale):
 			if count == 30:
 				xcoor = 0
 				ycoor = 0
-			coorPair = str(count) + ":   (" + str(round(xcoor, 2)) + ", " + str(round(ycoor, 2)) + ")"
+			# coorPair = str(count) + ":   (" + str(round(xcoor, 2)) + ", " + str(round(ycoor, 2)) + ")"
 			# cv2.putText(frame, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
 			# cv2.putText(frame, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-			print "abcdefghijklmnop"
 			# cv2.putText(frames, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
 			# cv2.putText(frames, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 			numbering = numbering + 1
 			count = count + 1
-	cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)
-	cv2.imshow("Live Landmarking", frame)
 	return
 
 def displayEmotion(landmarks):
-	featureVector = joblib.load("emotionData.bin")
+	featureVector = joblib.load("emotionDataBase.bin")
 	featureVector.set_params(probability=True)
+	print featureVector
 	detect = detectEmotion(landmarks)
+	print detect
 	myEmotion = str(featureVector.predict(detect))
+	print myEmotion	
 	probArr = featureVector.predict_proba(detect)
 	probArr = probArr * 100
 	# print landmarks
 	# print myEmotion
-	# print probArr
+	print probArr
 	# probability = "Neutral: " + str(probArr[0][4]) + "  Happy: " + str(probArr[0][3]) + "  Sad: " + str(probArr[0][5]) + "  Angry: " + str(probArr[0][0])
 	# probability2 = "Disgust: " + str(probArr[0][1]) + "  Fear: " + str(probArr[0][2]) + "  Surprise: " + str(probArr[0][6])
 	cv2.putText(frame, myEmotion, (70, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
@@ -178,9 +191,10 @@ def displayEmotion(landmarks):
 		# cv2.putText(frame, probability2, (25, 410), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
 		# cv2.putText(frames, probability2, (25, 410), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
 	# odd = odd + 1
-	print myEmotion
-	print probArr
-	return [myEmotion, probArr]
+	# print myEmotion
+	# print probArr
+	publisher(myEmotion, probArr.max())
+	return #[myEmotion, probArr]
 
 def detectEmotion(landmarks):
 	# Returns an Array containing each feature vector
@@ -261,7 +275,6 @@ def normalize(landmarks):
 		mid = 28
 		left = 0
 		right = 16
-		# print landmarks[mid] - landmarks[left]
 		arrayRM = landmarks[mid] - landmarks[left]
 		arrayLM = landmarks[right] - landmarks[mid]
 		distRM = arrayRM[0]**2 + arrayRM[1]**2
@@ -269,7 +282,10 @@ def normalize(landmarks):
 		distLM = arrayLM[0]**2 + arrayLM[1]**2
 		distLM = distLM**.5
 		distTOTAL = distLM + distRM
-		scale = 50 / distTOTAL
+		if distTOTAL != 0:
+			scale = 50 / distTOTAL
+		else:
+			scale = 0
 		return scale
 
 def OverlayImage(src, x):
@@ -314,16 +330,29 @@ def draw_face(landmarks):
 		# detectEmotion(frame, landmarks)
 	# return
 	displayEmotion(landmarks)
+	cv2.imshow("Live Landmarking", frame)
+	cv2.waitKey(1)
 
 def main():
 	listener()
 	
+def publisher(myEmotion, prob):
+	pub = rospy.Publisher('emotion', String,queue_size=1)
+	# rospy.init_node('emotionpub', anonymous=True)
+	msg=String()
+	msg.data= myEmotion + ", " + str(prob)
+	r = rospy.Rate(1)
+	if not rospy.is_shutdown():
+		pub.publish(msg)
+
 def listener():
 
 	rospy.init_node('listener')
 	rospy.Subscriber("rgb", String, callback)
 	rospy.Subscriber("face_points", face_p, callback2)
 	rospy.spin()
+	cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)
+
 
 def callback(data):
 	global frame
@@ -358,7 +387,7 @@ def callback2(data):
 	for x in range(0,len(alllandmarks) - 2):
 		if x % 2 == 0:
 			mylandmarks = mylandmarks + [[alllandmarks[x],alllandmarks[x+1]]]
-	# print mylandmarks[0]
+	print len(mylandmarks)
 	mylandmarks = np.array(mylandmarks)
 
 	draw_face(mylandmarks)
@@ -366,6 +395,7 @@ def callback2(data):
 	# cv2.imshow('k',frames)	
 	# if cv2.waitKey(150) == 1048603:
 			# done = True 
+
 
 if __name__ == '__main__':
     main()
