@@ -15,8 +15,8 @@ def callback_rgb(msg):
     #print msg.header.stamp
     global frame
     frame = np.fromstring(msg.data, dtype=np.uint8).reshape(480, 640, 3)
-    cv2.imshow('Frame', frame)
-    cv2.waitKey(3)
+    #cv2.imshow('Frame', frame)
+    #cv2.waitKey(3)
 
 def callback_depth(msg):
     # print msg.header.stamp

@@ -43,16 +43,16 @@ struct UnknownFace_
    typedef std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other >  _name_type;
   _name_type name;
 
-   typedef uint8_t _llx_type;
+   typedef uint32_t _llx_type;
   _llx_type llx;
 
-   typedef uint8_t _lly_type;
+   typedef uint32_t _lly_type;
   _lly_type lly;
 
-   typedef uint8_t _urx_type;
+   typedef uint32_t _urx_type;
   _urx_type urx;
 
-   typedef uint8_t _ury_type;
+   typedef uint32_t _ury_type;
   _ury_type ury;
 
 
@@ -132,12 +132,12 @@ struct MD5Sum< ::skeleton::UnknownFace_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "6cad868307b5c8d4a7455516e9791b3a";
+    return "d8db7504a6d4f172932b611ebdab4962";
   }
 
   static const char* value(const ::skeleton::UnknownFace_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x6cad868307b5c8d4ULL;
-  static const uint64_t static_value2 = 0xa7455516e9791b3aULL;
+  static const uint64_t static_value1 = 0xd8db7504a6d4f172ULL;
+  static const uint64_t static_value2 = 0x932b611ebdab4962ULL;
 };
 
 template<class ContainerAllocator>
@@ -157,10 +157,10 @@ struct Definition< ::skeleton::UnknownFace_<ContainerAllocator> >
   static const char* value()
   {
     return "string name\n\
-uint8 llx\n\
-uint8 lly\n\
-uint8 urx\n\
-uint8 ury\n\
+uint32 llx\n\
+uint32 lly\n\
+uint32 urx\n\
+uint32 ury\n\
 ";
   }
 
@@ -205,13 +205,13 @@ struct Printer< ::skeleton::UnknownFace_<ContainerAllocator> >
     s << indent << "name: ";
     Printer<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other > >::stream(s, indent + "  ", v.name);
     s << indent << "llx: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.llx);
+    Printer<uint32_t>::stream(s, indent + "  ", v.llx);
     s << indent << "lly: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.lly);
+    Printer<uint32_t>::stream(s, indent + "  ", v.lly);
     s << indent << "urx: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.urx);
+    Printer<uint32_t>::stream(s, indent + "  ", v.urx);
     s << indent << "ury: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.ury);
+    Printer<uint32_t>::stream(s, indent + "  ", v.ury);
   }
 };
 

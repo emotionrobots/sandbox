@@ -6,19 +6,11 @@
 <node name="VRec1" pkg="skeleton" type="VRec1.0.py"  respawn="true" >
 
 <param name="startTrainOrRec" value="rec" />
-<param name="rateCounter" value="50" />
+<param name="rateCounter" value="6" />
 
 
  </node>
 
-
-<node name="listenface" pkg="skeleton" type="listenfrec.py" respawn="true" />
-
-<node name="listener" pkg="skeleton" type="listener.py" respawn="true" />
-
-<node name="gameface" pkg="skeleton" type="pygameface.py" respawn="true" />
-
-<node name="listenpoints" pkg="skeleton" type="listenpoints.py" respawn="true" />
 
 <node name="imageconverter" pkg="skeleton" type="image_converter" respawn="true" />
 
@@ -27,6 +19,8 @@
 
 
 <node name="speechrec" pkg="skeleton" type="speechrec.py" output="log" respawn="true" />
+
+<node name="Display" pkg="skeleton" type="display.py"  respawn="true" />
 
 
 

@@ -186,6 +186,22 @@ trainImages = []
 pubRate = 30
 rateCounter = 30
 
+global recognizedFaceName 
+global recognizedFaceImg 
+global recognizedFaceLLx 
+global recognizedFaceLLy 
+global recognizedFaceURx 
+global recognizedFaceURy 
+
+global unknownFaceName 
+global unknownFaceLLx 
+global unknownFaceLLy 
+global unknownFaceURx 
+global unknownFaceURy 
+
+
+
+
 recognizedFaceName = []
 recognizedFaceImg = []
 recognizedFaceLLx = []
@@ -198,6 +214,9 @@ unknownFaceLLx = []
 unknownFaceLLy = []
 unknownFaceURx = []
 unknownFaceURy = []
+
+
+
 
 def faceRecInit():
     model_filename = os.getcwd() + '/model.pkl'
@@ -246,7 +265,7 @@ def faceRec(data):
 
             #print p2[0]
             cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
-            if distance < 600.0:
+            if distance < 1000.0:
                 cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
                 n = model.subject_names[predicted_label]
                 n =  n.replace("_", " ")
@@ -280,17 +299,18 @@ def faceRec(data):
                 global unknownFaceLLy
                 unknownFaceLLy.append(y+h)
                 unknownfaceCount = unknownfaceCount + 1
+                
             #else:
             #    cv2.rectangle(img, (x,y),(x+w,y+h),(0,0,255),2)
 
         ch = cv2.waitKey(1)
 
-        img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
+        #img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
         
         #cv2.imshow('Recognizer', img2)
-        frameshow = img2
-        cv2.namedWindow("Recognizer", cv2.WINDOW_NORMAL)
-        cv2.imshow('Recognizer', frameshow)
+        #frameshow = img2
+        #cv2.namedWindow("Recognizer", cv2.WINDOW_NORMAL)
+        #cv2.imshow('Recognizer', frameshow)
         
         #cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
 
@@ -457,23 +477,28 @@ def publisher():
 
         for i in range(len(recognizedFaceName)):
             face_msg = Face()
-            face_msg.name = recognizedFaceName[i]
+            face_msg.name = str(recognizedFaceName[i])
+            #print type(recognizedFaceName[i])
             face_msg.image = recognizedFaceImg[i]
-            face_msg.llx = recognizedFaceLLx[i]
-            face_msg.lly = recognizedFaceLLy[i]
-            face_msg.urx = recognizedFaceURx[i]
-            face_msg.ury = recognizedFaceURy[i]
+            #print type(recognizedFaceLLx[i])
+            face_msg.llx = np.asscalar(np.int32(recognizedFaceLLx[i]))
+            #print np.asscalar(np.int32(recognizedFaceLLx[i]))
+            print recognizedFaceLLx[i]
+            #print np.int32(recognizedFaceLLx[i])
+            face_msg.lly = np.asscalar(np.int32(recognizedFaceLLy[i]))
+            face_msg.urx = np.asscalar(np.int32(recognizedFaceURx[i]))
+            face_msg.ury = np.asscalar(np.int32(recognizedFaceURy[i]))
             known_pub.publish(face_msg)
             print "published"
 
         for i in range(len(unknownFaceName)):
             face_msg_unknown = UnknownFace()
-            face_msg_unknown.name = unknownFaceName[i]
-            face_msg_unknown.llx = unknownFaceLLx[i]
-            face_msg_unknown.lly = unknownFaceLLy[i]
-            face_msg_unknown.urx = unknownFaceURx[i]
-            face_msg_unknown.ury = unknownFaceURy[i]
-            unknown_pub.publish(face_msg_unknown)
+            face_msg_unknown.name = str(unknownFaceName[i])
+            face_msg_unknown.llx = np.asscalar(np.int32(unknownFaceLLx[i]))
+            face_msg_unknown.lly = np.asscalar(np.int32(unknownFaceLLy[i]))
+            face_msg_unknown.urx = np.asscalar(np.int32(unknownFaceURx[i]))
+            face_msg_unknown.ury = np.asscalar(np.int32(unknownFaceURy[i]))
+            #unknown_pub.publish(face_msg_unknown)
             print "published"
 
         global recognizedFaceName

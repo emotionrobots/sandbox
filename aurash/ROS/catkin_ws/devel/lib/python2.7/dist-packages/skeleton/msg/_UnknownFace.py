@@ -6,18 +6,18 @@ import struct
 
 
 class UnknownFace(genpy.Message):
-  _md5sum = "6cad868307b5c8d4a7455516e9791b3a"
+  _md5sum = "d8db7504a6d4f172932b611ebdab4962"
   _type = "skeleton/UnknownFace"
   _has_header = False #flag to mark the presence of a Header object
   _full_text = """string name
-uint8 llx
-uint8 lly
-uint8 urx
-uint8 ury
+uint32 llx
+uint32 lly
+uint32 urx
+uint32 ury
 
 """
   __slots__ = ['name','llx','lly','urx','ury']
-  _slot_types = ['string','uint8','uint8','uint8','uint8']
+  _slot_types = ['string','uint32','uint32','uint32','uint32']
 
   def __init__(self, *args, **kwds):
     """
@@ -75,7 +75,7 @@ uint8 ury
       else:
         buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
-      buff.write(_struct_4B.pack(_x.llx, _x.lly, _x.urx, _x.ury))
+      buff.write(_struct_4I.pack(_x.llx, _x.lly, _x.urx, _x.ury))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
 
@@ -97,8 +97,8 @@ uint8 ury
         self.name = str[start:end]
       _x = self
       start = end
-      end += 4
-      (_x.llx, _x.lly, _x.urx, _x.ury,) = _struct_4B.unpack(str[start:end])
+      end += 16
+      (_x.llx, _x.lly, _x.urx, _x.ury,) = _struct_4I.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
@@ -121,7 +121,7 @@ uint8 ury
       else:
         buff.write(struct.pack('<I%ss'%length, length, _x))
       _x = self
-      buff.write(_struct_4B.pack(_x.llx, _x.lly, _x.urx, _x.ury))
+      buff.write(_struct_4I.pack(_x.llx, _x.lly, _x.urx, _x.ury))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(_x))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(_x))))
 
@@ -144,11 +144,11 @@ uint8 ury
         self.name = str[start:end]
       _x = self
       start = end
-      end += 4
-      (_x.llx, _x.lly, _x.urx, _x.ury,) = _struct_4B.unpack(str[start:end])
+      end += 16
+      (_x.llx, _x.lly, _x.urx, _x.ury,) = _struct_4I.unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e) #most likely buffer underfill
 
 _struct_I = genpy.struct_I
-_struct_4B = struct.Struct("<4B")
+_struct_4I = struct.Struct("<4I")

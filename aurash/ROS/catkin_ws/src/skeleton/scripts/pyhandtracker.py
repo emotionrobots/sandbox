@@ -101,7 +101,6 @@ def callback_skeleton(msg):
     newpos_skeleton = ast.literal_eval(msg.data) 
     try: 
     	x=newpos_skeleton[7]
-        print x
     	flag=True
     except:
     	pass	

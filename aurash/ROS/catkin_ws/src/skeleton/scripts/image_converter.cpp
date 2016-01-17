@@ -147,9 +147,9 @@ public:
             //win.set_image(cimg);
             //win.add_overlay(render_face_detections(shapes));
             int flags;
-            cv::namedWindow("dlib landmarking",  flags=CV_WINDOW_NORMAL);
-            cv::imshow("dlib landmarking", temp2);
-            cv::waitKey(3);
+            //cv::namedWindow("dlib landmarking",  flags=CV_WINDOW_NORMAL);
+            //cv::imshow("dlib landmarking", temp2);
+            //cv::waitKey(3);
 
 
       //  }

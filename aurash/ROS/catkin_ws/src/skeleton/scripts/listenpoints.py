@@ -18,16 +18,18 @@ def landmark(data):
     print points
     numface=(len(points)+1)/136
     print numface   
-    try:
-        cv_image = bridge.imgmsg_to_cv2(data.image, "bgr8")
-    except CvBridgeError as e:
-        print(e)
+    #try:
+        #cv_image = bridge.imgmsg_to_cv2(data.image, "bgr8")
+        #cv2.putText(cv_image, str(data.header.stamp), (100,100), cv2.FONT_HERSHEY_DUPLEX, 1, (0,0,255),1)
+        #cv2.imshow("points2",cv_image)
+    #except CvBridgeError as e:
+    #    print(e)
     #map(lambda p: cv2.circle(cv_image, (int(p[0]), int(p[1])), 1, (512,512,255), -1), points)
     cv2.circle(frame, (100, 100), 1, (512,512,255), -1)
-    cv2.putText(cv_image, str(data.header.stamp), (100,100), cv2.FONT_HERSHEY_DUPLEX, 1, (0,0,255),1)
+    
     cv2.putText(frame, str(timer), (100,100), cv2.FONT_HERSHEY_DUPLEX, 1, (0,0,255),1)
     cv2.imshow("points",frame)
-    cv2.imshow("points2",cv_image)
+    
     if cv2.waitKey(1) & 0xFF == ord('q'):
         return
     
