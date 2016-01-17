@@ -2,7 +2,6 @@
 #include "std_msgs/String.h"
 #include "ros_rp2w/Packet.h"
 #include "ros_rp2w/Command.h"
-// #include "joystick.h"
 #include "rp2w_serial.h"
 #include <sstream>
 #include <stdio.h>
@@ -17,15 +16,41 @@ using namespace LibSerial;
 rp2w::Status rc;
 rp2w robot;
 
-ros_rp2w::Command::Request master;
-
 boost::mutex mutex;
 
 bool command(ros_rp2w::Command::Request  &req,
   ros_rp2w::Command::Response &res) {
   boost::mutex::scoped_lock lock(mutex);
-  master = req;
-  res.commandSuccessful = true;
+  if (req.leftMotorSpeedCommand) {
+    ROS_INFO("Left Motor Speed changed to %u\n", (unsigned char)(req.leftMotorSpeed));
+    robot.setLeftMotorSpeed(req.leftMotorSpeed);
+  }
+  if (req.rightMotorSpeedCommand) {
+    ROS_INFO("Right Motor Speed changed to %u\n", (unsigned char)(req.rightMotorSpeed));
+    robot.setRightMotorSpeed(req.rightMotorSpeed);
+  }
+  if (req.cameraTiltCommand) {
+    cout << "Camera tilt changed to " << req.cameraTilt << endl;
+    robot.setCameraTilt(req.cameraTilt);
+  }
+  if (req.cameraPanCommand) {
+    cout << "Camera pan changed to " << req.cameraPan << endl;
+    robot.setCameraPan(req.cameraPan);
+  }
+  if (req.digital1Command) {
+    ROS_INFO("GPIO1 changed to %u\n", (unsigned char)(req.digital1));
+    robot.setGPIO1(req.digital1);
+  }
+  if (req.digital2Command) {
+    ROS_INFO("GPIO2 changed to %u\n", (unsigned char)(req.digital2));
+    robot.setGPIO2(req.digital2);
+  }
+  // res.commandSuccessful = true;
+  rc = robot.update();
+  if (rc != rp2w::OK) {
+    cout << "robot.update failed (" << rc << ")";
+    return false;
+  }
   return true;
 }
 
@@ -59,82 +84,45 @@ int main(int argc, char **argv) {
      cout << "RP2W Initialized. " << endl;
    }
 
-   if (mutex.try_lock()) {
-     master.leftMotorSpeed = 0;
-     master.rightMotorSpeed = 0;
-     master.cameraTilt = 1560;
-     master.cameraPan = 1500;
-     master.digital1 = 0;
-     master.digital2 = 0; 
-     mutex.unlock();
-     // cout << "Setup complete" << endl;
-   }
-
-   int count = 0;
    while (ros::ok()) {
     if (mutex.try_lock()) {
-      if (master.leftMotorSpeedCommand) {
-        ROS_INFO("Left Motor Speed changed to %u\n", (unsigned char)(master.leftMotorSpeed));
-        robot.setLeftMotorSpeed(abs(master.leftMotorSpeed));
+      rc = robot.update();
+      if (rc != rp2w::OK) {
+        cout << "robot.update failed (" << rc << ")";
       }
-      if (master.rightMotorSpeedCommand) {
-        ROS_INFO("Right Motor Speed changed to %u\n", (unsigned char)(master.rightMotorSpeed));
-        robot.setRightMotorSpeed(abs(master.rightMotorSpeed));
-      }
-      if (master.cameraTiltCommand) {
-        cout << "Camera tilt changed to " << master.cameraTilt << endl;
-        robot.setCameraTilt(master.cameraTilt);
-      }
-      if (master.cameraPanCommand) {
-        cout << "Camera pan changed to " << master.cameraPan << endl;
-        robot.setCameraPan(master.cameraPan);
-      }
-      if (master.digital1Command) {
-        ROS_INFO("GPIO1 changed to %u\n", (unsigned char)(master.digital1));
-        robot.setGPIO1(master.digital1);
-      }
-      if (master.digital2Command) {
-        ROS_INFO("GPIO2 changed to %u\n", (unsigned char)(master.digital2));
-        robot.setGPIO2(master.digital2);
+      else {
+        // cout << "robot.update successful" << endl;
+        ros_rp2w::Packet packet;
+
+        packet.leftMotorSpeed = (uint8_t)(robot.getLeftMotorSpeed());
+        packet.rightMotorSpeed = (uint8_t)(robot.getRightMotorSpeed());
+        packet.cameraTilt = robot.getCameraTilt();
+        packet.cameraPan = robot.getCameraPan();
+        packet.digital1 = (uint8_t)(robot.getGPIO1());
+        packet.digital2 = (uint8_t)(robot.getGPIO2());
+
+        packet.encoderA = (int32_t)(robot.getEncoderA());
+        // cout << packet.encoderA << endl;
+        packet.encoderB = (int32_t)(robot.getEncoderB());
+        // cout << packet.encoderB << endl;
+        packet.batteryVoltage = (uint8_t)(robot.getBatteryVoltage());
+        // ROS_INFO("battery voltage: %u\n", (unsigned char)(packet.batteryVoltage));
+        packet.frontSonar = (uint8_t)(robot.getFrontSonar());
+        // ROS_INFO("front sonar: %u\n", (unsigned char)(packet.frontSonar));
+        packet.rearSonar = (uint8_t)(robot.getRearSonar());
+        // ROS_INFO("rear sonar: %u\n", (unsigned char)(packet.rearSonar));
+        packet.bumper = (uint8_t)(robot.getBumper());
+        // ROS_INFO("bumper: %2X\n", packet.bumper);
+        // ROS_INFO("bumper: %u\n", (unsigned char)(packet.bumper));
+        //   /**
+        //  * The publish() function is how you send messages. The parameter
+        //  * is the message object. The type of this object must agree with the type
+        //  * given as a template parameter to the advertise<>() call, as was done
+        //  * in the constructor above.
+        //  */
+        pub.publish(packet);
       }
       mutex.unlock();
-    }
-
-    rc = robot.update();
-    if (rc != rp2w::OK) {
-      cout << "robot.update failed (" << rc << ")";
-    }
-    else {
-      // cout << "robot.update successful" << endl;
-      ros_rp2w::Packet packet;
-
-      packet.leftMotorSpeed = (uint8_t)(robot.getLeftMotorSpeed());
-      packet.rightMotorSpeed = (uint8_t)(robot.getRightMotorSpeed());
-      packet.cameraTilt = robot.getCameraTilt();
-      packet.cameraPan = robot.getCameraPan();
-      packet.digital1 = (uint8_t)(robot.getGPIO1());
-      packet.digital2 = (uint8_t)(robot.getGPIO2());
-
-      packet.encoderA = (int32_t)(robot.getEncoderA());
-      // cout << packet.encoderA << endl;
-      packet.encoderB = (int32_t)(robot.getEncoderB());
-      // cout << packet.encoderB << endl;
-      packet.batteryVoltage = (uint8_t)(robot.getBatteryVoltage());
-      // ROS_INFO("battery voltage: %u\n", (unsigned char)(packet.batteryVoltage));
-      packet.frontSonar = (uint8_t)(robot.getFrontSonar());
-      // ROS_INFO("front sonar: %u\n", (unsigned char)(packet.frontSonar));
-      packet.rearSonar = (uint8_t)(robot.getRearSonar());
-      // ROS_INFO("rear sonar: %u\n", (unsigned char)(packet.rearSonar));
-      packet.bumper = (uint8_t)(robot.getBumper());
-      // ROS_INFO("bumper: %2X\n", packet.bumper);
-      // ROS_INFO("bumper: %u\n", (unsigned char)(packet.bumper));
-    //   /**
-    //  * The publish() function is how you send messages. The parameter
-    //  * is the message object. The type of this object must agree with the type
-    //  * given as a template parameter to the advertise<>() call, as was done
-    //  * in the constructor above.
-    //  */
-      pub.publish(packet);
     }
     ros::spinOnce();
     loop_rate.sleep();

@@ -62,6 +62,8 @@ int main(int argc, char **argv) {
   char light_on = 0;
   int16_t left_speed = 0;
   int16_t right_speed = 0;
+  int16_t l_speed = 0;
+  int16_t r_speed = 0;
   struct js_event jse;
   
   while (ros::ok) {  
@@ -85,15 +87,15 @@ int main(int argc, char **argv) {
         switch (jse.number) {
 
           case JS_BUTTON_LIGHT:
-            if (light_on == 0 && jse.value == 1) { 
-              srv.request.digital1 ^= 0x04; 
-            }
+            // if (light_on == 0 && jse.value == 1) { 
+            //   srv.request.digital1 ^= 0x04; 
+            // }
             light_on = jse.value; 
           break;   
 
           case JS_BUTTON_MOTOR_PWR:
             if (servo_pwr == 0 && jse.value == 1) { 
-              srv.request.digital1 ^= 0x03; 
+              srv.request.digital1 ^= 0x03;
             }
             servo_pwr = jse.value; 
           break; 
@@ -135,33 +137,45 @@ int main(int argc, char **argv) {
         break;
       }; // end switch
 
-      left_speed = trav_speed + turn_speed;
-      right_speed = trav_speed - turn_speed;
-      if (left_speed >= 0) {
+      l_speed = trav_speed + turn_speed;
+      r_speed = trav_speed - turn_speed;
+      if (l_speed >= 0) {
         srv.request.digital1 &= ~(0x80);
       }
       else {
         srv.request.digital1 |= 0x80;
       }
-      if (right_speed >= 0) {
+      if (r_speed >= 0) {
         srv.request.digital1 &= ~(0x40);
       }
       else {
         srv.request.digital1 |= 0x40;
       }
-      cout << left_speed << " " << right_speed;
-      srv.request.leftMotorSpeed = abs(left_speed);
-      srv.request.rightMotorSpeed = abs(right_speed);
+      if (l_speed != left_speed) {
+        left_speed = l_speed;
+        srv.request.leftMotorSpeedCommand = true;
+        srv.request.leftMotorSpeed = abs(left_speed);
+      }
+      if (r_speed != right_speed) {
+        right_speed = r_speed;
+        srv.request.rightMotorSpeedCommand = true;
+        srv.request.rightMotorSpeed = abs(right_speed);
+      }
+      // cout << left_speed << " " << right_speed;
+      if (pan_speed != 0) {
+        pan_pos -= pan_speed;
+        srv.request.cameraPanCommand = true;
+        srv.request.cameraPan = pan_pos;
+      }
+      if (tilt_speed != 0) {
+        tilt_pos -= tilt_speed;
+        srv.request.cameraTiltCommand = true;
+        srv.request.cameraTilt = tilt_pos;
+      }
 
-      pan_pos -= pan_speed;
-      tilt_pos -= tilt_speed;
-      srv.request.cameraPan = pan_pos;
-      srv.request.cameraTilt = tilt_pos;
-
-      srv.request.rightMotorSpeedCommand = true;
-      srv.request.leftMotorSpeedCommand = true;
-      srv.request.cameraTiltCommand = true;
-      srv.request.cameraPanCommand = true;
+      if (light_on == 1) {
+        srv.request.digital1 ^= 0x04; 
+      }
       srv.request.digital1Command = true;
     }
 
