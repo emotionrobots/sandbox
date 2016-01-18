@@ -49,10 +49,6 @@ def add_causal(name, cause, effect, context, prob):
    i.Slots['prob'] = prob   
 
 
-def query_likely_cause(effect):
-     
-
-
 def main():
    """ test driver """
    load_class()
