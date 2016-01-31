@@ -153,6 +153,90 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+skeleton/CMakeFiles/_catkin_empty_exported_target.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_catkin_empty_exported_target.dir/rule
+.PHONY : skeleton/CMakeFiles/_catkin_empty_exported_target.dir/rule
+
+# Convenience name for target.
+_catkin_empty_exported_target: skeleton/CMakeFiles/_catkin_empty_exported_target.dir/rule
+.PHONY : _catkin_empty_exported_target
+
+# fast build rule for target.
+_catkin_empty_exported_target/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/_catkin_empty_exported_target.dir/build.make skeleton/CMakeFiles/_catkin_empty_exported_target.dir/build
+.PHONY : _catkin_empty_exported_target/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/_run_tests_skeleton.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_run_tests_skeleton.dir/rule
+.PHONY : skeleton/CMakeFiles/_run_tests_skeleton.dir/rule
+
+# Convenience name for target.
+_run_tests_skeleton: skeleton/CMakeFiles/_run_tests_skeleton.dir/rule
+.PHONY : _run_tests_skeleton
+
+# fast build rule for target.
+_run_tests_skeleton/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/_run_tests_skeleton.dir/build.make skeleton/CMakeFiles/_run_tests_skeleton.dir/build
+.PHONY : _run_tests_skeleton/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/rule
+.PHONY : skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/rule
+
+# Convenience name for target.
+_run_tests_skeleton_roslaunch-check: skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/rule
+.PHONY : _run_tests_skeleton_roslaunch-check
+
+# fast build rule for target.
+_run_tests_skeleton_roslaunch-check/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/build.make skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check.dir/build
+.PHONY : _run_tests_skeleton_roslaunch-check/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/rule
+.PHONY : skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/rule
+
+# Convenience name for target.
+_run_tests_skeleton_roslaunch-check_launch: skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/rule
+.PHONY : _run_tests_skeleton_roslaunch-check_launch
+
+# fast build rule for target.
+_run_tests_skeleton_roslaunch-check_launch/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/build.make skeleton/CMakeFiles/_run_tests_skeleton_roslaunch-check_launch.dir/build
+.PHONY : _run_tests_skeleton_roslaunch-check_launch/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/rule
+.PHONY : skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/rule
+
+# Convenience name for target.
+_skeleton_generate_messages_check_deps_CustomString: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/rule
+.PHONY : _skeleton_generate_messages_check_deps_CustomString
+
+# fast build rule for target.
+_skeleton_generate_messages_check_deps_CustomString/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_CustomString.dir/build
+.PHONY : _skeleton_generate_messages_check_deps_CustomString/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/rule
+.PHONY : skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/rule
+
+# Convenience name for target.
+_skeleton_generate_messages_check_deps_Face: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/rule
+.PHONY : _skeleton_generate_messages_check_deps_Face
+
+# fast build rule for target.
+_skeleton_generate_messages_check_deps_Face/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Face.dir/build
+.PHONY : _skeleton_generate_messages_check_deps_Face/fast
+
+# Convenience name for target.
 skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/rule:
 	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/rule
 .PHONY : skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/rule
@@ -165,6 +249,34 @@ _skeleton_generate_messages_check_deps_Skeleton: skeleton/CMakeFiles/_skeleton_g
 _skeleton_generate_messages_check_deps_Skeleton/fast:
 	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_Skeleton.dir/build
 .PHONY : _skeleton_generate_messages_check_deps_Skeleton/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/rule
+.PHONY : skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/rule
+
+# Convenience name for target.
+_skeleton_generate_messages_check_deps_UnknownFace: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/rule
+.PHONY : _skeleton_generate_messages_check_deps_UnknownFace
+
+# fast build rule for target.
+_skeleton_generate_messages_check_deps_UnknownFace/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_UnknownFace.dir/build
+.PHONY : _skeleton_generate_messages_check_deps_UnknownFace/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/rule
+.PHONY : skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/rule
+
+# Convenience name for target.
+_skeleton_generate_messages_check_deps_face_p: skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/rule
+.PHONY : _skeleton_generate_messages_check_deps_face_p
+
+# fast build rule for target.
+_skeleton_generate_messages_check_deps_face_p/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/build.make skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_face_p.dir/build
+.PHONY : _skeleton_generate_messages_check_deps_face_p/fast
 
 # Convenience name for target.
 skeleton/CMakeFiles/_skeleton_generate_messages_check_deps_festTTS.dir/rule:
@@ -347,6 +459,48 @@ rosgraph_msgs_generate_messages_py: skeleton/CMakeFiles/rosgraph_msgs_generate_m
 rosgraph_msgs_generate_messages_py/fast:
 	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make skeleton/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
 .PHONY : rosgraph_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/run_tests_skeleton.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/run_tests_skeleton.dir/rule
+.PHONY : skeleton/CMakeFiles/run_tests_skeleton.dir/rule
+
+# Convenience name for target.
+run_tests_skeleton: skeleton/CMakeFiles/run_tests_skeleton.dir/rule
+.PHONY : run_tests_skeleton
+
+# fast build rule for target.
+run_tests_skeleton/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/run_tests_skeleton.dir/build.make skeleton/CMakeFiles/run_tests_skeleton.dir/build
+.PHONY : run_tests_skeleton/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check.dir/rule
+.PHONY : skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check.dir/rule
+
+# Convenience name for target.
+run_tests_skeleton_roslaunch-check: skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check.dir/rule
+.PHONY : run_tests_skeleton_roslaunch-check
+
+# fast build rule for target.
+run_tests_skeleton_roslaunch-check/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check.dir/build.make skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check.dir/build
+.PHONY : run_tests_skeleton_roslaunch-check/fast
+
+# Convenience name for target.
+skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check_launch.dir/rule:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check_launch.dir/rule
+.PHONY : skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check_launch.dir/rule
+
+# Convenience name for target.
+run_tests_skeleton_roslaunch-check_launch: skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check_launch.dir/rule
+.PHONY : run_tests_skeleton_roslaunch-check_launch
+
+# fast build rule for target.
+run_tests_skeleton_roslaunch-check_launch/fast:
+	cd /home/aurash/catkin_ws/build && $(MAKE) -f skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check_launch.dir/build.make skeleton/CMakeFiles/run_tests_skeleton_roslaunch-check_launch.dir/build
+.PHONY : run_tests_skeleton_roslaunch-check_launch/fast
 
 # Convenience name for target.
 skeleton/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule:
@@ -608,7 +762,15 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... _catkin_empty_exported_target"
+	@echo "... _run_tests_skeleton"
+	@echo "... _run_tests_skeleton_roslaunch-check"
+	@echo "... _run_tests_skeleton_roslaunch-check_launch"
+	@echo "... _skeleton_generate_messages_check_deps_CustomString"
+	@echo "... _skeleton_generate_messages_check_deps_Face"
 	@echo "... _skeleton_generate_messages_check_deps_Skeleton"
+	@echo "... _skeleton_generate_messages_check_deps_UnknownFace"
+	@echo "... _skeleton_generate_messages_check_deps_face_p"
 	@echo "... _skeleton_generate_messages_check_deps_festTTS"
 	@echo "... edit_cache"
 	@echo "... geometry_msgs_generate_messages_cpp"
@@ -628,6 +790,9 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
+	@echo "... run_tests_skeleton"
+	@echo "... run_tests_skeleton_roslaunch-check"
+	@echo "... run_tests_skeleton_roslaunch-check_launch"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_py"

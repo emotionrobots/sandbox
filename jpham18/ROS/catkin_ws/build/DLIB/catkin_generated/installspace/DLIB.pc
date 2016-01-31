@@ -1,0 +1,8 @@
+prefix=/home/julian/sandbox/jpham18/ROS/catkin_ws/install
+
+Name: DLIB
+Description: Description of DLIB
+Version: 1.0.0
+Cflags: -I/home/julian/sandbox/jpham18/ROS/catkin_ws/install/include
+Libs: -L/home/julian/sandbox/jpham18/ROS/catkin_ws/install/lib 
+Requires: roscpp rospy std_msgs message_runtime message_runtime

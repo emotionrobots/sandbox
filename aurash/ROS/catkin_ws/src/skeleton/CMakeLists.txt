@@ -6,6 +6,8 @@ include(/home/aurash/dlib/dlib/cmake)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+
+
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
@@ -59,7 +61,10 @@ find_package(catkin REQUIRED COMPONENTS
    FILES
    Skeleton.msg
    face_p.msg
- )
+   Face.msg
+   UnknownFace.msg
+CustomString.msg
+)
 
 ## Generate services in the 'srv' folder
  add_service_files(
@@ -150,6 +155,10 @@ add_dependencies(listening beginner_tutorials_generate_messages_cpp)
 add_dependencies(image_converter beginner_tutorials_generate_messages_cpp)
 add_dependencies(image_converter skeleton_generate_messages_cpp)
 #add_dependencies(image_converter face_p_generate_messages_cpp)
+
+
+find_package(catkin REQUIRED COMPONENTS roslaunch)
+roslaunch_add_file_check(launch)
 
 #############
 ## Install ##

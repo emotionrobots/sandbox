@@ -73,7 +73,7 @@ to make sure /usr/local/lib is in it.  Finally, add the following lines to the .
 file at the home directory:
 
     cd . 
-    gedit .bashrc
+    sudo gedit .bashrc
 
 
 and add the following line at the end of the file:

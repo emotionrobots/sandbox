@@ -19,18 +19,18 @@ class Asr(object):
             ATT_APP_KEY = "v72tyvstxthasy1az2t40rzhrre1ufzc" # AT&T Speech to Text app keys are 32-character lowercase alphanumeric strings
             ATT_APP_SECRET = "uloea3capyxwub1hbwg2vswhqxbynpr4" # AT&T Speech to Text app secrets are 32-character lowercase alphanumeric strings
             try:
-                hyper=r.recognize_google(audio)#, app_key=ATT_APP_KEY, app_secret=ATT_APP_SECRET)
+                hyper=r.recognize_att(audio, app_key=ATT_APP_KEY, app_secret=ATT_APP_SECRET)
             except sr.UnknownValueError:
                 print("Speech to Text could not understand audio")
-                exit=False
-                Asr.tts_client(self,"I could not quite hear that!")
+                #exit=False
+                #Asr.tts_client(self,"I could not quite hear that!")
             except sr.RequestError:
                 print("Could not request results from Speech to Text service")
-                exit=False
+                #exit=False
             if hyper != None:
                 Asr.publisher(self,hyper)
                 Asr.tts_client(self,hyper)
-                exit=True
+                #exit=True
        # print hyper
 
     def publisher(self,stri):

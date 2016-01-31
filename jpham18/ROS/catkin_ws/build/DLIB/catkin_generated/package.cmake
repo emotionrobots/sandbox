@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "DLIB")
+set(DLIB_MAINTAINER "aurash <aurashnorouzi@gmail.com>")
+set(DLIB_DEPRECATED "")
+set(DLIB_VERSION "1.0.0")
+set(DLIB_BUILD_DEPENDS "message_generation" "roscpp" "rospy" "std_msgs" "python-numpy" "opencv2" "msg/face_p.msg")
+set(DLIB_RUN_DEPENDS "message_runtime" "roscpp" "rospy" "std_msgs" "python-numpy" "sensor_msgs" "opencv2" "image_transport" "cv_bridge" "msg/face_p.msg")
+set(DLIB_BUILDTOOL_DEPENDS "catkin")

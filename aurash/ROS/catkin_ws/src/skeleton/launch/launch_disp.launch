@@ -1,0 +1,27 @@
+<launch>
+
+<node name="rospyopenni" pkg="skeleton" type="rospyopenni.py" respawn="true" />
+
+
+<node name="VRec1" pkg="skeleton" type="VRec1.0.py"  respawn="true" >
+
+<param name="startTrainOrRec" value="rec" />
+<param name="rateCounter" value="6" />
+
+
+ </node>
+
+
+<node name="imageconverter" pkg="skeleton" type="image_converter" respawn="true" />
+
+
+<node name="tts_service" pkg="skeleton" type="festserv.py" respawn="true" />
+
+
+<node name="speechrec" pkg="skeleton" type="speechrec.py" output="log" respawn="true" />
+
+<node name="Display" pkg="skeleton" type="display.py"  respawn="true" />
+
+
+
+</launch>
