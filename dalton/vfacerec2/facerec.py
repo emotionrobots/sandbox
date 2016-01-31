@@ -120,7 +120,7 @@ def convertToStr(image):
 def main():
     print "Starting FaceRec"
 
-    faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
+    faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
     datasetDir = os.getcwd()+'/dataset'
 
@@ -217,10 +217,10 @@ def faceRecInit():
 def faceRec(data):
 
     frameshow = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
-
+    global rateCounter
     if rateCounter == 0:
         #ret, frame = video_capture.read()
-        frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
+        frame = frameshow #np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
         img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         imgeqh = cv2.equalizeHist(gray)
@@ -269,7 +269,8 @@ def faceRec(data):
 
             if distance >= 600.0:
                 global unknownFaceName
-                unknownFaceName.append("unknown-" + unknownfaceCount)
+                unknownFaceName.append("unknown-" + str(unknownfaceCount))
+                print "unknown-"+ str(unknownfaceCount)
                 global unknownFaceURx
                 unknownFaceURx.append(x+w)
                 global unknownFaceURy
@@ -282,12 +283,13 @@ def faceRec(data):
             #else:
             #    cv2.rectangle(img, (x,y),(x+w,y+h),(0,0,255),2)
 
-        ch = cv2.waitKey(1)
+        
 
         img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
 
         #cv2.imshow('Recognizer', img2)
         frameshow = img2
+        print "showing rec frame"
         #cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
 
         rateCounter = pubRate
@@ -295,83 +297,13 @@ def faceRec(data):
     else:
         rateCounter = rateCounter - 1
     
+    ch = cv2.waitKey(1)
+
     if ch == 27:
         return False
     cv2.imshow('Recognizer', frameshow)
     cv2.namedWindow("Recognizer", cv2.WINDOW_NORMAL)
     return True
-
-def faceDet2(data):
-    nameDir = nameD
-    global trainImages
-    #ret, frame = video_capture.read()
-    frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
-    img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    imgeqh = cv2.equalizeHist(gray)
-    faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
-    for(x, y, w, h) in faces:
-        cv2.rectangle(img, (x-2, y-2), (x+w+2, y+h+2), (255, 0, 0), 2)
-        roi_gray = imgeqh[y:y+h, x:x+w]
-        roi_color = img[y:y+h, x:x+w]
-
-    ch = cv2.waitKey(1)
-
-    if len(faces) == 1:
-
-        if ch == ord('b') or ch == ord('z'):
-            print "Capturing & Cropping.."
-            #coords = (x, y, w, h)
-            #faceCropped = img.crop(coords) #cropFaceFromImage(img)
-            trainImages.append(roi_gray)
-            print len(trainImages)
-
-        #cv2.imshow('Trainer', frame)
-        cv2.putText(img, "Press 'B' to take a picture", (x+20,y-20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-        #cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
-    
-    cv2.putText(img, "Press 'ESC' to take finish training", (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-
-    img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
-    
-    cv2.imshow('Trainer', img2)
-    cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
-
-    if ch == 27:
-        writeImagesToFile(trainImages, nameD)
-        #createPKL(image_size)
-        return False
-
-    return True
-     #   break
-
-def faceDet():
-    print "Starting Face Detection"
-
-    image_size = (100, 100)
-
-    faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
-
-    datasetDir = os.getcwd()+'/dataset'
-
-    video_capture = cv2.VideoCapture(0)
-
-    name = str(raw_input('What is your name, human? \n name:'))
-
-    name = name.replace(" ", "_")
-
-    nameDir = datasetDir + '/' + name
-
-    #trainImages = []
-
-    if not os.path.exists(nameDir):
-        os.makedirs(nameDir)
-
-    global nameD
-    nameD = datasetDir + '/' + name
-    global datasetD
-    datasetD = os.getcwd()+'/dataset'
-    print nameD
 
 def writeImagesToFile(trainImages, nameDir):
     index = 0
@@ -393,14 +325,13 @@ def createPKL(image_size):
 
 def callback_rgb(data):
     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
-    if(test):
-        flg = faceRec(data)
-        if(flg == False):
-            rospy.signal_shutdown("")
-    else:
-        flg = faceDet2(data)
-        if(flg == False):
-            rospy.signal_shutdown("")
+    flg = faceRec(data)
+    if(flg == False):
+        rospy.signal_shutdown("")
+    #else:
+    #    flg = faceDet2(data)
+    #    if(flg == False):
+    #        rospy.signal_shutdown("")
     #cv2.imshow('Frame', frame)
     #cv2.waitKey(3)
 
@@ -411,14 +342,12 @@ def listener():
     #rospy.Subscriber('gesture', String, callback_gest)
     rospy.spin()
 
-def setRate(rate):
-    global pubRate
-    pubRate = rate
-    global rateCounter
-    rateCounter = pubRate
-
 def handle_set_rate(req):
     print "Setting Rate to %s"%(req)
+    global pubRate
+    pubRate = req
+    global rateCounter
+    rateCounter = 0;
     return SetRateResponse(req)
     
 def handle_set_name(req):
@@ -427,15 +356,22 @@ def handle_set_name(req):
 
 def handle_forget_name(req):
     print "Forgetting Name %s"%(req)
+    #Delete folder with name
     return ForgetNameResponse(req)
 
 def init_servers():
     rospy.init_node('set_rate_server')
     s = rospy.Service('set_rate', SetRate, handle_set_rate)
+    
     rospy.init_node('set_name_server')
     s2 = rospy.Service('set_name', SetName, handle_set_name)
+
     rospy.init_node('forget_name_server')
     s3 = rospy.Service('forget_name', ForgetName, handle_forget_name)
+
+    rospy.init_node('learn_name_server')
+    s3 = rospy.Service('learn_name', LearnName, handle_forget_name)
+    
     print "Initialized Servers"
     rospy.spin()
 
@@ -516,17 +452,20 @@ def publisher():
     #    rate.sleep()
 
 if __name__ == '__main__':
-    if(c()):
-        createPKL(image_size)
-        model_filename = os.getcwd() + '/model.pkl'
-        model = load_model(model_filename)
-        test = True
-    else:
-        faceDet()
-        trainImages = []
-        test = False
+
+    global faceCascade
+    faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
+    #if(c()):
+    model_filename = os.getcwd() + '/model.pkl'
+    model = load_model(model_filename)
+    test = True
+    #else:
+    #    faceDet()
+    #    trainImages = []
+    #    test = False
+        #createPKL(image_size)
     listener()
-    set_rate_server()
+    init_servers()
     publisher()
     #if(c()):
         #faceDet()
