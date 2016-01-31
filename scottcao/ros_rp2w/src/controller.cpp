@@ -19,8 +19,8 @@ using namespace std;
 #define JS_BUTTON_MOTOR_PWR 8
 #define JS_BUTTON_SERVO_HOME  9
 
-#define JS_JOYSTICK_PAN   0
-#define JS_JOYSTICK_TILT  1
+#define JS_JOYSTICK_PAN   1
+#define JS_JOYSTICK_TILT  0
 #define JS_JOYSTICK_TURN  2
 #define JS_JOYSTICK_TRAV  3
 
@@ -49,12 +49,14 @@ int main(int argc, char **argv) {
   ros::Subscriber sub = n.subscribe("rp2w_packet", 1000, packetCallback);
   ros::ServiceClient client = n.serviceClient<ros_rp2w::Command>("rp2w_command");
 
-  int16_t pan_home = 1500;
-  int16_t tilt_home = 1560;
+  int16_t pan_home = 2030;
+  int16_t tilt_home = 1693;
   int16_t pan_pos = pan_home;
   int16_t tilt_pos = tilt_home;
   int16_t pan_speed = 0;
   int16_t tilt_speed = 0;
+  bool motor_button = false;
+  bool motor_on = false;
   int16_t turn_speed = 0;
   int16_t trav_speed = 0;
   char servo_pwr = 0; 
@@ -98,9 +100,12 @@ int main(int argc, char **argv) {
           break;   
 
           case JS_BUTTON_MOTOR_PWR:
-            if (servo_pwr == 0 && jse.value == 1) { 
-              srv.request.digital1 ^= 0x03;
+            if (!motor_button) {
+              if (servo_pwr == 0 && jse.value == 1) { 
+                motor_on = !motor_on;
+              }
             }
+            motor_button = !motor_button;
             servo_pwr = jse.value; 
           break; 
 
@@ -180,14 +185,21 @@ int main(int argc, char **argv) {
       if (light_on) {
         srv.request.digital1 ^= 0x04; 
       }
+      if (motor_on) {
+        srv.request.cameraPanCommand = true;
+        srv.request.cameraPan = pan_pos;
+        srv.request.cameraTiltCommand = true;
+        srv.request.cameraTilt = tilt_pos;
+        srv.request.digital1 ^= 0x03;
+      }
       srv.request.digital1Command = true;
-    }
 
-    if (client.call(srv)) {
-    }
-    else {
-      ROS_ERROR("Failed to call service rp2w_command");
-      return 1;
+      if (client.call(srv)) {
+      }
+      else {
+        ROS_ERROR("Failed to call service rp2w_command");
+        return 1;
+      }
     }
   }
 

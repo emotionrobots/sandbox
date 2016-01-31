@@ -45,12 +45,13 @@ bool command(ros_rp2w::Command::Request  &req,
     // ROS_INFO("GPIO2 changed to %u", (unsigned char)(req.digital2));
     robot.setGPIO2(req.digital2);
   }
+  cout << "Callback" << endl;
   // res.commandSuccessful = true;
-  rc = robot.update();
-  if (rc != rp2w::OK) {
-    cout << "robot.update failed (" << rc << ")";
-    return false;
-  }
+  // rc = robot.update();
+  // if (rc != rp2w::OK) {
+  //   cout << "robot.update failed (" << rc << ")";
+  //   return false;
+  // }
   return true;
 }
 

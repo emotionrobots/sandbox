@@ -54,13 +54,13 @@ int getkey() {
 #define JS_BUTTON_MOTOR_PWR	8
 #define JS_BUTTON_SERVO_HOME	9
 
-#define JS_JOYSTICK_PAN		0
-#define JS_JOYSTICK_TILT	1
+#define JS_JOYSTICK_PAN		1
+#define JS_JOYSTICK_TILT	0
 #define JS_JOYSTICK_TURN	2
 #define JS_JOYSTICK_TRAV	3
 
-#define PAN_INIT		1500
-#define TILT_INIT	 	1560	
+#define PAN_INIT		2030
+#define TILT_INIT	 	1693
 
 int main(int argc, char *argv[])
 {
@@ -69,6 +69,7 @@ int main(int argc, char *argv[])
     int length;
     rp2w::Status rc;
     rp2w robot;
+
     bool done = false;
     char dir = 0;
     int16_t pan_home = PAN_INIT;
@@ -87,6 +88,7 @@ int main(int argc, char *argv[])
     char right_motor = 0;
     int16_t left_speed = 0;
     int16_t right_speed = 0;
+    bool power_on = false;
   
     struct js_event jse;
     int fd;
@@ -138,6 +140,7 @@ int main(int argc, char *argv[])
                       if (servo_pwr == 0 && jse.value == 1) { 
                          digital1 ^= 0x03;
                          robot.setGPIO1(digital1); 
+                         power_on = true;
                       }
                       servo_pwr = jse.value; 
                       break; 
@@ -153,7 +156,8 @@ int main(int argc, char *argv[])
                    case JS_BUTTON_SERVO_RESET:
                       if (jse.value == 1) { 
                          pan_home = pan_pos; 
-                         tilt_home = tilt_pos; 
+                         tilt_home = tilt_pos;
+                         cout << pan_home << " " << tilt_home << endl; 
                       }
                       break;
                    default:
@@ -206,6 +210,9 @@ int main(int argc, char *argv[])
        tilt_pos -= tilt_speed;
        robot.setCameraPan(pan_pos);
        robot.setCameraTilt(tilt_pos);
+
+       cout << "PAN: " << robot.getCameraPan() << ", TILT: " << tilt_pos << endl;
+
 
  //  if (pan_speed >= 0) {
  //    cerr << "Camera Pan Speed: " << pan_speed << endl;
