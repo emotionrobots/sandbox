@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/emotion/emotion/sandbox/larry/rp2w_serial/joystick.h
+stdio.h
+-
+
+/home/emotion/emotion/sandbox/larry/rp2w_serial/rp2w_serial.h
+SerialStream.h
+-
+iostream
+-
+sstream
+-
+unistd.h
+-
+cstdlib
+-
+string
+-
+
+/home/emotion/emotion/sandbox/larry/rp2w_serial/testjoystick.cpp
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+termio.h
+-
+joystick.h
+/home/emotion/emotion/sandbox/larry/rp2w_serial/joystick.h
+rp2w_serial.h
+/home/emotion/emotion/sandbox/larry/rp2w_serial/rp2w_serial.h
+

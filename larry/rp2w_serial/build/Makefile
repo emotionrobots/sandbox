@@ -114,12 +114,26 @@ testapp/fast:
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/build
 .PHONY : testapp/fast
 
+#=============================================================================
+# Target rules for targets named testjoystick
+
+# Build rule for target.
+testjoystick: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 testjoystick
+.PHONY : testjoystick
+
+# fast build rule for target.
+testjoystick/fast:
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/build
+.PHONY : testjoystick/fast
+
 joystick.o: joystick.cpp.o
 .PHONY : joystick.o
 
 # target to build an object file
 joystick.cpp.o:
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/joystick.cpp.o
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/joystick.cpp.o
 .PHONY : joystick.cpp.o
 
 joystick.i: joystick.cpp.i
@@ -128,6 +142,7 @@ joystick.i: joystick.cpp.i
 # target to preprocess a source file
 joystick.cpp.i:
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/joystick.cpp.i
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/joystick.cpp.i
 .PHONY : joystick.cpp.i
 
 joystick.s: joystick.cpp.s
@@ -136,6 +151,7 @@ joystick.s: joystick.cpp.s
 # target to generate assembly for a file
 joystick.cpp.s:
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/joystick.cpp.s
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/joystick.cpp.s
 .PHONY : joystick.cpp.s
 
 rp2w_serial.o: rp2w_serial.cpp.o
@@ -186,6 +202,30 @@ testapp.cpp.s:
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/testapp.cpp.s
 .PHONY : testapp.cpp.s
 
+testjoystick.o: testjoystick.cpp.o
+.PHONY : testjoystick.o
+
+# target to build an object file
+testjoystick.cpp.o:
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/testjoystick.cpp.o
+.PHONY : testjoystick.cpp.o
+
+testjoystick.i: testjoystick.cpp.i
+.PHONY : testjoystick.i
+
+# target to preprocess a source file
+testjoystick.cpp.i:
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/testjoystick.cpp.i
+.PHONY : testjoystick.cpp.i
+
+testjoystick.s: testjoystick.cpp.s
+.PHONY : testjoystick.s
+
+# target to generate assembly for a file
+testjoystick.cpp.s:
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/testjoystick.cpp.s
+.PHONY : testjoystick.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -195,6 +235,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... testapp"
+	@echo "... testjoystick"
 	@echo "... joystick.o"
 	@echo "... joystick.i"
 	@echo "... joystick.s"
@@ -204,6 +245,9 @@ help:
 	@echo "... testapp.o"
 	@echo "... testapp.i"
 	@echo "... testapp.s"
+	@echo "... testjoystick.o"
+	@echo "... testjoystick.i"
+	@echo "... testjoystick.s"
 .PHONY : help
 
 

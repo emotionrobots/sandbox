@@ -166,10 +166,14 @@ int main(int argc, char *argv[])
                    trav_speed = (int16_t)(jse.value >> 8);
                 else if (jse.number == JS_JOYSTICK_TURN)
                    turn_speed = (int16_t)(jse.value >> 8);
-                else if (jse.number == JS_JOYSTICK_PAN) 
+                else if (jse.number == JS_JOYSTICK_PAN) {
+                   printf("PAN: Joystick type=%2d num=%2d value =%2d\n", jse.type, jse.number, jse.value >> 12);
                    pan_speed = (int16_t)(jse.value >> 12);
-                else if (jse.number == JS_JOYSTICK_TILT) 
+                }
+                else if (jse.number == JS_JOYSTICK_TILT) {
+                   printf("TILT: Joystick type=%2d num=%2d value =%2d\n", jse.type, jse.number, jse.value >> 12);
                    tilt_speed = (int16_t)(jse.value >> 12);
+                }
                 break;
 
              default:
@@ -203,12 +207,12 @@ int main(int argc, char *argv[])
        robot.setCameraPan(pan_pos);
        robot.setCameraTilt(tilt_pos);
 
-  if (pan_speed >= 0) {
-    cerr << "Camera Pan Speed: " << pan_speed << endl;
-  }
-	if (tilt_speed >= 0) {
-	 cerr << "Camera Tilt Speed: " << tilt_speed << endl;
-  }
+ //  if (pan_speed >= 0) {
+ //    cerr << "Camera Pan Speed: " << pan_speed << endl;
+ //  }
+	// if (tilt_speed >= 0) {
+	//  cerr << "Camera Tilt Speed: " << tilt_speed << endl;
+ //  }
 
 #if 0 
        printf("DIG=0x%02X LM=%04d RM=%04d PAN=%04d TILT=%04d\n",

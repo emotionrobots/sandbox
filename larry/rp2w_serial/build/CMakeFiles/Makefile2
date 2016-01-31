@@ -91,6 +91,41 @@ clean: CMakeFiles/testapp.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/testjoystick.dir
+
+# All Build rule for target.
+CMakeFiles/testjoystick.dir/all:
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/depend
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles  4 5
+	@echo "Built target testjoystick"
+.PHONY : CMakeFiles/testjoystick.dir/all
+
+# Include target in all.
+all: CMakeFiles/testjoystick.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/testjoystick.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/testjoystick.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles 0
+.PHONY : CMakeFiles/testjoystick.dir/rule
+
+# Convenience name for target.
+testjoystick: CMakeFiles/testjoystick.dir/rule
+.PHONY : testjoystick
+
+# clean rule for target.
+CMakeFiles/testjoystick.dir/clean:
+	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/clean
+.PHONY : CMakeFiles/testjoystick.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/testjoystick.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Special targets to cleanup operation of make.
 
 # Special rule to run CMake to check the build system integrity.
