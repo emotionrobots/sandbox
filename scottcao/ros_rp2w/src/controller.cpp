@@ -70,19 +70,19 @@ int main(int argc, char **argv) {
   struct js_event jse;
   
   while (ros::ok) {  
-    ros_rp2w::Command srv;
-    if (mutex.try_lock()) {
-      if (packet) {
-        srv.request.digital1 = packet->digital1;
-      }
-      else {
-        srv.request.digital1 = 0;
-      }
-      mutex.unlock();
-    }
-
     if (read_joystick_event(&jse)) {
       ROS_INFO("Joystick type=%2d num=%2d", jse.type, jse.number);
+
+      ros_rp2w::Command srv;
+      if (mutex.try_lock()) {
+        if (packet) {
+          srv.request.digital1 = packet->digital1;
+        }
+        else {
+          srv.request.digital1 = 0;
+        }
+        mutex.unlock();
+      }
 
       switch (jse.type) {
 
