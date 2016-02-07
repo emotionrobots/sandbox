@@ -88,6 +88,7 @@ int main(int argc, char *argv[])
     char right_motor = 0;
     int16_t left_speed = 0;
     int16_t right_speed = 0;
+    bool power_on = false;
   
     struct js_event jse;
     int fd;
@@ -115,6 +116,8 @@ int main(int argc, char *argv[])
     robot.setCameraPan(pan_pos);
     robot.setCameraTilt(tilt_pos);
 
+    printf("servo_pwr: %u\n", (unsigned char)(servo_pwr));
+
     while (!done) {
 
        rc = robot.update();
@@ -139,12 +142,13 @@ int main(int argc, char *argv[])
                       if (servo_pwr == 0 && jse.value == 1) { 
                          digital1 ^= 0x03;
                          robot.setGPIO1(digital1); 
+                         power_on = !power_on;
                       }
                       servo_pwr = jse.value; 
-                      cout << "servo_pwr: " << servo_pwr << endl;
+                      // printf("servo_pwr: %u\n", (unsigned char)(servo_pwr));
                       break; 
                    case JS_BUTTON_SERVO_HOME:
-                      if (servo_pwr == 1 && servo_reset == 0 && jse.value == 1) { 
+                      if (power_on && servo_reset == 0 && jse.value == 1) { 
                          pan_pos = pan_home;
                          tilt_pos = tilt_home;
                          pan_speed = 0;
@@ -169,12 +173,12 @@ int main(int argc, char *argv[])
                    trav_speed = (int16_t)(jse.value >> 8);
                 else if (jse.number == JS_JOYSTICK_TURN)
                    turn_speed = (int16_t)(jse.value >> 8);
-                else if (servo_pwr == 1 && jse.number == JS_JOYSTICK_PAN) {
-                   printf("PAN: Joystick type=%2d num=%2d value =%2d\n", jse.type, jse.number, jse.value >> 12);
+                else if (power_on && jse.number == JS_JOYSTICK_PAN) {
+                   // printf("PAN: Joystick type=%2d num=%2d value =%2d\n", jse.type, jse.number, jse.value >> 12);
                    pan_speed = (int16_t)(jse.value >> 12);
                 }
-                else if (servo_pwr == 1 && jse.number == JS_JOYSTICK_TILT) {
-                   printf("TILT: Joystick type=%2d num=%2d value =%2d\n", jse.type, jse.number, jse.value >> 12);
+                else if (power_on && jse.number == JS_JOYSTICK_TILT) {
+                   // printf("TILT: Joystick type=%2d num=%2d value =%2d\n", jse.type, jse.number, jse.value >> 12);
                    tilt_speed = (int16_t)(jse.value >> 12);
                 }
                 break;
@@ -210,7 +214,7 @@ int main(int argc, char *argv[])
        robot.setCameraPan(pan_pos);
        robot.setCameraTilt(tilt_pos);
 
-       cout << "PAN: " << robot.getCameraPan() << ", TILT: " << tilt_pos << endl;
+       // cout << "PAN: " << robot.getCameraPan() << ", TILT: " << tilt_pos << endl;
 
 
  //  if (pan_speed >= 0) {
