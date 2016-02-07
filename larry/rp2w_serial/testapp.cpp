@@ -88,7 +88,6 @@ int main(int argc, char *argv[])
     char right_motor = 0;
     int16_t left_speed = 0;
     int16_t right_speed = 0;
-    bool power_on = false;
   
     struct js_event jse;
     int fd;
@@ -140,12 +139,12 @@ int main(int argc, char *argv[])
                       if (servo_pwr == 0 && jse.value == 1) { 
                          digital1 ^= 0x03;
                          robot.setGPIO1(digital1); 
-                         power_on = true;
                       }
                       servo_pwr = jse.value; 
+                      cout << "servo_pwr: " << servo_pwr << endl;
                       break; 
                    case JS_BUTTON_SERVO_HOME:
-                      if (servo_reset == 0 && jse.value == 1) { 
+                      if (servo_pwr == 1 && servo_reset == 0 && jse.value == 1) { 
                          pan_pos = pan_home;
                          tilt_pos = tilt_home;
                          pan_speed = 0;
@@ -170,11 +169,11 @@ int main(int argc, char *argv[])
                    trav_speed = (int16_t)(jse.value >> 8);
                 else if (jse.number == JS_JOYSTICK_TURN)
                    turn_speed = (int16_t)(jse.value >> 8);
-                else if (jse.number == JS_JOYSTICK_PAN) {
+                else if (servo_pwr == 1 && jse.number == JS_JOYSTICK_PAN) {
                    printf("PAN: Joystick type=%2d num=%2d value =%2d\n", jse.type, jse.number, jse.value >> 12);
                    pan_speed = (int16_t)(jse.value >> 12);
                 }
-                else if (jse.number == JS_JOYSTICK_TILT) {
+                else if (servo_pwr == 1 && jse.number == JS_JOYSTICK_TILT) {
                    printf("TILT: Joystick type=%2d num=%2d value =%2d\n", jse.type, jse.number, jse.value >> 12);
                    tilt_speed = (int16_t)(jse.value >> 12);
                 }

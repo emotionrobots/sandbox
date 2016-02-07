@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
    */
    ros::NodeHandle n;
    ros::Publisher pub = n.advertise<ros_rp2w::Packet>("rp2w_packet", 10);
-   ros::Rate loop_rate(5);
+   ros::Rate loop_rate(1);
 
    ros::ServiceServer service = n.advertiseService("rp2w_command", command);
 
