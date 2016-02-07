@@ -59,8 +59,8 @@ int getkey() {
 #define JS_JOYSTICK_TURN	2
 #define JS_JOYSTICK_TRAV	3
 
-#define PAN_INIT		2030
-#define TILT_INIT	 	1693
+#define PAN_INIT		1958
+#define TILT_INIT	 	767
 
 int main(int argc, char *argv[])
 {
@@ -125,6 +125,8 @@ int main(int argc, char *argv[])
            cerr << "robot.update failed (" << rc << ")" << endl;
 
         if (read_joystick_event(&jse)) {
+
+          cout << "loop" << endl;
 
           printf("Joystick type=%2d num=%2d\n", jse.type, jse.number);
 
@@ -214,7 +216,7 @@ int main(int argc, char *argv[])
        robot.setCameraPan(pan_pos);
        robot.setCameraTilt(tilt_pos);
 
-       // cout << "PAN: " << robot.getCameraPan() << ", TILT: " << tilt_pos << endl;
+       cout << "PAN: " << robot.getCameraPan() << ", TILT: " << robot.getCameraTilt() << endl;
 
 
  //  if (pan_speed >= 0) {

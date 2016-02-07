@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
    */
    ros::NodeHandle n;
    ros::Publisher pub = n.advertise<ros_rp2w::Packet>("rp2w_packet", 10);
-   ros::Rate loop_rate(1);
+   ros::Rate loop_rate(45);
 
    ros::ServiceServer service = n.advertiseService("rp2w_command", command);
 
@@ -101,6 +101,8 @@ int main(int argc, char **argv) {
         packet.cameraPan = robot.getCameraPan();
         packet.digital1 = (uint8_t)(robot.getGPIO1());
         packet.digital2 = (uint8_t)(robot.getGPIO2());
+
+        cout << "PAN: " << packet.cameraPan << ", TILT: " << packet.cameraTilt << endl;
 
         packet.encoderA = (int32_t)(robot.getEncoderA());
         // cout << packet.encoderA << endl;
