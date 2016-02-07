@@ -99,13 +99,12 @@ def draw_nosebridge(frame, landmarks):
 	return draw_arc(frame, landmarks, 48, 50)
 
 def draw_landmarks(frame, landmarks, printScale):	
+	# print landmarks
 	scale = normalize(landmarks)
 	if printScale:	
 		cv2.putText(frame, "Scale:  "  + str(scale), (100,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 		cv2.putText(frames, "Scale:  "  + str(scale), (100,100), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-	# print landmarks
 	map(lambda p: cv2.circle(frame, (int(p[0]), int(p[1])), 1, (512,512,255), -1), landmarks)
-	# map(lambda p: cv2.circle(frames, (int(p[0]), int(p[1])), 1, (512,512,255), -1), landmarks)
 	count=0
 	numbering = 0
         for (x, y) in landmarks:
@@ -135,13 +134,6 @@ def draw_landmarks(frame, landmarks, printScale):
        				theta = 180
        			else:
 	       			theta = math.degrees(math.acos(theta))
-	       		# print theta
-       # 			try:
-	      #  			theta = math.degrees(math.acos(theta))	
-	      #  			print "worked"
-    			# except:
-    			# 	print "error"
-    			# 	print theta 
        			if quadrant == 2 or quadrant == 3:
 					theta = 90+theta
 					xcoor = dist * math.cos(math.radians(theta))
@@ -156,43 +148,28 @@ def draw_landmarks(frame, landmarks, printScale):
 			if count == 30:
 				xcoor = 0
 				ycoor = 0
-			# coorPair = str(count) + ":   (" + str(round(xcoor, 2)) + ", " + str(round(ycoor, 2)) + ")"
-			# cv2.putText(frame, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
-			# cv2.putText(frame, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-			# cv2.putText(frames, str(count), (int(x)+5,int(y)+5), cv2.FONT_HERSHEY_SIMPLEX, .4, 255)
-			# cv2.putText(frames, coorPair, (100, 115 + numbering * 20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 			numbering = numbering + 1
+			# cv2.putText(frame, str(count), ((x+5),(y+5)), cv2.FONT_HERSHEY_SIMPLEX,.3,255)
 			count = count + 1
 	return
 
-def displayEmotion(landmarks):
+def displayEmotion(landmarks, frame):
 	featureVector = joblib.load("emotionDataBase.bin")
 	featureVector.set_params(probability=True)
-	print featureVector
+	# print featureVector
 	detect = detectEmotion(landmarks)
-	print detect
+	# print detect
 	myEmotion = str(featureVector.predict(detect))
-	print myEmotion	
+	# print myEmotion	+ "   " + str(x)
 	probArr = featureVector.predict_proba(detect)
 	probArr = probArr * 100
 	# print landmarks
 	# print myEmotion
-	print probArr
+	# print probArr
 	# probability = "Neutral: " + str(probArr[0][4]) + "  Happy: " + str(probArr[0][3]) + "  Sad: " + str(probArr[0][5]) + "  Angry: " + str(probArr[0][0])
 	# probability2 = "Disgust: " + str(probArr[0][1]) + "  Fear: " + str(probArr[0][2]) + "  Surprise: " + str(probArr[0][6])
-	cv2.putText(frame, myEmotion, (70, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
-	cv2.imshow("Live Landmarking", frame)
-	cv2.waitKey(1)	
+	cv2.putText(frame, myEmotion, (mylandmarks[0][0] - 50, mylandmarks[0][1]-50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
 	# cv2.putText(frames, myEmotion, (550, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
-	# global odd
-	# if odd % 2 == 1:
-		# cv2.putText(frame, probability, (25, 390), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
-		# cv2.putText(frames, probability, (25, 390), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)	
-		# cv2.putText(frame, probability2, (25, 410), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
-		# cv2.putText(frames, probability2, (25, 410), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
-	# odd = odd + 1
-	# print myEmotion
-	# print probArr
 	publisher(myEmotion, probArr.max())
 	return #[myEmotion, probArr]
 
@@ -312,9 +289,8 @@ def OverlayImage(src, x):
     l_img[y_offset:y_offset+s_img.shape[0], x_offset:x_offset+s_img.shape[1]] = s_img
     return l_img
 
-def draw_face(landmarks):
-	global frame
-	draw_landmarks(frame, landmarks, True)
+def draw_face(landmarks, frame):
+	draw_landmarks(frame, landmarks, False)
 	# draw_face_outline(frame, landmarks)
 	# draw_lefteye(frame, landmarks)
 	# draw_lefteyebrow(frame, landmarks)
@@ -328,10 +304,8 @@ def draw_face(landmarks):
 		# return x
 	# else:
 		# detectEmotion(frame, landmarks)
-	# return
-	displayEmotion(landmarks)
-	cv2.imshow("Live Landmarking", frame)
-	cv2.waitKey(1)
+	# Returns
+	displayEmotion(landmarks, frame)
 
 def main():
 	listener()
@@ -361,40 +335,45 @@ def callback(data):
 
 
 def callback2(data):
+
 	global mylandmarks
 	mylandmarks = []
 	alllandmarks = np.array(data.arr.data)
-	# start = True	
-	# if start == True:
-	# 	start = False
-	# if start == False:
-	# 	landmarksOLD = mylandmarks
-	# 	mylandmarks = [1,2,3]
-	# 	alpha = .85
-	# 	mylandmarks = (1-alpha)* landmarksOLD + alpha * mylandmarks
 	global filename
 	filename = os.getcwd()
 	done = False
-	# global mylandmarks
-	# while done != True:	
-		# draw the landmarks point as circles
-		# if  mylandmarks[0][0] != 0.0:
-			# x=draw_face(frame, mylandmarks, True)
-			# frame=OverlayImage(frame,x)
-		# x=draw_face(frame, mylandmarks, True)
-		# frame=OverlayImage(frame,x)
 	# print len(alllandmarks)
-	for x in range(0,len(alllandmarks) - 2):
-		if x % 2 == 0:
-			mylandmarks = mylandmarks + [[alllandmarks[x],alllandmarks[x+1]]]
-	print len(mylandmarks)
-	mylandmarks = np.array(mylandmarks)
+	# print alllandmarks
+	global frame
+	numFaces = len(alllandmarks) / 135
+	faceArr = [];
+	for num in range (0,numFaces):
+		faceArr.append([])
+		for num2 in range(0,135):
+			print num2 +(num * 135)
+			faceArr[num].append(alllandmarks[num2 +(num * 135)])
+	# print "faceArr" + str(faceArr)	
+	count = 0
+	for arr in faceArr:
+		print arr
+		for x in range(0,len(arr) - 2):
+			if count % 2 == 0:
+				if x % 2 == 0:
+					mylandmarks = mylandmarks + [[arr[x],arr[x+1]]]
+			else:
+				if x % 2 == 0:
+					mylandmarks = mylandmarks + [[arr[x+1],arr[x]]]
+		count = count + 1
+		# print (mylandmarks)
+		# print "person" + str(y)
+		mylandmarks = np.array(mylandmarks)
+		# print "mylandmarks " + str(mylandmarks)
+		draw_face(mylandmarks, frame)
+		mylandmarks = []
+		# cv2.putText(frame, "person: " + str(y + 1), (), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
+	cv2.imshow("Live Landmarking", frame)
+	cv2.waitKey(1)
 
-	draw_face(mylandmarks)
-	# cv2.namedWindow('k', cv2.WINDOW_NORMAL)
-	# cv2.imshow('k',frames)	
-	# if cv2.waitKey(150) == 1048603:
-			# done = True 
 
 
 if __name__ == '__main__':
