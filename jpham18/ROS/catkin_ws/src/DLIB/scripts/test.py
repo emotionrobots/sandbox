@@ -68,7 +68,7 @@ def trainSVM():
 	print "test3"
 	emotion_list = emotion_list.tolist() * 200
 	print "test4"
-	print feature_vector
+	print feature_vector	
 	print len(feature_vector)
 	print emotion_list
 	print len(emotion_list)
