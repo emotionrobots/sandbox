@@ -8,25 +8,18 @@ import os
 def main():
     filename = '/home/aurash/emoface'
 
-    aurash0=face_detect(cv2.imread(filename+"/happy.jpg",1))
-    aurash1=face_detect(cv2.imread(filename+"/anger.jpg",1))
-    aurash2=face_detect(cv2.imread(filename+"/surprise.jpg",1))
-    aurash3=face_detect(cv2.imread(filename+"/fear.jpg",1))
-    aurash4=face_detect(cv2.imread(filename+"/contempt.jpg",1))
-    aurash5=face_detect(cv2.imread(filename+"/disgust.jpg",1))
-    aurash6=face_detect(cv2.imread(filename+"/sadness.jpg",1))
-    aurash7=face_detect(cv2.imread(filename+"/neutral.jpg",1))
-    aurash00=face_detect(cv2.imread(filename+"/happy.jpg",1))
-    aurash11=face_detect(cv2.imread(filename+"/anger.jpg",1))
-    aurash22=face_detect(cv2.imread(filename+"/surprise.jpg",1))
-    aurash33=face_detect(cv2.imread(filename+"/fear.jpg",1))
-    aurash44=face_detect(cv2.imread(filename+"/contempt.jpg",1))
-    aurash55=face_detect(cv2.imread(filename+"/disgust.jpg",1))
-    aurash66=face_detect(cv2.imread(filename+"/sadness.jpg",1))
-    aurash77=face_detect(cv2.imread(filename+"/neutral.jpg",1))
+    hm,hn,her,hel=face_detect(cv2.imread(filename+"/happy.jpg",1))
+    hm,hn,her,hel=face_detect(cv2.imread(filename+"/anger.jpg",1))
+    hm,hn,her,hel=face_detect(cv2.imread(filename+"/surprise.jpg",1))
+    hm,hn,her,hel=face_detect(cv2.imread(filename+"/fear.jpg",1))
+    hm,hn,her,hel=face_detect(cv2.imread(filename+"/contempt.jpg",1))
+    hm,hn,her,hel=face_detect(cv2.imread(filename+"/disgust.jpg",1))
+    hm,hn,her,hel=face_detect(cv2.imread(filename+"/sadness.jpg",1))
+    hm,hn,her,hel=face_detect(cv2.imread(filename+"/neutral.jpg",1))
+
     recognizer=cv2.createLBPHFaceRecognizer()
-    trainingImages = [aurash0, aurash1,aurash2,aurash3,aurash4,aurash5,aurash6,aurash7,aurash00, aurash11,aurash22,aurash33,aurash44,aurash55,aurash66,aurash77]
-    trainingLabels = np.array([0,1,2,3,4,5,6,7,0,1,2,3,4,5,6,7])
+    trainingImages = [aurash0, aurash1,aurash2,aurash3,aurash4,aurash5,aurash6,aurash7]
+    trainingLabels = np.array([0,1,2,3,4,5,6,7])
     recognizer.train(trainingImages, trainingLabels)
     livedetect(recognizer)
 

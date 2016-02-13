@@ -1,0 +1,7 @@
+string name
+string image
+int32 llx
+int32 lly
+int32 urx
+int32 ury
+
