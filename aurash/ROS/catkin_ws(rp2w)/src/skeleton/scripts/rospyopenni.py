@@ -32,6 +32,9 @@ if __name__ == '__main__':
     image_generator = opi.ImageGenerator()
     image_generator.create(ctx) 
 
+    hands_generator = opi.HandsGenerator()
+    hands_generator.create(ctx)
+
     gesture_generator = opi.GestureGenerator()
     gesture_generator.create(ctx)
     gesture_generator.add_gesture("Click")
