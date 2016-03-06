@@ -157,10 +157,6 @@ target_link_libraries(js_rp2w
   ${catkin_LIBRARIES}
   serial
 )
-target_link_libraries(sys_rp2w
-  ${catkin_LIBRARIES}
-  serial
-)
 target_link_libraries(controller
   ${catkin_LIBRARIES}
 )

@@ -1,49 +1,35 @@
 /*!
  *=============================================================================
  *
- *  @file   testapp.cpp
+ *  @file	testapp.cpp
  *
- *  @brief  RP2W controller test application 
- *  
+ *  @brief	RP2W controller test application 
+ *	
  *=============================================================================
  */
 
+#include <iostream>
+#include <cstdlib>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <termio.h>
 #include "joystick.h"
-#include "rp2w_serial.h"
+
+#define JS_TYPE_BUTTON    1
+#define JS_TYPE_JOYSTICK  2
+
+#define JS_BUTTON_LIGHT         0
+#define JS_BUTTON_SERVO_RESET 2
+#define JS_BUTTON_MOTOR_PWR 8
+#define JS_BUTTON_SERVO_HOME  9
+
+#define JS_JOYSTICK_PAN   1
+#define JS_JOYSTICK_TILT  0
+#define JS_JOYSTICK_TURN  2
+#define JS_JOYSTICK_TRAV  3
 
 using namespace std;
-using namespace LibSerial;
-
-CommandPacket command = {'S',0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-SensorPacket sensor;
-
-int getkey() {
-    int character;
-    struct termios orig_term_attr;
-    struct termios new_term_attr;
-
-    /* set the terminal to raw mode */
-    tcgetattr(fileno(stdin), &orig_term_attr);
-    memcpy(&new_term_attr, &orig_term_attr, sizeof(struct termios));
-    new_term_attr.c_lflag &= ~(ECHO|ICANON);
-    new_term_attr.c_cc[VTIME] = 0;
-    new_term_attr.c_cc[VMIN] = 0;
-    tcsetattr(fileno(stdin), TCSANOW, &new_term_attr);
-
-    /* read a character from the stdin stream without blocking */
-    /*   returns EOF (-1) if no character is available */
-    character = fgetc(stdin);
-
-    /* restore the original terminal attributes */
-    tcsetattr(fileno(stdin), TCSANOW, &orig_term_attr);
-
-    return character;
-}
-
 
 int main(int argc, char *argv[])
 {
@@ -78,21 +64,21 @@ int main(int argc, char *argv[])
               trav_speed = (int16_t)(jse.value >> 8);
             else if (jse.number == JS_JOYSTICK_TURN)
               turn_speed = (int16_t)(jse.value >> 8);
-            else if (servo_pwr == 1 && jse.number == JS_JOYSTICK_PAN) 
+            else if (jse.number == JS_JOYSTICK_PAN) 
               pan_speed = (int16_t)(jse.value >> 12);
-            else if (servo_pwr == 1 && jse.number == JS_JOYSTICK_TILT) 
+            else if (jse.number == JS_JOYSTICK_TILT) 
               tilt_speed = (int16_t)(jse.value >> 12);
           }
 
           left_speed = trav_speed + turn_speed;
           right_speed = trav_speed - turn_speed;
 
-          cout << "Left Speed: " << left_speed << "; Right Speed: " << right_speed;
-          printf("Left Motor: %u; Right Motor: %u", 
-            (unsigned char)(left_speed), (unsigned char)(right_speed));
+          cout << "Left Speed: " << left_speed << "; Right Speed: " << right_speed << endl;
+          char x = abs(left_speed), y = abs(right_speed);
+          printf("Left Motor: %u; Right Motor: %u\n", 
+            (unsigned char)(x), (unsigned char)(y));
 
         } // end if
-       usleep(1000);
 
     } // end while
     return 0;

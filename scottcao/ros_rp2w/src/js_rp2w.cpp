@@ -46,12 +46,6 @@ bool command(ros_rp2w::Command::Request  &req,
     robot.setGPIO2(req.digital2);
   }
   cout << "Callback" << endl;
-  // res.commandSuccessful = true;
-  // rc = robot.update();
-  // if (rc != rp2w::OK) {
-  //   cout << "robot.update failed (" << rc << ")";
-  //   return false;
-  // }
   return true;
 }
 
@@ -78,11 +72,11 @@ int main(int argc, char **argv) {
 
    rc = robot.connect("/dev/ttyUSB0");
    if (rc != rp2w::OK) {
-     cout << "No RP2W robot" << endl;
+     ROS_ERROR("No RP2W robot");
      return 1;
    }
    else {
-     cout << "RP2W Initialized. " << endl;
+     ROS_INFO("RP2W Initialized. ");
    }
 
    while (ros::ok()) {
