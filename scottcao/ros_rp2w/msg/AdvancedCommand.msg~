@@ -1,0 +1,4 @@
+bool directionCommand
+int8 direction
+bool distanceCommand
+float32 distance

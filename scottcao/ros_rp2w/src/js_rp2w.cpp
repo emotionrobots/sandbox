@@ -45,7 +45,7 @@ bool command(ros_rp2w::Command::Request  &req,
     // ROS_INFO("GPIO2 changed to %u", (unsigned char)(req.digital2));
     robot.setGPIO2(req.digital2);
   }
-  cout << "Callback" << endl;
+  rc = robot.update();
   return true;
 }
 

@@ -36,6 +36,7 @@ void setMotorSpeeds(int l_speed, int r_speed) {
   robot.setLeftMotorSpeed(abs(l_speed));
   robot.setRightMotorSpeed(abs(r_speed));
   robot.setGPIO1(digital1);
+  rc = robot.update();
 }
 
 void command(const ros_rp2w::AdvancedCommand::ConstPtr& msg) {
@@ -83,7 +84,7 @@ int main(int argc, char **argv) {
      cout << "RP2W Initialized. " << endl;
    }
 
-   ros::Subscriber sub = n.subscribe("rp2w_packet", 1, command);
+   ros::Subscriber sub = n.subscribe("rp2w/advanced_command", 1, command);
    ros::spin();
 
   return 0;
