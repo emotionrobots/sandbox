@@ -13,11 +13,11 @@ using namespace LibSerial;
 
 rp2w::Status rc;
 rp2w robot;
-ros::Rate loop_rate(45);
+ros::Rate loop_rate(60);
 int current_direction;
 
-const float LINEAR_SPEED = 1;
-const float ANGULAR_SPEED = 1;
+const double LINEAR_CONVERSION = 2*M_PI/2048*0.0635;
+const double ANGULAR_CONVERSION = 2048*0.0635/0.2032*360;
 
 void setMotorSpeeds(int l_speed, int r_speed) {
   char digital1 = robot.getGPIO1();
@@ -48,11 +48,10 @@ void command(const ros_rp2w::AdvancedCommand::ConstPtr& msg) {
     else {
       setMotorSpeeds(128, -128);
     }
-    double start = ros::Time::now().toSec();
+    int start = robot.getEncoderA(), now;
     while (theta > 0) {
       loop_rate.sleep();
-      double now = ros::Time::now().toSec();
-      theta -= ANGULAR_SPEED*(now-start);
+      theta -= abs(now-start)*ANGULAR_CONVERSION;
       start = now;
     }
     setMotorSpeeds(0, 0);
@@ -60,11 +59,11 @@ void command(const ros_rp2w::AdvancedCommand::ConstPtr& msg) {
   if (msg->distanceCommand) {
     double distance = msg->distance;
     setMotorSpeeds(128, 128);
-    double start = ros::Time::now().toSec();
+    int start = robot.getEncoderA(), now;
     while (distance > 0) {
       loop_rate.sleep();
-      double now = ros::Time::now().toSec();
-      distance -= LINEAR_SPEED*(now-start);
+      now = robot.getEncoderA();
+      distance -= abs(now-start)*LINEAR_CONVERSION;
       start = now;
     }
     setMotorSpeeds(0, 0);

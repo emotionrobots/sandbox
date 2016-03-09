@@ -143,7 +143,7 @@ include_directories(
 
 ## Declare a C++ executable
 add_executable(js_rp2w src/js_rp2w.cpp src/rp2w_serial.cpp)
-add_executable(sys_rp2w src/js_rp2w.cpp src/rp2w_serial.cpp)
+add_executable(sys_rp2w src/sys_rp2w.cpp src/rp2w_serial.cpp)
 add_executable(controller src/controller.cpp src/joystick.cpp)
 
 ## Add cmake target dependencies of the executable
