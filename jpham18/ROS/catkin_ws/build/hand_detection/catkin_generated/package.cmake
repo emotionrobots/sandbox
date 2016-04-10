@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "hand_detection")
+set(hand_detection_MAINTAINER "julian <julian@todo.todo>")
+set(hand_detection_DEPRECATED "")
+set(hand_detection_VERSION "0.0.0")
+set(hand_detection_BUILD_DEPENDS "roscpp" "std_msgs")
+set(hand_detection_RUN_DEPENDS "roscpp" "std_msgs")
+set(hand_detection_BUILDTOOL_DEPENDS "catkin")

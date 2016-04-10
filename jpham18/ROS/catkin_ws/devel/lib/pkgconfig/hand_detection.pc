@@ -1,0 +1,8 @@
+prefix=/home/julian/sandbox/jpham18/ROS/catkin_ws/devel
+
+Name: hand_detection
+Description: Description of hand_detection
+Version: 0.0.0
+Cflags: -I/home/julian/sandbox/jpham18/ROS/catkin_ws/src/hand_detection/include
+Libs: -L/home/julian/sandbox/jpham18/ROS/catkin_ws/devel/lib -lhand_detection
+Requires: 
