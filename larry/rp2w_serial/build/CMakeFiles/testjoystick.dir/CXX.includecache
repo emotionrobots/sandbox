@@ -10,21 +10,11 @@
 stdio.h
 -
 
-/home/emotion/emotion/sandbox/larry/rp2w_serial/rp2w_serial.h
-SerialStream.h
--
+/home/emotion/emotion/sandbox/larry/rp2w_serial/testjoystick.cpp
 iostream
--
-sstream
--
-unistd.h
 -
 cstdlib
 -
-string
--
-
-/home/emotion/emotion/sandbox/larry/rp2w_serial/testjoystick.cpp
 stdio.h
 -
 stdlib.h
@@ -35,6 +25,4 @@ termio.h
 -
 joystick.h
 /home/emotion/emotion/sandbox/larry/rp2w_serial/joystick.h
-rp2w_serial.h
-/home/emotion/emotion/sandbox/larry/rp2w_serial/rp2w_serial.h
 

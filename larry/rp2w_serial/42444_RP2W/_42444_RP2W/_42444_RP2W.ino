@@ -195,6 +195,10 @@ void readEncoders() {
     txPacket.encoderA_2 = SPI.transfer(0x00);           
     txPacket.encoderA_3 = SPI.transfer(0x00);           
     txPacket.encoderA_4 = SPI.transfer(0x00);       // Read lowest order byte
+    Serial.println((int)(txPacket.encoderA_1));
+//    Serial.println("A2: "+txPacket.encoderA_2);           
+//    Serial.println("A3: "+txPacket.encoderA_3);           
+//    Serial.println("A4: "+txPacket.encoderA_4);     
     digitalWrite(ENC_SS1_PIN,HIGH);     // Terminate SPI conversation 
 
   
@@ -541,3 +545,4 @@ void loop() {
     else { rxTimeout(); }
   } else { rxTimeout(); }
 }
+

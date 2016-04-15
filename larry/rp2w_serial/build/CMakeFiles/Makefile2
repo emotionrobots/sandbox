@@ -56,13 +56,48 @@ CMAKE_SOURCE_DIR = /home/emotion/emotion/sandbox/larry/rp2w_serial
 CMAKE_BINARY_DIR = /home/emotion/emotion/sandbox/larry/rp2w_serial/build
 
 #=============================================================================
+# Target rules for target CMakeFiles/testEncoder.dir
+
+# All Build rule for target.
+CMakeFiles/testEncoder.dir/all:
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/depend
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles  1 2
+	@echo "Built target testEncoder"
+.PHONY : CMakeFiles/testEncoder.dir/all
+
+# Include target in all.
+all: CMakeFiles/testEncoder.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/testEncoder.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/testEncoder.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles 0
+.PHONY : CMakeFiles/testEncoder.dir/rule
+
+# Convenience name for target.
+testEncoder: CMakeFiles/testEncoder.dir/rule
+.PHONY : testEncoder
+
+# clean rule for target.
+CMakeFiles/testEncoder.dir/clean:
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/clean
+.PHONY : CMakeFiles/testEncoder.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/testEncoder.dir/clean
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/testapp.dir
 
 # All Build rule for target.
 CMakeFiles/testapp.dir/all:
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/depend
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles  1 2 3
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles  3 4 5
 	@echo "Built target testapp"
 .PHONY : CMakeFiles/testapp.dir/all
 
@@ -97,7 +132,7 @@ clean: CMakeFiles/testapp.dir/clean
 CMakeFiles/testjoystick.dir/all:
 	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/depend
 	$(MAKE) -f CMakeFiles/testjoystick.dir/build.make CMakeFiles/testjoystick.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles  4 5
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/emotion/emotion/sandbox/larry/rp2w_serial/build/CMakeFiles  6 7
 	@echo "Built target testjoystick"
 .PHONY : CMakeFiles/testjoystick.dir/all
 

@@ -41,6 +41,7 @@ SET(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 SET(CMAKE_DEPEND_INFO_FILES
+  "CMakeFiles/testEncoder.dir/DependInfo.cmake"
   "CMakeFiles/testapp.dir/DependInfo.cmake"
   "CMakeFiles/testjoystick.dir/DependInfo.cmake"
   )

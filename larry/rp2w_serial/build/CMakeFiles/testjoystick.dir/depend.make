@@ -5,6 +5,5 @@ CMakeFiles/testjoystick.dir/joystick.cpp.o: ../joystick.cpp
 CMakeFiles/testjoystick.dir/joystick.cpp.o: ../joystick.h
 
 CMakeFiles/testjoystick.dir/testjoystick.cpp.o: ../joystick.h
-CMakeFiles/testjoystick.dir/testjoystick.cpp.o: ../rp2w_serial.h
 CMakeFiles/testjoystick.dir/testjoystick.cpp.o: ../testjoystick.cpp
 

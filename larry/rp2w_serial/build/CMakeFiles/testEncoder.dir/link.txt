@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/testEncoder.dir/testEncoder.cpp.o CMakeFiles/testEncoder.dir/rp2w_serial.cpp.o  -o testEncoder -rdynamic -lserial 

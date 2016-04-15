@@ -102,6 +102,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named testEncoder
+
+# Build rule for target.
+testEncoder: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 testEncoder
+.PHONY : testEncoder
+
+# fast build rule for target.
+testEncoder/fast:
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/build
+.PHONY : testEncoder/fast
+
+#=============================================================================
 # Target rules for targets named testapp
 
 # Build rule for target.
@@ -159,6 +172,7 @@ rp2w_serial.o: rp2w_serial.cpp.o
 
 # target to build an object file
 rp2w_serial.cpp.o:
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/rp2w_serial.cpp.o
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/rp2w_serial.cpp.o
 .PHONY : rp2w_serial.cpp.o
 
@@ -167,6 +181,7 @@ rp2w_serial.i: rp2w_serial.cpp.i
 
 # target to preprocess a source file
 rp2w_serial.cpp.i:
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/rp2w_serial.cpp.i
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/rp2w_serial.cpp.i
 .PHONY : rp2w_serial.cpp.i
 
@@ -175,8 +190,33 @@ rp2w_serial.s: rp2w_serial.cpp.s
 
 # target to generate assembly for a file
 rp2w_serial.cpp.s:
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/rp2w_serial.cpp.s
 	$(MAKE) -f CMakeFiles/testapp.dir/build.make CMakeFiles/testapp.dir/rp2w_serial.cpp.s
 .PHONY : rp2w_serial.cpp.s
+
+testEncoder.o: testEncoder.cpp.o
+.PHONY : testEncoder.o
+
+# target to build an object file
+testEncoder.cpp.o:
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/testEncoder.cpp.o
+.PHONY : testEncoder.cpp.o
+
+testEncoder.i: testEncoder.cpp.i
+.PHONY : testEncoder.i
+
+# target to preprocess a source file
+testEncoder.cpp.i:
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/testEncoder.cpp.i
+.PHONY : testEncoder.cpp.i
+
+testEncoder.s: testEncoder.cpp.s
+.PHONY : testEncoder.s
+
+# target to generate assembly for a file
+testEncoder.cpp.s:
+	$(MAKE) -f CMakeFiles/testEncoder.dir/build.make CMakeFiles/testEncoder.dir/testEncoder.cpp.s
+.PHONY : testEncoder.cpp.s
 
 testapp.o: testapp.cpp.o
 .PHONY : testapp.o
@@ -234,6 +274,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... testEncoder"
 	@echo "... testapp"
 	@echo "... testjoystick"
 	@echo "... joystick.o"
@@ -242,6 +283,9 @@ help:
 	@echo "... rp2w_serial.o"
 	@echo "... rp2w_serial.i"
 	@echo "... rp2w_serial.s"
+	@echo "... testEncoder.o"
+	@echo "... testEncoder.i"
+	@echo "... testEncoder.s"
 	@echo "... testapp.o"
 	@echo "... testapp.i"
 	@echo "... testapp.s"

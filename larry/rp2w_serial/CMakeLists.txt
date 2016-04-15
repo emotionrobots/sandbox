@@ -21,3 +21,6 @@ add_executable(testapp testapp.cpp joystick.cpp rp2w_serial.cpp)
 add_executable(testjoystick testjoystick.cpp joystick.cpp)
 target_link_libraries(testapp serial)
 target_link_libraries(testjoystick serial)
+
+add_executable(testEncoder testEncoder.cpp rp2w_serial.cpp)
+target_link_libraries(testEncoder serial)
