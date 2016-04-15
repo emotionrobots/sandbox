@@ -204,13 +204,19 @@ rp2w::Status rp2w::update()
    printf("checksumLow  = %2d\n", txPacket.checksumLow);
 #endif
 
+
    rc = txData((char *)&txPacket, sizeof(txPacket));
-   if (rc != rp2w::OK) return rc;
+   if (rc != rp2w::OK) {
+      cout << "TX Failed." << endl;
+      return rc;
+   }
 
    int length = sizeof(rxPacket);
    rc = rxData((char *)&rxPacket, length, 200);
-   if (rc != rp2w::OK) 
+   if (rc != rp2w::OK) {
+      cout << "RX Failed." << endl;
       return rc;
+   }
 
    if (rxPacket.startFlag1 == 'S' & rxPacket.startFlag2 == '1'
        && rxPacket.endFlag1 == 'E' && rxPacket.endFlag2 == 'O' 
@@ -223,6 +229,10 @@ rp2w::Status rp2w::update()
       encoderB_2 = rxPacket.encoderB_2;
       encoderB_3 = rxPacket.encoderB_3;
       encoderB_4 = rxPacket.encoderB_4;
+      // printf("A4: %u\t", rxPacket.encoderA_4);
+      // printf("A3: %u\t", rxPacket.encoderA_3);
+      // printf("A2: %u\t", rxPacket.encoderA_2);
+      // printf("A1: %u\n", rxPacket.encoderA_1);
       batteryVoltage = rxPacket.batteryVoltage;
       frontSonar = rxPacket.frontSonar;
       rearSonar = rxPacket.rearSonar;
@@ -232,6 +242,7 @@ rp2w::Status rp2w::update()
    else {
       return rp2w::COMM_UNKNOWN_ERROR;
    }
+
 }
 
 /*!
