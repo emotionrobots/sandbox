@@ -35,10 +35,10 @@ static int joystick_fd = -1;
 static int joystick_x_axis = 0;
 static int joystick_y_axis = 1;
 
-int open_joystick(char *joystick_device)
+int open_joystick(char * joystick_device)
 {
 	if (joystick_device == NULL)
-		joystick_device = JOYSTICK_DEVNAME;
+		joystick_device = (char*)JOYSTICK_DEVNAME;
 	joystick_fd = open(joystick_device, O_RDONLY | O_NONBLOCK); /* read write for force feedback? */
 	if (joystick_fd < 0)
 		return joystick_fd;

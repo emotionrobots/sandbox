@@ -1,1 +1,0 @@
-/usr/bin/c++       CMakeFiles/testjoystick.dir/testjoystick.cpp.o CMakeFiles/testjoystick.dir/joystick.cpp.o  -o testjoystick -rdynamic -lserial 

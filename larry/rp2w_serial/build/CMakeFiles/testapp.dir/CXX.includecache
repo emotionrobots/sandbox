@@ -6,11 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/emotion/emotion/sandbox/larry/rp2w_serial/rp2w_serial.cpp
+/home/emotion/emotion/sandbox/larry/rp2w_serial/joystick.h
 stdio.h
 -
-rp2w_serial.h
-/home/emotion/emotion/sandbox/larry/rp2w_serial/rp2w_serial.h
 
 /home/emotion/emotion/sandbox/larry/rp2w_serial/rp2w_serial.h
 SerialStream.h
@@ -29,4 +27,18 @@ iostream
 -
 fstream
 -
+
+/home/emotion/emotion/sandbox/larry/rp2w_serial/testapp.cpp
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+termio.h
+-
+joystick.h
+/home/emotion/emotion/sandbox/larry/rp2w_serial/joystick.h
+rp2w_serial.h
+/home/emotion/emotion/sandbox/larry/rp2w_serial/rp2w_serial.h
 

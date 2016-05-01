@@ -314,6 +314,11 @@ void processServos() {
  panPosition = rxPacket.cameraPanHigh * 0xFF;
  panPosition = panPosition + rxPacket.cameraPanLow;
  
+ Serial.print("CameraTilt=");
+ Serial.println(tiltPosition);
+ Serial.print("CameraPan=");
+ Serial.println(panPosition);
+
  tiltServo.writeMicroseconds(tiltPosition);
  panServo.writeMicroseconds(panPosition);
 

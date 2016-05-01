@@ -22,11 +22,12 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    ofstream fout("encoder5.csv");
+    ofstream fout("encoder3.csv");
     rp2w::Status rc;
     rp2w robot;
 
     char digital1 = 0;
+    char digital2 = 0x0c;
     int16_t right_speed = 120;
     char right_motor = 0;
  
@@ -37,10 +38,10 @@ int main(int argc, char *argv[])
     }
 
     robot.setGPIO1(digital1);
-    robot.setLeftMotorSpeed(0);
-    robot.setRightMotorSpeed(0);
+    robot.setGPIO2(digital2);
+    robot.setLeftMotorSpeed(right_motor);
+    robot.setRightMotorSpeed(right_motor);
 
-    int last = -1, peak = -1;
     while (true) {
 
        rc = robot.update();
@@ -55,19 +56,10 @@ int main(int argc, char *argv[])
 
        robot.setGPIO1(digital1);
        robot.setRightMotorSpeed(right_motor);
-       // robot.setRightMotorSpeed(right_motor);
 
        int now = robot.getEncoderA();
        cout << now << endl;
        fout << now << endl;
-       // if (now > last) {
-       //    if (peak != -1) {
-       //      cout << peak-last << endl;
-       //    }
-       //    peak = last;
-       //  }
-       //  last = now;
-
     } // end while
     return 0;
 }

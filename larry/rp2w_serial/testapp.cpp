@@ -84,6 +84,7 @@ int main(int argc, char *argv[])
     char servo_reset = 0; 
     char light_on = 0;
     char digital1 = 0;
+    char digital2 = 0x0c;
     char left_motor = 0;
     char right_motor = 0;
     int16_t left_speed = 0;
@@ -111,6 +112,7 @@ int main(int argc, char *argv[])
     }
 
     robot.setGPIO1(digital1);
+    robot.setGPIO2(digital2);
     robot.setLeftMotorSpeed(left_motor);
     robot.setRightMotorSpeed(right_motor);
     robot.setCameraPan(pan_pos);
@@ -118,17 +120,29 @@ int main(int argc, char *argv[])
 
     printf("servo_pwr: %u\n", (unsigned char)(servo_pwr));
 
+    trav_speed = 50;
+
     while (!done) {
+
+       char key = getkey();
+       if (key == 'q') {
+          done = true;
+          trav_speed = 0;
+          turn_speed = 0;
+       }
+       else if (key == 'r') {
+          trav_speed = -trav_speed;
+          turn_speed = 0;
+       }
+
 
        rc = robot.update();
        if (rc != rp2w::OK)
            cerr << "robot.update failed (" << rc << ")" << endl;
 
+#if 0
         if (read_joystick_event(&jse)) {
-
-          cout << "loop" << endl;
-
-          printf("Joystick type=%2d num=%2d\n", jse.type, jse.number);
+        //  printf("Joystick type=%2d num=%2d\n", jse.type, jse.number);
 
           switch (jse.type) {
              case JS_TYPE_BUTTON:
@@ -191,6 +205,7 @@ int main(int argc, char *argv[])
 
        } // end if
 
+#endif
        left_speed = trav_speed + turn_speed;
        right_speed = trav_speed - turn_speed;
        left_motor = abs(left_speed);
@@ -216,7 +231,9 @@ int main(int argc, char *argv[])
        robot.setCameraPan(pan_pos);
        robot.setCameraTilt(tilt_pos);
 
-       cout << "PAN: " << robot.getCameraPan() << ", TILT: " << robot.getCameraTilt() << endl;
+      cout << robot.getEncoderA() << ", " << robot.getEncoderB() << endl;
+
+      // cout << "PAN: " << robot.getCameraPan() << ", TILT: " << robot.getCameraTilt() << endl;
 
 
  //  if (pan_speed >= 0) {
