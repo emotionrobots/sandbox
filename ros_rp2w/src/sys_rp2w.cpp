@@ -20,7 +20,7 @@ char digital2 = 0x0c;
 int l_speed = 0;
 int r_speed = 0;
 
-const double LINEAR_CONVERSION = 2*M_PI/756*2.5/12;
+const double LINEAR_CONVERSION = M_PI/1024*5/12;
 const double ANGULAR_CONVERSION = 2048*0.0635/0.2032*360;
 
 void setMotorSpeeds(int turn_speed, int trav_speed) {
@@ -47,8 +47,8 @@ void setMotorSpeeds(int turn_speed, int trav_speed) {
   robot.setRightMotorSpeed(r_motor);
   robot.setGPIO1(digital1);
   rc = robot.update();
-  cout << "Motor speeds set to TURN SPEED " << turn_speed 
-       << " And TRAVEL SPEED " << trav_speed << endl;
+  // cout << "Motor speeds set to TURN SPEED " << turn_speed 
+  //      << " And TRAVEL SPEED " << trav_speed << endl;
 }
 
 void command(const ros_rp2w::AdvancedCommand::ConstPtr& msg) {
@@ -70,17 +70,20 @@ void command(const ros_rp2w::AdvancedCommand::ConstPtr& msg) {
     setMotorSpeeds(0, 0);
   }
   if (msg->distanceCommand) {
-    double distance = msg->distance;
-    int start = robot.getEncoderA(), now;
+    int start = robot.getEncoderA(), now = robot.getEncoderA();
     cout << "Start: " << start << endl;
-    while (distance > 0) {
+    while ((now-start)*LINEAR_CONVERSION < msg->distance) {
       // loop_rate.sleep();
-      setMotorSpeeds(0, -128);
+      if (msg->distance > 0) {
+        setMotorSpeeds(0, -128);
+      }
+      else {
+        setMotorSpeeds(0, 128);
+      }
       now = robot.getEncoderA();
-      distance -= abs(now-start)*LINEAR_CONVERSION;
-      start = now;
-      cout << now << endl;
+      // cout << now << endl;
     }
+    cout << "End: " << now << endl;
     setMotorSpeeds(0, 0);
   }
   cout << "Finished." << endl;
@@ -103,7 +106,7 @@ int main(int argc, char **argv) {
    robot.setGPIO1(digital1);
    robot.setGPIO2(digital2);
    setMotorSpeeds(0, 0);
-
+   
    ros::Subscriber sub = n.subscribe("rp2w/advanced_command", 1, command);
    ros::spin();
 
