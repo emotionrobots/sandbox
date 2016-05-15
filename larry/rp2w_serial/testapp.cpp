@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 
     printf("servo_pwr: %u\n", (unsigned char)(servo_pwr));
 
-    trav_speed = 50;
+    // trav_speed = 50;
 
     while (!done) {
 
@@ -130,17 +130,17 @@ int main(int argc, char *argv[])
           trav_speed = 0;
           turn_speed = 0;
        }
-       else if (key == 'r') {
-          trav_speed = -trav_speed;
-          turn_speed = 0;
-       }
+       // else if (key == 'r') {
+       //    trav_speed = -trav_speed;
+       //    turn_speed = 0;
+       // }
 
 
        rc = robot.update();
        if (rc != rp2w::OK)
            cerr << "robot.update failed (" << rc << ")" << endl;
 
-#if 0
+// #if 0
         if (read_joystick_event(&jse)) {
         //  printf("Joystick type=%2d num=%2d\n", jse.type, jse.number);
 
@@ -205,7 +205,7 @@ int main(int argc, char *argv[])
 
        } // end if
 
-#endif
+// #endif
        left_speed = trav_speed + turn_speed;
        right_speed = trav_speed - turn_speed;
        left_motor = abs(left_speed);

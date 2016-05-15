@@ -48,14 +48,14 @@ int main(int argc, char *argv[])
        if (rc != rp2w::OK)
            cerr << "robot.update failed (" << rc << ")" << endl;
 
-       right_motor = abs(right_speed);
-       if (right_speed >= 0) 
-          digital1 &= ~(0x40);
-       else
-          digital1 |= 0x40;
+       // right_motor = abs(right_speed);
+       // if (right_speed >= 0) 
+       //    digital1 &= ~(0x40);
+       // else
+       //    digital1 |= 0x40;
 
-       robot.setGPIO1(digital1);
-       robot.setRightMotorSpeed(right_motor);
+       // robot.setGPIO1(digital1);
+       // robot.setRightMotorSpeed(right_motor);
 
        int now = robot.getEncoderA();
        cout << now << endl;
