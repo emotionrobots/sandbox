@@ -163,6 +163,7 @@ add_executable(rp2w src/rp2w.cpp src/rp2w_serial.cpp)
 add_executable(controller src/controller.cpp src/joystick.cpp)
 add_executable(js_rp2w src/js_rp2w.cpp src/rp2w_serial.cpp)
 add_executable(sys_rp2w src/sys_rp2w.cpp src/rp2w_serial.cpp)
+add_executable(rp2w_pub src/rp2w_pub.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -170,6 +171,7 @@ add_dependencies(rp2w ros_rp2w_generate_messages_cpp)
 add_dependencies(controller ros_rp2w_generate_messages_cpp)
 add_dependencies(js_rp2w ros_rp2w_generate_messages_cpp)
 add_dependencies(sys_rp2w ros_rp2w_generate_messages_cpp)
+add_dependencies(rp2w_pub ros_rp2w_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(rp2w
@@ -187,7 +189,9 @@ target_link_libraries(sys_rp2w
   ${catkin_LIBRARIES}
   serial
 )
-
+target_link_libraries(rp2w_pub
+  ${catkin_LIBRARIES}
+)
 
 find_package(OpenCV)
 if (OpenCV_FOUND)

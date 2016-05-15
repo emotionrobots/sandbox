@@ -47,7 +47,8 @@ void setMotorSpeeds(int turn_speed, int trav_speed) {
   robot.setRightMotorSpeed(r_motor);
   robot.setGPIO1(digital1);
   rc = robot.update();
-  cout << "Motor speeds set." << endl;
+  cout << "Motor speeds set to TURN SPEED " << turn_speed 
+       << " And TRAVEL SPEED " << trav_speed << endl;
 }
 
 void command(const ros_rp2w::AdvancedCommand::ConstPtr& msg) {
@@ -103,7 +104,7 @@ int main(int argc, char **argv) {
    robot.setGPIO2(digital2);
    setMotorSpeeds(0, 0);
 
-   ros::Subscriber sub = n.subscribe("rp2w", 1, command);
+   ros::Subscriber sub = n.subscribe("rp2w/advanced_command", 1, command);
    ros::spin();
 
   return 0;

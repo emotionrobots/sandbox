@@ -79,8 +79,6 @@ int main(int argc, char **argv) {
      ROS_INFO("RP2W Initialized. ");
    }
 
-   int last, peak = -1;
-
    while (ros::ok()) {
     if (mutex.try_lock()) {
       rc = robot.update();
@@ -99,16 +97,8 @@ int main(int argc, char **argv) {
         packet.digital2 = (uint8_t)(robot.getGPIO2());
 
         // cout << "PAN: " << packet.cameraPan << ", TILT: " << packet.cameraTilt << endl;
-        robot.setLeftMotorSpeed(abs(1));
         packet.encoderA = (int32_t)(robot.getEncoderA());
         // cout << packet.encoderA << endl;
-        if (packet.encoderA < last) {
-          if (peak != -1) {
-            cout << last-peak << endl;
-          }
-          peak = last;
-        }
-        last = packet.encoderA;
         packet.encoderB = (int32_t)(robot.getEncoderB());
         // cout << packet.encoderB << endl;
         packet.batteryVoltage = (uint8_t)(robot.getBatteryVoltage());
