@@ -4,10 +4,10 @@ from std_msgs.msg import String
 import time
 import thread
 import threading
+from ros_rp2w.msg import Packet
 # from vfacerec.msg import Face
 # from vfacerec.msg import UnknownFace
 # from vfacerec.srv import SetRate
-
 
 global name
 name = ""
@@ -22,7 +22,6 @@ global prev
 prev = -1
 commands= [False for i in range(11)]
 
-
 def publisher(done):
 	pub = rospy.Publisher('emotiondisplay2', String,queue_size=1)
 	msg=String()
@@ -32,7 +31,21 @@ def publisher(done):
 		print("Message published")
 		pub.publish(msg)
 
-# def callback(data):
+def publishMove(done):
+	commands[5] = True
+	pub2 = rospy.Publisher("rp2w/advanced_command", AdvancedCommand, queue_size=1)
+    rospy.init_node('rp2w_publisher', anonymous=True)
+    rate = rospy.Rate(10) # 10hz
+    # while not rospy.is_shutdown():
+    while pub.get_num_connections() == 0:
+        rate.sleep()
+    msg = AdvancedCommand()
+    msg.theta = 360
+    msg.distance = 2
+    pub.publish(msg)
+    print msg
+
+# def callbackFaceMsg(data):
 # 	with lock:
 # 		print("PublishFaceMsgs received")
 # 		commands[0] = False
@@ -49,21 +62,23 @@ def publisher(done):
 # 			commands[8] = True
 # 		func(.5)
 
-# def callback2(data):
-	# with lock:
-	# 	print("Packet received")
-	# 	commands[3] = False
-	# 	commands[4] = False
-	# 	commands[5] = False
-	# 	if(data.batteryVoltage < 30):
-	# 		commands[3] = True
-	# 	elif(data.rearSonar <= 2 or data.frontSonar<= 2 or data.bumper<=2)
-	# 		commands[4] = True
-	# 	elif(data.rightMotorSpeed > 0 or data.leftMotorSpeed > 0)
-	# 		commands[5] = True
-	#	func(.5)
+def callbackPacket(data):
+	with lock:
+		print("Packet received")
+		commands[3] = False
+		com0ommands[4] = False
+		if(data.batteryVoltage < 30):
+			commands[3] = True
+		elif(data.rearSonar <= 2 or data.frontSonar<= 2 or data.bumper<=2):
+			commands[4] = True
+		elif(data.rightMotorSpeed == 0 and data.leftMotorSpeed == 0):
+			commands[5] = False
+			publishMove()
+		# elif(data.rightMotorSpeed > 0 or data.leftMotorSpeed > 0)
+		# 	commands[5] = True
+		func(.5)
 
-def callback3(data):
+def callbackSpeech(data):
 	with lock:
 		print("Chatter received")
 		commands[6] = False
@@ -83,9 +98,9 @@ def callback3(data):
 
 def listener():
 	#Dalton input for non-master(disgust), zero faces(increasing sad), and number of faces(surprise)
-	# rospy.Subscriber("known_faces", Face, callback)
+	rospy.Subscriber("known_faces", Face, callback)
 	# Scott RP2W battery(sad), obstacle(surprise), and movement(neutral)
-	# rospy.Subscriber("rp2w_packet", Packet, callback2)
+	rospy.Subscriber("rp2w_packet", Packet, callback2)
 	# Aurash "I quit"(disgust = 1), master "where would you like me to go"(smile), ask for directions(increasing disgust), "Bye"(happy)
 	rospy.Subscriber("chatter", String, callback3)
 	rospy.spin()
@@ -137,11 +152,6 @@ def func(delay):
 	print(res)
 	publisher(res)
 
-# def movement(location):
-# 	target = #location;
-# 	moveToTarget();
-# 	turnToMaster();
-# 	emoFace(#emotion)
 		
 def main():
 	rospy.init_node('main_loop', anonymous=True)
