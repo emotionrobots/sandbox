@@ -64,7 +64,6 @@ def display():
 	global screen
 	running = True
 	eyecoordx, eyecoordy = 0, 0
-	print str(pos)+ " "+ str(emotionamts[pos])+ " "+str(direcpos)+ " " + str(wanted)
 	# while running:
 	# 	for e in pygame.event.get():
 	# 		if(e.type == KEYDOWN):
@@ -146,7 +145,7 @@ def display():
 	pygame.display.flip()
 
 def func(delay):
-	print "hey"
+	print "Function start"
 	done = False
 	first = True
 	while(not done):
@@ -170,7 +169,7 @@ def func(delay):
 		time.sleep(delay)
 
 def main():
-	print "hi"
+	print "pygameFace start"
 	try:
 		thread.start_new_thread(func, (.01,)) 
 		listener()
