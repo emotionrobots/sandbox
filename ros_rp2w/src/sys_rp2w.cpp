@@ -1,4 +1,5 @@
 #include "ros/ros.h"
+#include "ros_rp2w/Packet.h"
 #include "ros_rp2w/AdvancedCommand.h"
 #include "rp2w_serial.h"
 #include <sstream>
@@ -13,15 +14,18 @@ using namespace LibSerial;
 
 rp2w::Status rc;
 rp2w robot;
-// ros::Rate loop_rate(60);
-int current_direction;
 char digital1 = 0;
 char digital2 = 0x0c;
 int l_speed = 0;
 int r_speed = 0;
+int theta_;
+double distance_;
+boost::mutex msg_mutex;
 
-const double LINEAR_CONVERSION = M_PI/1024*5/12;
-const double ANGULAR_CONVERSION = 2048*0.0635/0.2032*360;
+const double LINEAR_CONVERSION_FACTOR = 760;
+const double ANGULAR_CONVERSION_FACTOR = 800;
+const double LINEAR_CONVERSION = M_PI/LINEAR_CONVERSION_FACTOR*5/12;
+const double ANGULAR_CONVERSION = 1/ANGULAR_CONVERSION_FACTOR*5/12*360;
 
 void setMotorSpeeds(int turn_speed, int trav_speed) {
   digital1 = robot.getGPIO1();
@@ -47,68 +51,121 @@ void setMotorSpeeds(int turn_speed, int trav_speed) {
   robot.setRightMotorSpeed(r_motor);
   robot.setGPIO1(digital1);
   rc = robot.update();
+  if (rc != rp2w::OK) {
+    cout << "robot.update failed (" << rc << ")" << endl;
+  }
   // cout << "Motor speeds set to TURN SPEED " << turn_speed 
   //      << " And TRAVEL SPEED " << trav_speed << endl;
 }
 
 void command(const ros_rp2w::AdvancedCommand::ConstPtr& msg) {
-  cout << "Command Received. " << endl;
-  if (msg->thetaCommand) {
-    double theta = msg->theta;
-    if (theta >= 0) {
-      setMotorSpeeds(-128, 0);
-    }
-    else {
-      setMotorSpeeds(128, 0);
-    }
-    int start = robot.getEncoderA(), now;
-    while (theta > 0) {
-      // loop_rate.sleep();
-      theta -= abs(now-start)*ANGULAR_CONVERSION;
-      start = now;
-    }
-    setMotorSpeeds(0, 0);
-  }
-  if (msg->distanceCommand) {
-    int start = robot.getEncoderA(), now = robot.getEncoderA();
-    cout << "Start: " << start << endl;
-    while ((now-start)*LINEAR_CONVERSION < msg->distance) {
-      // loop_rate.sleep();
-      if (msg->distance > 0) {
-        setMotorSpeeds(0, -128);
-      }
-      else {
-        setMotorSpeeds(0, 128);
-      }
-      now = robot.getEncoderA();
-      // cout << now << endl;
-    }
-    cout << "End: " << now << endl;
-    setMotorSpeeds(0, 0);
-  }
-  cout << "Finished." << endl;
+  // cout << "Command Received. " << endl;
+  boost::mutex::scoped_lock lock(msg_mutex);
+  theta_ = msg->theta;
+  distance_ = msg->distance;
 }
 
 int main(int argc, char **argv) {
-   ros::init(argc, argv, "rp2w");
-   ros::NodeHandle n;
+ ros::init(argc, argv, "rp2w");
+ ros::NodeHandle n;
 
-   rc = robot.connect("/dev/ttyUSB0");
-   rc = robot.update();
-   if (rc != rp2w::OK) {
-     cout << "No RP2W robot" << endl;
-     return 1;
-   }
-   else {
-     cout << "RP2W Initialized. " << endl;
-   }
+ rc = robot.connect("/dev/ttyUSB0");
+ rc = robot.update();
+ if (rc != rp2w::OK) {
+   cout << "No RP2W robot. " << endl;
+   return 1;
+ }
+ else {
+   cout << "RP2W Initialized. " << endl;
+ }
 
-   robot.setGPIO1(digital1);
-   robot.setGPIO2(digital2);
-   setMotorSpeeds(0, 0);
-   
-   ros::Subscriber sub = n.subscribe("rp2w/advanced_command", 1, command);
-   ros::spin();
+ robot.setGPIO1(digital1);
+ robot.setGPIO2(digital2);
+ setMotorSpeeds(0, 0);
+ 
+ ros::Publisher pub = n.advertise<ros_rp2w::Packet>("rp2w_packet", 10);
+ ros::Subscriber sub = n.subscribe("rp2w/advanced_command", 1, command);
+ ros::Rate loop_rate(60);
 
-  return 0;
+ while (ros::ok()) {
+  rc = robot.update();
+  if (rc != rp2w::OK) {
+    cout << "robot.update failed (" << rc << ")" << endl;
+  }
+
+  if (msg_mutex.try_lock()) {
+    int theta = theta_;
+    double distance = distance_;
+    theta_ = 0;
+    distance_ = 0;
+    msg_mutex.unlock();
+    if (theta != 0) {
+      int start = robot.getEncoderA(), now = robot.getEncoderA();
+      // cout << "Start: " << start << endl;
+      while (abs(robot.getEncoderA()-start)*ANGULAR_CONVERSION < abs(theta)) {
+        if (theta >= 0) {
+          // move counterclockwise
+          setMotorSpeeds(128, 0);
+        }
+        else {
+          // move clockwise
+          setMotorSpeeds(-128, 0);
+        }
+        // now = robot.getEncoderA();
+        // cout << now << " " << abs(now-start)*ANGULAR_CONVERSION << endl;
+      }
+      setMotorSpeeds(0, 0);
+      // cout << "End: " << now << endl;
+    }
+    if (distance != 0) {
+      int start = robot.getEncoderA(), now = robot.getEncoderA();
+      // cout << "Start: " << start << endl;
+      while (abs(now-start)*LINEAR_CONVERSION < abs(distance)) {
+        // loop_rate.sleep();
+        if (distance > 0) {
+          // move forward
+          setMotorSpeeds(0, -128);
+        }
+        else {
+          // move backward
+          setMotorSpeeds(0, 128);
+        }
+        now = robot.getEncoderA();
+        // cout << now << endl;
+      }
+      setMotorSpeeds(0, 0);
+      // cout << "End: " << now << endl;
+    }
+  }
+  ros_rp2w::Packet packet;
+
+  packet.leftMotorSpeed = (uint8_t)(robot.getLeftMotorSpeed());
+  packet.rightMotorSpeed = (uint8_t)(robot.getRightMotorSpeed());
+  packet.cameraTilt = robot.getCameraTilt();
+  packet.cameraPan = robot.getCameraPan();
+  // packet.digital1 = (uint8_t)(robot.getGPIO1());
+  // packet.digital2 = (uint8_t)(robot.getGPIO2());
+  packet.digital1 = (uint8_t)(digital1);
+  packet.digital2 = (uint8_t)(digital2);
+
+  packet.encoderA = (uint32_t)(robot.getEncoderA());
+  // cout << packet.encoderA << endl;
+  packet.encoderB = (uint32_t)(robot.getEncoderB());
+  // cout << packet.encoderB << endl;
+  packet.batteryVoltage = (uint8_t)(robot.getBatteryVoltage());
+  // ROS_INFO("battery voltage: %u", (unsigned char)(packet.batteryVoltage));
+  packet.frontSonar = (uint8_t)(robot.getFrontSonar());
+  // ROS_INFO("front sonar: %u", (unsigned char)(packet.frontSonar));
+  packet.rearSonar = (uint8_t)(robot.getRearSonar());
+  // ROS_INFO("rear sonar: %u", (unsigned char)(packet.rearSonar));
+  packet.bumper = (uint8_t)(robot.getBumper());
+  // ROS_INFO("bumper: %u", (unsigned char)(packet.bumper));
+  
+  pub.publish(packet);
+
+  ros::spinOnce();
+  loop_rate.sleep();
+}
+
+return 0;
 }
