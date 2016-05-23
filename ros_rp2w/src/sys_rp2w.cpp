@@ -20,10 +20,11 @@ int l_speed = 0;
 int r_speed = 0;
 int theta_;
 double distance_;
+bool stopped_early;
 boost::mutex msg_mutex;
 
 const double LINEAR_CONVERSION_FACTOR = 760;
-const double ANGULAR_CONVERSION_FACTOR = 800;
+const double ANGULAR_CONVERSION_FACTOR = 860;
 const double LINEAR_CONVERSION = M_PI/LINEAR_CONVERSION_FACTOR*5/12;
 const double ANGULAR_CONVERSION = 1/ANGULAR_CONVERSION_FACTOR*5/12*360;
 
@@ -99,17 +100,27 @@ int main(int argc, char **argv) {
     theta_ = 0;
     distance_ = 0;
     msg_mutex.unlock();
+    stopped_early = false;
     if (theta != 0) {
-      int start = robot.getEncoderA(), now = robot.getEncoderA();
+      int start = robot.getEncoderA();
+      // int now = robot.getEncoderA();
       // cout << "Start: " << start << endl;
-      while (abs(robot.getEncoderA()-start)*ANGULAR_CONVERSION < abs(theta)) {
+      while (abs(robot.getEncoderA()-start)*ANGULAR_CONVERSION < abs(theta) 
+        // && (uint8_t)(robot.getFrontSonar()) > 5 
+        // && (uint8_t)(robot.getRearSonar()) > 5
+
+        ) {
+        if ((uint8_t)(robot.getBumper()) != 0) {
+          stopped_early = true;
+          break;
+        }
         if (theta >= 0) {
           // move counterclockwise
-          setMotorSpeeds(128, 0);
+          setMotorSpeeds(112, 0);
         }
         else {
           // move clockwise
-          setMotorSpeeds(-128, 0);
+          setMotorSpeeds(-112, 0);
         }
         // now = robot.getEncoderA();
         // cout << now << " " << abs(now-start)*ANGULAR_CONVERSION << endl;
@@ -120,14 +131,29 @@ int main(int argc, char **argv) {
     if (distance != 0) {
       int start = robot.getEncoderA(), now = robot.getEncoderA();
       // cout << "Start: " << start << endl;
-      while (abs(now-start)*LINEAR_CONVERSION < abs(distance)) {
+      while (abs(now-start)*LINEAR_CONVERSION < abs(distance)
+        // && (uint8_t)(robot.getFrontSonar()) > 5 
+        // && (uint8_t)(robot.getRearSonar()) > 5
+        ) {
         // loop_rate.sleep();
+        if ((uint8_t)(robot.getBumper()) != 0) {
+          stopped_early = true;
+          break;
+        }
         if (distance > 0) {
           // move forward
+          if ((uint8_t)(robot.getFrontSonar()) <= 5) {
+            stopped_early = true;
+            break;
+          }
           setMotorSpeeds(0, -128);
         }
         else {
           // move backward
+          if ((uint8_t)(robot.getRearSonar()) <= 5) {
+            stopped_early = true;
+            break;
+          }
           setMotorSpeeds(0, 128);
         }
         now = robot.getEncoderA();
@@ -160,7 +186,7 @@ int main(int argc, char **argv) {
   // ROS_INFO("rear sonar: %u", (unsigned char)(packet.rearSonar));
   packet.bumper = (uint8_t)(robot.getBumper());
   // ROS_INFO("bumper: %u", (unsigned char)(packet.bumper));
-  
+
   pub.publish(packet);
 
   ros::spinOnce();

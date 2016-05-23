@@ -1,0 +1,27 @@
+<launch>
+
+<node name="sys_rp2w" pkg="ros_rp2w" type="sys_rp2w" respawn="true" />
+
+<node name="rospyopenni" pkg="ros_rp2w" type="rospyopenni.py" respawn="true" />
+
+<node name="recmove" pkg="ros_rp2w" type="recmove.py" respawn="true" />
+
+<node name="VRec1" pkg="ros_rp2w" type="VRec1.0.py"  respawn="true" >
+
+<param name="startTrainOrRec" value="rec" />
+<param name="rateCounter" value="30" />
+
+ </node>
+
+
+<node name="pygameface" pkg="ros_rp2w" type="pygameface.py" respawn="true" />
+
+<node name="tts_service" pkg="ros_rp2w" type="festserv.py" respawn="true" />
+
+
+
+<node name="handtracker" pkg="ros_rp2w" type="pyhandtracker.py" respawn="true" />
+
+
+
+</launch>
