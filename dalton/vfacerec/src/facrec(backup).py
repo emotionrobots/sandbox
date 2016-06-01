@@ -519,6 +519,7 @@ if __name__ == '__main__':
     faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
     #if(c()):
     model_filename = os.getcwd() + '/model.pkl'
+    global model
     model = load_model(model_filename)
     test = True
     #else:

@@ -105,13 +105,10 @@ def read_images(path, image_size=None):
 image_size = (100, 100)
 trainRate = 20
 trainCount = 0
-brightnessTest = int(1)
-
 
 def faceDet2(data):
     nameDir = nameD
     global trainImages
-    global brightnessTest
     global trainCount
     #ret, frame = video_capture.read()
     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
@@ -147,22 +144,15 @@ def faceDet2(data):
     cv2.putText(img, "Press 'ESC' to take finish training", (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 
 
-    img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
-    alpha = float(1.0)
-    mul_img = cv2.multiply(img2,np.array([alpha]))
-    new_img = cv2.add(mul_img,np.array([brightnessTest]))  		
+    img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)	
 
-    cv2.imshow('Trainer', new_img)
+    cv2.imshow('Trainer', img2)
     cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
 
     if ch == 27:
         writeImagesToFile(trainImages, nameD)
-        #createPKL(image_size)
+        createPKL(image_size)
         return False
-    if ch == ord('c'):
-    	brightnessTest-=10
-    if ch == ord('v'):
-    	brightnessTest+=10
 
     return True
      #   break
@@ -174,26 +164,23 @@ def faceDet():
 
     faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
 
-    datasetDir = os.getcwd()+'/dataset'
-
     video_capture = cv2.VideoCapture(0)
 
     name = str(raw_input('What is your name, human? \n name:'))
 
     name = name.replace(" ", "_")
 
-    nameDir = datasetDir + '/' + name
-
     #trainImages = []
 
-    if not os.path.exists(nameDir):
-        os.makedirs(nameDir)
-
-    global nameD
-    nameD = datasetDir + '/' + name
     global datasetD
     datasetD = os.getcwd()+'/dataset'
+
+    global nameD
+    nameD = datasetD + '/' + name
     print nameD
+
+    if not os.path.exists(nameD):
+        os.makedirs(nameD)
 
 def writeImagesToFile(trainImages, nameDir):
     index = 0
@@ -218,7 +205,6 @@ def callback_rgb(data):
     flg = faceDet2(data)
     if(flg == False):
         rospy.signal_shutdown("")
-        createPKL(image_size)
     #cv2.imshow('Frame', frame)
     #cv2.waitKey(3)
 
@@ -237,7 +223,4 @@ if __name__ == '__main__':
     trainImages = []
     faceDet()
     test = False
-
     listener()
-    #faceDet()
-    test = False

@@ -103,77 +103,9 @@ def read_images(path, image_size=None):
 
 image_size = (100, 100)
 
-def c():
-    if len(sys.argv) > 1:
-        startTrainOrRec = sys.argv[1]
-
-        if startTrainOrRec == 'rec':
-            return True
-            #faceRec(image_size)
-            #sys.exit()
-    else:
-        return False
-
 def convertToStr(image):
     img_str = cv2.imencode('.jpg', image)[1].tostring()
     return img_str
-
-def main():
-    print "Starting FaceRec"
-
-    faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-
-    datasetDir = os.getcwd()+'/dataset'
-
-    video_capture = cv2.VideoCapture(0)
-
-    name = str(raw_input('What is your name, human? \n name:'))
-
-    name = name.replace(" ", "_")
-
-    nameDir = datasetDir + '/' + name
-
-    trainImages = []
-
-    if not os.path.exists(nameDir):
-        os.makedirs(nameDir)
-
-    while True:
-        ret, frame = video_capture.read()
-        img = cv2.resize(frame, (frame.shape[1]/2, frame.shape[0]/2), interpolation = cv2.INTER_CUBIC)
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
-        for(x, y, w, h) in faces:
-            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
-            roi_gray = gray[y:y+h, x:x+w]
-            roi_color = img[y:y+h, x:x+w]
-
-        ch = cv2.waitKey(10)
-
-        if len(faces) == 1:
-
-            if ch == ord('b'):
-                print "Capturing & Cropping.."
-                #coords = (x, y, w, h)
-                #faceCropped = img.crop(coords) #cropFaceFromImage(img)
-                trainImages.append(roi_gray)
-                print len(trainImages)
-
-            #cv2.imshow('Trainer', frame)
-            cv2.putText(img, "Press 'B' to take a picture", (x+20,y+20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-            #cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
-        
-        cv2.putText(img, "Press 'ESC' to take finish training", (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
-
-        img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
-        
-        cv2.imshow('Trainer', img2)
-        cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
-
-        if ch == 27:
-            writeImagesToFile(trainImages, nameDir)
-            createPKL(image_size)
-            break
 
 test = False
 nameD = ""
@@ -204,21 +136,6 @@ unknownFaceURy = []
 depthData = ""
 nameDepthDir = ""
 
-def createFisherModel():
-    datasetDir = os.getcwd()+'/dataset'
-    [X,y] = read_images(datasetDir)
-    # compute the eigenfaces model
-    model = FisherfacesModel(X[1:], y[1:])
-    return model
-
-
-def createEigenModel():
-    datasetDir = os.getcwd()+'/dataset'
-    [X,y] = read_images(datasetDir)
-    # compute the eigenfaces model
-    model = EigenfacesModel(X[1:], y[1:])
-    return model
-
 def faceRecInit():
     model_filename = os.getcwd() + '/model.pkl'
 
@@ -229,16 +146,6 @@ def faceRecInit():
     if not os.path.exists(model_filename):
         print 'Model does not exist, please train at least 1 person'
         sys.exit()
-
-    #modeltmp = load_model(model_filename)
-
-    #model = load_model(model_filename)
-
-    fisherModel = createFisherModel
-    eigenModel = createEigenModel
-
-    return fisherModel, eigenModel
-    #return model
 
 def faceRec(data, depthData):
     frameshow = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
@@ -251,32 +158,13 @@ def faceRec(data, depthData):
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         imgeqh = cv2.equalizeHist(gray)
         faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
-        unknownfaceCount = 1 # Works so I'm leaving this
+        unknownfaceCount = 1
         for(x, y, w, h) in faces:
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
             roi_gray = imgeqh[y:y+h, x:x+w]
             roi_color = img[y:y+h, x:x+w]
-            roi_depth = depthFrame[y:y+h, x:x+w]
             #face = cv2.resize(roi_gray, image_size, interpolation = cv2.INTER_CUBIC)
-            face = cv2.resize(roi_depth, image_size, interpolation = cv2.INTER_CUBIC)
-            #pred = model.predict(face)
-
-            #fisher prediction
-            fprediction = fisherModel.predict(face)
-            fpredicted_label = fprediction[0]
-            fclassifier_output = fprediction[1]
-            # Now let's get the distance from the assuming a 1-Nearest Neighbor.
-            # Since it's a 1-Nearest Neighbor only look take the zero-th element:
-            fdistance = fclassifier_output['distances'][0]
-
-            #eigen predict
-            eprediction = eigenModel.predict(face)
-            epredicted_label = eprediction[0]
-            eclassifier_output = eprediction[1]
-            # Now let's get the distance from the assuming a 1-Nearest Neighbor.
-            # Since it's a 1-Nearest Neighbor only look take the zero-th element:
-            edistance = eclassifier_output['distances'][0]
-
+            face = cv2.resize(roi_gray, image_size, interpolation = cv2.INTER_CUBIC)
 
             #leave here for testing
             prediction = model.predict(face)
@@ -286,11 +174,10 @@ def faceRec(data, depthData):
             # Since it's a 1-Nearest Neighbor only look take the zero-th element:
             distance = classifier_output['distances'][0]
 
-            cv2.putText(img, "Fdistance: "+str(fdistance)+" Edistance: "+str(edistance), (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
+            cv2.putText(img, str(distance), (20,20), cv2.FONT_HERSHEY_SIMPLEX, .5, 255)
 
             #print p2[0]
-            cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
-            if distance < 600.0:
+            if distance <= 1700.0:
                 cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
                 n = model.subject_names[predicted_label]
                 n =  n.replace("_", " ")
@@ -311,8 +198,9 @@ def faceRec(data, depthData):
                     recognizedFaceLLy.append(y+h)
 
                 print model.subject_names[predicted_label]
+                print distance
 
-            if distance >= 600.0:
+            if distance > 1700.0:
                 global unknownFaceName
                 unknownFaceName.append("unknown-" + str(unknownfaceCount))
                 print "unknown-"+ str(unknownfaceCount)
@@ -325,6 +213,8 @@ def faceRec(data, depthData):
                 global unknownFaceLLy
                 unknownFaceLLy.append(y+h)
                 unknownfaceCount = unknownfaceCount + 1
+
+                print "Unknown"
             #else:
             #    cv2.rectangle(img, (x,y),(x+w,y+h),(0,0,255),2)
 
@@ -333,9 +223,9 @@ def faceRec(data, depthData):
         img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
 
         #cv2.imshow('Recognizer', img2)
-        #frameshow = img2
+        frameshow = img2
         print "showing rec frame"
-        #cv2.namedWindow("Trainer", cv2.WINDOW_NORMAL)
+        #cv2.namedWindow("Rec", cv2.WINDOW_NORMAL)
 
         rateCounter = pubRate
         return True
@@ -346,27 +236,9 @@ def faceRec(data, depthData):
 
     if ch == 27:
         return False
-    cv2.imshow('Recognizer', depthFrame)
+    cv2.imshow('Recognizer', frameshow)
     cv2.namedWindow("Recognizer", cv2.WINDOW_NORMAL)
     return True
-
-def writeImagesToFile(trainImages, nameDir):
-    index = 0
-    print nameD
-    for img in trainImages:
-        cv2.imwrite(nameDir+'/'+time.strftime("%d-%m-%Y") + '_' + time.strftime("%H:%M:%S")+'_'+str(index)+'.jpg', img)
-        index+=1
-
-def createPKL(image_size):
-    [images, labels, subject_names] = read_images(os.getcwd()+'/dataset', image_size)
-    list_of_labels = list(xrange(max(labels)+1))
-    subject_dictionary = dict(zip(list_of_labels, subject_names))
-    global model
-    model = get_model(image_size=image_size, subject_names=subject_dictionary)
-    print "Computing the model..."
-    model.compute(images, labels)
-    print "Saving the model..."
-    save_model("model.pkl", model)
 
 def callback_rgb(data):
     #frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
@@ -377,15 +249,6 @@ def callback_rgb(data):
     #    flg = faceDet2(data)
     #    if(flg == False):
     #        rospy.signal_shutdown("")
-    #cv2.imshow('Frame', frame)
-    #cv2.waitKey(3)
-
-# def callback_depth(data):
-#     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
-#     flg = faceRec(data)
-#     if(flg == False):
-#         rospy.signal_shutdown("")
-
     #cv2.imshow('Frame', frame)
     #cv2.waitKey(3)
 
@@ -451,15 +314,6 @@ def init_servers():
 # def forget(face_id):
 
 # def learn(face_id, name):
-
-
-# modify the images brightness and contrast to simulate different lighting conditions (supposed to improve accuracy)
-# returns array of images (parameter is number of images to randomly create)
-def environmentSim(numImgs):
-    randImgs = []
-    alpha = 0;
-    beta = 0;
-
 
 def getStatus():
     return 0
@@ -538,15 +392,18 @@ def publishRFI():
     #rate.sleep()
 
 if __name__ == '__main__':
+    global datasetDir
+    datasetDir = os.getcwd()+'/dataset'
     print "test"
     global faceCascade
     faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml")
     #if(c()):
-    #model_filename = os.getcwd() + '/model.pkl'
-    #model = load_model(model_filename)
+    global model
+    model_filename = os.getcwd() + '/model.pkl'
+    model = load_model(model_filename)
 
-    fisherModel = createFisherModel()
-    eigenModel = createEigenModel()
+    #fisherModel = createFisherModel()
+    #eigenModel = createEigenModel()
 
     test = True
     #else:

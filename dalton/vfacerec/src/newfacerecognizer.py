@@ -39,6 +39,7 @@ def loadIDLabels():
                 for a in ln:
                     if(len(a) > 1):
                         namenum = a.split(",")
+                        print str(namenum[0]) + " " + str(namenum[1])
                         labelNums.append(namenum[0])
                         labelNames.append(namenum[1])
 
@@ -53,7 +54,14 @@ def prepareExit():
     
 def initRec():
     print "Initializing Face Recognition..."
+    loadIDLabels()
     lbphrec.load(utilPath+"/recModelLBPH.xml")
+
+def getNameFromNum(label):
+    print labelNums
+    indexName = labelNums.index(str(label))
+    labelString = labelNames[int(indexName)]
+    return labelString
 
 def recognizer(data):
     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
@@ -65,6 +73,10 @@ def recognizer(data):
         cv2.rectangle(img, (x-2, y-2), (x+w+2, y+h+2), (255, 0, 0), 2)
         roi = imgeqh[y:y+h, x:x+w]
         face = cv2.resize(roi, image_size, interpolation = cv2.INTER_CUBIC)
+        nbr_predicted, conf = lbphrec.predict(face)
+        print "Conf="+str(conf)+" Name="+getNameFromNum(nbr_predicted)
+        cv2.putText(img, "Conf=" + str(conf), (20,40), cv2.FONT_HERSHEY_COMPLEX, .5, (0, 255, 0))
+        cv2.putText(img, getNameFromNum(nbr_predicted), (x,y), cv2.FONT_HERSHEY_COMPLEX, .5, (0, 0, 255))
 
     cv2.putText(img, "Press 'ESC' to finish training", (20,20), cv2.FONT_HERSHEY_COMPLEX, .5, 255)
     img2 = cv2.resize(img, (img.shape[1]*2, img.shape[0]*2), interpolation = cv2.INTER_CUBIC)
@@ -79,7 +91,7 @@ def recognizer(data):
 def callback_rgb(data):
     frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
     flg = recognizer(data)
-    # If user ended trainer
+    # If user ended
     if(flg == False):
         prepareExit()
 
@@ -108,6 +120,5 @@ def writeImagesToFile(trainImages, nameDir):
 
 if not os.path.exists(utilPath):
     os.makedirs(utilPath)
-loadIDLabels()
-initTrainer()
+initRec()
 listener()
