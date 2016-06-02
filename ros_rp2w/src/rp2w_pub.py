@@ -11,7 +11,7 @@ if __name__ == '__main__':
     while pub.get_num_connections() == 0:
         rate.sleep()
     msg = AdvancedCommand()
-    msg.theta = 360
-    msg.distance = 0
+    msg.theta = 0
+    msg.distance = 1
     pub.publish(msg)
     print msg

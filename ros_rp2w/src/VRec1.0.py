@@ -265,7 +265,7 @@ def faceRec(data):
 
             #print p2[0]
             cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
-            if distance < 1000.0:
+            if distance < 1200.0:
                 cv2.rectangle(img, (x,y),(x+w,y+h),(0,255,0),2)
                 n = model.subject_names[predicted_label]
                 n =  n.replace("_", " ")

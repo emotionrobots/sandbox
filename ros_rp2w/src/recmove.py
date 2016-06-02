@@ -5,6 +5,12 @@ import os, sys
 import pyaudio
 import rospy
 from std_msgs.msg import String
+import time
+import rospy
+from std_msgs.msg import String
+import sys,os
+import speech_recognition as sr
+from ros_rp2w.srv._festTTS import *
 
 def main(): # Method for recognnizing the name Nora 
         config = Decoder.default_config() #Create decoder
@@ -35,7 +41,7 @@ def main(): # Method for recognnizing the name Nora
                 else:
                     break
                 try:
-                        if  decoder.hyp().hypstr=='yes' or decoder.hyp().hypstr=='no' or decoder.hyp().hypstr=='move there' or decoder.hyp().hypstr=='bye nora' or decoder.hyp().hypstr=='follow':
+                        if  decoder.hyp().hypstr=='yes' or decoder.hyp().hypstr=='no' or decoder.hyp().hypstr=='move there' or decoder.hyp().hypstr=='control' or decoder.hyp().hypstr=='bye nora' or decoder.hyp().hypstr=='follow' or decoder.hyp().hypstr=='find me' or decoder.hyp().hypstr=='turn':
                             ready=True
                         if  ready and decoder.hyp()!='':    
                             decoder.end_utt() # end utterance
@@ -48,6 +54,33 @@ def main(): # Method for recognnizing the name Nora
                             return hyp1 # return true for object if statement
                 except Exception, e:
                         pass 
+# def main():
+#     exit=False      
+#     while exit==False:
+#         r = sr.Recognizer()
+#         #with sr.Microphone() as source: r.adjust_for_ambient_noise(source)
+#         r.energy_threshold= 10000
+#         hyper=None
+#         with sr.Microphone() as source:                # use the default microphone as the audio source
+#             audio = r.listen(source)                   # listen for the first phrase and extract it into audio data
+#         # recognize speech using AT&T Speech to Text
+#         ATT_APP_KEY = "v72tyvstxthasy1az2t40rzhrre1ufzc" # AT&T Speech to Text app keys are 32-character lowercase alphanumeric strings
+#         ATT_APP_SECRET = "uloea3capyxwub1hbwg2vswhqxbynpr4" # AT&T Speech to Text app secrets are 32-character lowercase alphanumeric strings
+#         try:
+#             #hyper=r.recognize_att(audio, app_key=ATT_APP_KEY, app_secret=ATT_APP_SECRET)
+#             hyper=r.recognize_sphinx(audio)           
+#         except sr.UnknownValueError:
+#             print("Speech to Text could not understand audio")
+#             #exit=False
+#             #Asr.tts_client(self,"I could not quite hear that!")
+#         except sr.RequestError:
+#             print("Could not request results from Speech to Text service")
+#             #exit=False
+#         if hyper != None:
+#             return hyper
+#             #exit=True
+#    # print hyper
+
 
 
 def publisher(data):
@@ -62,7 +95,11 @@ def publisher(data):
 if __name__ == '__main__':
     count=0
     rospy.init_node('recmove', anonymous=True)
+    now=time.time()
     while not rospy.is_shutdown():
-        x=main()
-        publisher(x)
+        if time.time()-now<60:
+            x=main()
+            publisher(x)
+        else:
+            rospy.signal_shutdown("computer terminated for respawn")
 
