@@ -15,9 +15,7 @@ from std_msgs.msg import String, Header
 import math
 from ros_rp2w.srv._festTTS import *
 import ast
-# from vfacerec.msg import Face
-# from vfacerec.msg import UnknownFace
-# from vfacerec.srv import SetRate
+from ros_rp2w.msg import AdvancedCommand
 
 global name
 name = "aurash"
@@ -37,32 +35,41 @@ global found
 found=False
 global lockon
 lockon = False
-
+global once
+once=False
+global utter
+utter=''
+global oncelocked
+oncelocked=False
+global facecount
+facecount=False
 
 def publisher(done):
-	pub = rospy.Publisher('emotiondisplay2', String,queue_size=1)
+	pub = rospy.Publisher('emotion', String,queue_size=1)
 	msg=String()
 	msg.data= done
 	r = rospy.Rate(1)
 	if not rospy.is_shutdown():
 		#print("Message published")
-		pub.publish(msg)
+		for x in xrange(5):
+			pub.publish(msg)
 
 def publishMove(theta,distance):
     commands[5] = True
     pub2 = rospy.Publisher("rp2w/advanced_command", AdvancedCommand, queue_size=1)
     rate = rospy.Rate(10) # 10hz
     # while not rospy.is_shutdown():
-    while pub.get_num_connections() == 0:
+    while pub2.get_num_connections() == 0:
         rate.sleep()
     msg = AdvancedCommand()
     msg.theta = theta
     msg.distance = distance
-    pub.publish(msg)
-    #print msg
+    pub2.publish(msg)
+    print msg
 
 def callbackFaceMsg(data):
 	global found
+	global facecount
 	with lock:
 		#print("PublishFaceMsgs received")
 		commands[0] = False
@@ -77,62 +84,110 @@ def callbackFaceMsg(data):
 		# 	commands[1] = True
 		# elif(data.data == 0):
 		# 	commands[2] = True
-		elif(data.name == name):
+		if(data.name == name and not found):
 			name2=data.name
-			found=True
-			print found
+			#print name2
+			if facecount==False:
+				tts_client("hi"+name2+", glad to see you")
+			facecount=True	
 			commands[8] = True
-		func(.5)
+			time.sleep(2)
+			found=True
+			#print found
+		func(.2)
 
 def callbackPacket(data):
-	global blocked
+	global blockedfornt
+	global blockedrear
+	global blockedbumber
 	global stopped
 	global moving
 	global battery
-	battery=False
 	moving=False
 	stopped=False
-	blocked=False
+	blockedfront=False
+	blockedrear=False
+	blockedbumber=False
 	with lock:
 		#print("Packet received")
 		commands[3] = False
 		commands[4] = False
-		if(data.batteryVoltage < 30):
+		#print data.batteryVoltage
+		if(data.batteryVoltage < 100):
 			commands[3] = True
 			battery=True
-		elif(data.rearSonar <= 2 or data.frontSonar<= 2 or data.bumper<=2):
+		else:
+			battery=False	
+		if(data.rearSonar <= 2 or data.frontSonar<= 2 or data.bumper==1):
 			commands[4] = True
-			blocked=True
-		elif(data.rightMotorSpeed == 0 and data.leftMotorSpeed == 0):
+			if data.frontSonar<=2:
+				blockedfront=True
+			if data.rearSonar<=2:
+				blockedrear=True
+			if data.bumper<=2:
+				blockedbumper=True					
+			#print data.rearSonar
+			# print data.frontSonar
+			# print data.bumper
+		else:
+			blockedfront=False
+			blockedrear=False
+			blockedbumber=False	
+		if(data.rightMotorSpeed == 0 and data.leftMotorSpeed == 0):
 			commands[5] = False
 			stopped=True
+			#print data.leftMotorSpeed
+		else:
+			stopped=False
 		#publishMove()
-		elif(data.rightMotorSpeed > 0 or data.leftMotorSpeed > 0):
+		if(data.rightMotorSpeed > 0 or data.leftMotorSpeed > 0):
 			commands[5] = True
 			moving=True
-		func(.5)
+		else:
+			moving=False	
+		func(.2)
 
 def callbackSpeech(msg):
+	global utter
 	with lock:
-		global utter
-		utter=''
 		text=str(msg)
 		text=text[5:]
-		utter=text
+		text=str(text)
+		#print utter 
 		#print("Chatter received")
 		commands[6] = False
 		commands[7] = False
 		commands[9] = False
-		if(text == "goodbye"):
+		if(text == " bye nora"):
 			commands[7] = True
 			tts_client('bye')
-		elif(text == "go there"): 
+			rospy.signal_shutdown("user terminated")
+		elif(text == " move there"): 
 			commands[5] = True
 			tts_client('okay boss')
+			time.sleep(1)
+			utter=' move there'
+		elif(text == " follow"): 
+			commands[5] = True
+			#tts_client('okay boss')	
+			time.sleep(1)
+			utter=" follow"
+		elif(text == " find me"): 
+			commands[5] = True
+			#tts_client('okay boss')	
+			time.sleep(1)
+			utter=" find me"	
+		elif(text == " turn"): 
+			commands[5] = True
+			#tts_client('okay boss')	
+			time.sleep(1)
+			utter=" turn"	
+		elif(text == " yes"): 
+			utter=" yes"		
 		# elif(text == "where would you like me to go next"):
 		# 	commands[9] = True
 		# 	print("where to?")
-		func(.5)
+		func(.2)
 
 def tts_client(string2):
     rospy.wait_for_service('tts')
@@ -150,25 +205,33 @@ def callback_skeleton(msg):
 		global res
 		newpos_skeleton = ast.literal_eval(msg.data) 
 		sk_torso = 8
-		global dsttorso
+		global dstorso
 		dstorso=newpos_skeleton[8][2]
+        # # if newpos_skeleton[3][1]-newpos_skeleton[0][1]>200 or newpos_skeleton[7][1]-newpos_skeleton[0][1]>200:
+        # # 	print "hand over head"
+        # 	rospy.signal_shutdown("User terminated")
 		global lockon
 		lockon=True
+		global oncelocked
+		oncelocked=True
+		commands[5]=True
+		#print dstorso
 
 def callbackDir(msg):
 	with lock:
 		global direction
 		direction=msg.data
+		#print direction
 		if direction=='north':
 			direction=180
 		if direction=='northwest':
-			direction=45
+			direction=-135
 		if direction=='northeast':
-			direction=-45
+			direction=135
 		if direction=='west':
-			direction=90
-		if direction=='northwest':
-			direction=-90				
+			direction=-90
+		if direction=='east':
+			direction=90				
 
 
 
@@ -183,34 +246,125 @@ def listener():
 	rospy.Subscriber("Ready", String, callbackSpeech)
 	rospy.spin()
 
+
 def move(arg1, arg2):
-	tts_client('lets party')
+	tts_client('lets party!')
+	time.sleep(1)
+	count=0
+	count2=0
+	global utter
+	global found
+	global lockon
+	battcount=0
+	timesaid=time.time()
+	movedonce=False
 	while True:
 		try:
-			if battery:
-				tts_client("I am getting tired!")
+			if battery and battcount<=3 and time.time()-timesaid>60:
+				timesaid=time.time()
+				battcount=battcount+1
+				tts_client("I am getting tired can I stop?")
+				time.sleep(2)
+			if battery and utter==' yes':
+				tts_client("please direct me to my charging station!")
+				time.sleep(4)
+				rospy.signal_shutdown('user terminated')	
 		except Exception, e:
 			pass
 		try:			
-			if found and lockon and dstorso>914 and not blocked:
-				toMove=round(((dsttorso-914)*0.00328084),0)
+			# print found
+			# print lockon
+			# print not blocked
+			# print dstorso>914
+			if found and lockon and dstorso>914 and not blockedfront and not blockedbumber and utter==' follow':
+				tts_client('I will move closer to you')
+				utter=''
+				toMove=round(((dstorso-914)*0.00328084),0)
+				print toMove
 				publishMove(0,toMove)
+				lockon=False
+				movedonce=True
+				time.sleep(toMove)
+				found=False
+			if found and not lockon and not blockedfront and not blockedbumber and utter==' follow':
+				tts_client('I lost you, please place your hands up')
+				time.sleep(2)
 		except Exception, e:
 			pass		
 		try:
-			if found and not blocked and stopped and utter=="go there":
-				tts_client("where would you like me to go?")
+			# print found
+			# print lockon
+			# print not blocked
+			#print stopped
+			#print utter
+			if found and lockon and not blockedfront and not blockedrear and not blockedbumber and stopped and utter==" move there":
+				utter=''
+				time.sleep(1)
 				theta=direction
-				dst=8
+				dst=3
+				tts_client('I will turn '+str(theta)+' degrees then move '+str(dst)+' feet')
 				publishMove(theta,dst)	
+				timer=(abs(theta)/45)*1.5
+				lockon=False
+				movedonce=True
+				time.sleep(3+timer)
+				found=False
+			if found and not lockon and not blockedfront and not blockedrear and not blockedbumber and stopped and utter==' move there':
+				tts_client('I lost you, please place your hands up')
+				time.sleep(2)	
 		except Exception, e:
-			pass
+			print e
 		try:			
-			#print lockon
-			if found and not lockon:
+			# print lockon
+			# print found
+			# print stopped
+			if found and not lockon and stopped and count<3 and not movedonce:
 				tts_client("please assume the surrender position")
+				time.sleep(3)
+				count=count+1
+			if found and not lockon and stopped and count>=3 and count<4 and not movedonce :
+			 	tts_client("you are not listening to me, I quit ")
+			 	commands[6]=True
+			 	#func(.2)
+			 	time.sleep(3)
 		except Exception, e:
-			pass			
+			print e
+		try:			
+			# print lockon
+			# print found
+			# print stopped
+			count2=0
+			while not found  and stopped and movedonce:# and utter==' find me': and not lockon
+				if count2==8 and not blockedfront  and not blockedbumber and stopped:
+					tts_client("I will scoot up a little")
+					publishMove(0,2)
+					time.sleep(2)
+				if count2<1 or count2>4 :
+					tts_client("I'm looking for you")
+					time.sleep(1)
+				time.sleep(1.5)
+				if not found and not blockedbumber and not blockedrear:	
+					publishMove(30,0)
+					time.sleep(3)
+				elif not found and not blockedbumber and blockedrear:
+					publishMove(0,1)
+					time.sleep(1.5)	
+				elif not found and not blockedbumber and blockedfront:
+					publishMove(0,-1)
+					time.sleep(1.5)		
+				count2=count2+1
+		except Exception, e:
+			print e
+		try:			
+			if  stopped and utter==' turn':
+				tts_client("I'm turning 90 degrees" )
+				utter=''
+				time.sleep(1)
+				publishMove(90,0)
+				time.sleep(2)
+		except Exception, e:
+			print e
+
 
 
 
@@ -265,7 +419,7 @@ def func(delay):
 		
 def main():
 	rospy.init_node('main_loop', anonymous=True)
-	thread.start_new_thread(move,('data','none') )
+	thread.start_new_thread(move,('data','none'))
 	listener() 
 
 if __name__ == '__main__':
