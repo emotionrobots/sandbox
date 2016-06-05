@@ -56,7 +56,6 @@ def listener():
 
 def publisher(done):
 	pub = rospy.Publisher('pygameFace', String,queue_size=1)
-	# rospy.init_node('emotiondisplay2', anonymous=True)
 	msg=String()
 	msg.data= str(done)
 	r = rospy.Rate(1)
@@ -81,14 +80,14 @@ def display():
 	# print str(emotionamts[pos])
 	screen.fill((255, 255, 255))
 	#Head of Robot
-	pygame.draw.arc(screen, (0, 0, 0), (int(155*scalex), int(145*scaley), int(30*scalex), int(30*scaley)), math.pi/2, math.pi, 5)
-	pygame.draw.arc(screen, (0, 0, 0), (int(425*scalex), int(145*scaley), int(30*scalex), int(30*scaley)), 0, math.pi/2, 5)
-	pygame.draw.arc(screen, (0, 0, 0), (int(155*scalex), int(415*scaley), int(30*scalex), int(30*scaley)), math.pi, math.pi + math.pi/2, 5)
-	pygame.draw.arc(screen, (0, 0, 0), (int(425*scalex), int(415*scaley), int(30*scalex), int(30*scaley)), math.pi+math.pi/2, math.pi*2, 5)
-	pygame.draw.line(screen, (0, 0, 0), (int(170*scalex), int(145*scaley)), (int(440*scalex), int(145*scaley)), 5)
-	pygame.draw.line(screen, (0, 0, 0), (int(155*scalex), int(160*scaley)), (int(155*scalex), int(430*scaley)), 5)
-	pygame.draw.line(screen, (0, 0, 0), (int(455*scalex), int(160*scaley)), (int(455*scalex), int(430*scaley)), 5)
-	pygame.draw.line(screen, (0, 0, 0), (int(170*scalex), int(445*scaley)), (int(440*scalex), int(445*scaley)), 5)
+	pygame.draw.arc(screen, (0, 0, 0), (int(153*scalex), int(143*scaley), int(35*scalex), int(35*scaley)), math.pi/2, math.pi, int(5*((scalex+scaley)/2)))
+	pygame.draw.arc(screen, (0, 0, 0), (int(422*scalex), int(143*scaley), int(35*scalex), int(35*scaley)), 0, math.pi/2, int(5*((scalex+scaley)/2)))
+	pygame.draw.arc(screen, (0, 0, 0), (int(153*scalex), int(413*scaley), int(35*scalex), int(35*scaley)), math.pi, math.pi + math.pi/2, int(5*((scalex+scaley)/2)))
+	pygame.draw.arc(screen, (0, 0, 0), (int(422*scalex), int(413*scaley), int(35*scalex), int(35*scaley)), math.pi+math.pi/2, math.pi*2, int(5*((scalex+scaley)/2)))
+	pygame.draw.line(screen, (0, 0, 0), (int(170*scalex), int(145*scaley)), (int(440*scalex), int(145*scaley)), int(5*((scalex+scaley)/2)))
+	pygame.draw.line(screen, (0, 0, 0), (int(155*scalex), int(160*scaley)), (int(155*scalex), int(430*scaley)), int(5*((scalex+scaley)/2)))
+	pygame.draw.line(screen, (0, 0, 0), (int(455*scalex), int(160*scaley)), (int(455*scalex), int(430*scaley)), int(5*((scalex+scaley)/2)))
+	pygame.draw.line(screen, (0, 0, 0), (int(170*scalex), int(445*scaley)), (int(440*scalex), int(445*scaley)), int(5*((scalex+scaley)/2)))
 
 	#Antenna of Robot
 	pygame.draw.line(screen, (0, 0, 0), (int(305*scalex), int(145*scaley)), (int(305*scalex), int(115*scaley)), int(15*((scalex+scaley)/2)))
