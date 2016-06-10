@@ -1,73 +1,43 @@
 #!/usr/bin/env python2
+import pygame
+from random import randint
 import rospy
 from std_msgs.msg import String
 import time
-from random import randint
-global st
-st = ""
 
 def publisher(done):
 	pub = rospy.Publisher('emotiondisplay2', String,queue_size=1)
 	msg=String()
 	msg.data= done
-	r = rospy.Rate(1)
+	r = rospy.Rate(.5)
 	if not rospy.is_shutdown():
+		print("Message published")
 		pub.publish(msg)
-
-def main1():
-	rospy.Subscriber("emotion",String,callback)
-	rospy.spin()
+		r.sleep()
 
 def main():
-	while(True):
-			x = randint(0,6)
-			y = randint(0,100)
-			if(x == 0):
-				st = "anger"
-			elif(x == 1):
-				st = "disgust"
-			elif(x == 2):
-				st = "fear"
-			elif(x == 3):
-				st = "happy"
-			elif(x == 4):
-				st = "neutral"
-			elif(x == 5):
-				st = "sad"
-			else:
-				st = "surprise"
-			st = st + " "+str(y/100.0)
-			print str(st)
-			publisher(st)
-			time.sleep(.5)		
-
-def callback(data):
-	while(True):
-		#	x = randint(0,6)
-		#	y = randint(0,100)
-		#	if(x == 0):
-		#		st = "anger"
-		#	elif(x == 1):
-		#		st = "disgust"
-		#	elif(x == 2):
-		#		st = "fear"
-		#	elif(x == 3):
-		#		st = "happy"
-		#	elif(x == 4):
-		#		st = "neutral"
-		#	elif(x == 5):
-		#		st = "sad"
-		#	else:
-		#		st = "surprise"
-		#	st = st + " "+str(y/100.0)
-		#print str(data.data)
-		#publisher(data.data)
-		#time.sleep(.5)	
-		print str(st)
-		publisher(st)
-		time.sleep(.5)	
-
+	rospy.init_node('main_loop', anonymous=True)
+	while(not rospy.is_shutdown()):
+		res = ""
+		num = randint(1,7)
+		if(num == 1):
+			res += "anger"
+		elif(num == 2):
+			res += "disgust"
+		elif(num == 3):
+			res += "fear"
+		elif(num == 4):
+			res += "happy"
+		elif(num == 5):
+			res += "neutral"
+		elif(num == 6):
+			res += "sad"
+		else:
+			res += "surprise"
+		num2 = randint(1,100)
+		res+= " "+str(num2)
+		# print res
+		publisher(res)
 
 if __name__ == '__main__':
-	rospy.init_node('emotiondisplay2', anonymous=True)	
 	main()

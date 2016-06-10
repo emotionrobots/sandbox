@@ -16,7 +16,9 @@ import math
 from ros_rp2w.srv._festTTS import *
 import ast
 from ros_rp2w.msg import AdvancedCommand
-
+import pygame
+global gesture1
+gesture1=''
 global name
 name = "aurash"
 global name2
@@ -38,6 +40,8 @@ lockon = False
 global once
 once=False
 global utter
+global acception
+acception=False
 utter=''
 global oncelocked
 oncelocked=False
@@ -45,9 +49,13 @@ global facecount
 facecount=False
 global looking
 looking=False
+global started
+started=False
 global handl
 global handr
 global handld
+global onlyone
+onlyone=True
 global handrd
 global heady
 global headd
@@ -78,7 +86,10 @@ def publishMove(theta,distance):
 def callbackFaceMsg(data):
 	global found
 	global looking
+	global onlyone
 	global facecount
+	global oncelocked
+	global started
 	with lock:
 		#print("PublishFaceMsgs received")
 		commands[0] = False
@@ -94,13 +105,17 @@ def callbackFaceMsg(data):
 		# elif(data.data == 0):
 		# 	commands[2] = True
 		if(data.name == name and not found):
+			if onlyone:
+				started=True
+				onlyone=False
 			name2=data.name
 			#print name2
 			if facecount==False:
 				tts_client("hi"+name2)
 			if looking:
-				tts_client("hi"+name2)	
+				tts_client("hi"+name2+', please reccallebraate')	
 				looking=False
+				oncelocked=False
 			facecount=True	
 			commands[8] = True
 			time.sleep(2)
@@ -163,6 +178,8 @@ def callbackSpeech(msg):
 	global utter
 	global found
 	global acception
+	global gesture1
+	global started
 	with lock:
 		text=str(msg)
 		text=text[5:]
@@ -197,6 +214,12 @@ def callbackSpeech(msg):
 			#tts_client('okay boss')	
 			time.sleep(1)
 			utter=" turn"	
+		elif(text == " music"): 
+			commands[5] = True
+			#tts_client('okay boss')	
+			gesture1=''
+			utter=" music"	
+			started=False
 		elif(text == " control"): 
 			tts_client('guide me')
 			commands[5] = True
@@ -276,7 +299,13 @@ def callbackDir(msg):
 		if direction=='east':
 			direction=90				
 
-
+def callback_gest(msg):
+    global gesture1
+    gesture1=msg.data
+    #global started
+    # if gesture1=='wave'
+    # 	started=True
+    #print gesture1
 
 def listener():
 	#Scott RP2W battery(sad), obstacle(surprise), and movement(neutral)
@@ -287,7 +316,9 @@ def listener():
 	rospy.Subscriber('direction', CustomString, callbackDir)
 	#Aurash "I quit"(disgust = 1), master "where would you like me to go"(smile), ask for directions(increasing disgust), "Bye"(happy)
 	rospy.Subscriber("Ready", String, callbackSpeech)
+	rospy.Subscriber('gesture', CustomString, callback_gest)
 	rospy.spin()
+
 
 
 def move(arg1, arg2):
@@ -303,15 +334,20 @@ def move(arg1, arg2):
 	global looking
 	global handl
 	global handr
+	global started
 	global handld
 	global handrd
 	global headd
 	global heady
 	global acception
 	acception=False
+	import random
+	global gesture1
 	battcount=0
 	timesaid=time.time()
 	movedonce=False
+	spinright=False
+	sprinleft=True
 	while True:
 		try:
 			if battery and battcount<=3 and time.time()-timesaid>60:
@@ -330,6 +366,21 @@ def move(arg1, arg2):
 				acception=False			
 		except Exception, e:
 			pass
+		try:
+			rand=random.randint(1,5)
+			if not started and gesture1!='Wave' or utter==' music' :
+				utter=''
+				gesture1=''
+				pygame.mixer.init()
+				pygame.mixer.music.load(os.path.abspath(os.path.dirname(__file__))+"/songs/"+str(rand)+".mp3")
+				pygame.mixer.music.play()
+				while pygame.mixer.music.get_busy() == True and gesture1!='Wave' and not started:
+					#print gesture1
+					#print started
+					continue		
+				pygame.mixer.music.stop()		
+		except Exception, e:
+			pass	
 		try:			
 			# print found
 			# print lockon
@@ -340,18 +391,19 @@ def move(arg1, arg2):
 				tts_client('I lost you, please place your hands up')
 				oncelocked=False
 				time.sleep(2)
+			spincount=0	
 			while found and lockon and dstorso>1219  and not blockedfront and not blockedbumber and utter==' follow':
 				#tts_client('Okay')
 				#lockon=False
 				#utter=''
 				toMove=abs(round(((dstorso-1219)*0.00328084),0))
-				spincount=0
+				
 				while torsox<280 or torsox>370 and utter==' follow':
-					if spincount>5:
-						utter=' find me'
-						movedonce=True
-						found=False
-						time.sleep(.2)
+					# if spincount>5:
+					# 	utter=' find me'
+					# 	movedonce=True
+					# 	found=False
+					# 	time.sleep(.2)
 					div=torsox/dstorso
 					toTurn=math.atan(div)
 					toTurn=round(math.degrees(toTurn),0)
@@ -390,11 +442,12 @@ def move(arg1, arg2):
 				# 	print "turning"
 				# 	publishMove(int(toTurn),0)
 				# 	time.sleep(1)
-				# if toMove>3
-				# 	publishMove(0,3)
-				# else:
-				# 	publishMove(0,toMove)	
-				publishMove(0,toMove)
+				if toMove>3:
+				 	publishMove(0,3)
+					spincount=0
+				elif toMove!=0:	
+					publishMove(0,toMove)
+					spincount=0
 				lockon=False
 				movedonce=True
 				time.sleep(toMove+.5)
@@ -424,11 +477,11 @@ def move(arg1, arg2):
 				toMove=abs(round(((1219-dstorso)*0.00328084),0))
 				
 				while torsox<280 or torsox>370 and utter==' follow':
-					if spincount>5:
-						utter=' find me'
-						found=False
-						movedonce=True
-						time.sleep(.2)
+					# if spincount>5:
+					# 	utter=' find me'
+					# 	found=False
+					# 	movedonce=True
+					# 	time.sleep(.2)
 					div=torsox/dstorso
 					toTurn=math.atan(div)
 					toTurn=round(math.degrees(toTurn),0)
@@ -497,14 +550,21 @@ def move(arg1, arg2):
 			#print stopped
 			#print utter
 			if found and lockon and not blockedfront and not blockedrear and not blockedbumber and stopped and utter==" move there":
+				spinleft=False
+				spinright=False
 				utter=''
 				#time.sleep(1)
 				theta=direction
+				if theta<0:
+					spinleft=True
+				else:
+					spinright=True	
 				dst=3
 				#tts_client('I will turn '+str(theta)+' degrees then move '+str(dst)+' feet')
 				publishMove(theta,dst)	
 				timer=(abs(theta)/45)*1.5
 				lockon=False
+				utter=' find me'
 				movedonce=True
 				time.sleep(3+timer)
 				found=False
@@ -522,6 +582,8 @@ def move(arg1, arg2):
 			#print stopped
 			#print utter
 			if found and lockon and utter==" control":
+				spinleft=False
+				spinright=False
 				time.sleep(2)
 				turnright=False
 				turnleft=False
@@ -534,6 +596,7 @@ def move(arg1, arg2):
 						theta=-90
 						publishMove(theta,0)
 						lockon=False
+						spinleft=True
 						utter=' find me'
 						found=False
 						time.sleep(1.5)
@@ -544,6 +607,7 @@ def move(arg1, arg2):
 						publishMove(theta,0)
 						lockon=False
 						found=False
+						spinright=True
 						utter=' find me'
 						time.sleep(1.5)	
 				while handr<heady and handl<heady:
@@ -604,7 +668,10 @@ def move(arg1, arg2):
 					#time.sleep(1)	
 				time.sleep(1)
 				if not found and not blockedbumber :	
-					publishMove(45,0)
+					if spinright:
+						publishMove(-45,0)
+					elif spinleft:
+						publishMove(45,0)
 					time.sleep(2)
 				elif not found and not blockedbumber and blockedrear:
 					publishMove(0,1)
@@ -647,38 +714,38 @@ def func(delay):
 		val = 0
 	prev = command
 	if(commands[3]):
-		res = "sad 1"
+		res = "sad 50"
 		command = 3
 	elif(commands[4]):
-		res = "surprise 1"
+		res = "surprise 50"
 		command = 4
 	elif(commands[0]):
-		res = "disgust 1"
+		res = "disgust 50"
 	elif(commands[2]):
-		val+=.2
+		val+=10
 		if(val >= 1):
-			val = 1
+			val = 10
 		res = "sad " + str(val)
 		command = 2
 	elif(commands[1]):
-		res = "surprise 1"
+		res = "surprise 50"
 		command = 1
 	elif(commands[5]):
-		res = "neutral 1"
+		res = "neutral 50"
 		command = 5
 	elif(commands[6]):
-		res =  "disgust 1"
+		res =  "disgust 50"
 		command = 6
 	elif(commands[7]):
-		res = "happy 1"
+		res = "happy 50"
 		command = 7
 	elif(commands[8]):
-		res = "happy 1"
+		res = "happy 50"
 		command = 8
 	elif(commands[9]):
-		val+=.33
+		val+=10
 		if(val >= 1):
-			val = 1
+			val = 10
 		res = "disgust "+str(val)
 		command = 9 
 	#print(res)

@@ -22,26 +22,31 @@ running = True
 wanted = 0
 lock = threading.Lock()
 pygame.init()
-screen = pygame.display.set_mode((640,480))
+infoObject = pygame.display.Info()
+scalex = infoObject.current_w / 640.0
+scaley = infoObject.current_h / 480.0
+screen = pygame.display.set_mode((int(640*scalex),int(480*scaley)))
 
 
 def callback(data):
 	with lock:
 		text = str(data.data)
+		# print text
 		index = text.index(" ",0,len(text))
 		emotion = text[:index];
 		print emotion
 		for x in xrange(0, 7):
 			if(emotions[x] == emotion):
 				global wanted
-				wanted = float(text[index+1:])
+				wanted = float(text[index+1:])/100.0
 				global direcpos
 				global pos
 				direcpos = x
 				if(pos == -1):
 					pos = x
 					emotionamts[pos] = wanted
-	# print emotion +" "+ str(emotionamts) +" "+str(pos)
+				# print wanted
+	# print emotion +" "+ str(emotionamts) +" "+str(pos) + " "+str(wanted)
 
 def listener():
 	rospy.init_node('emotiondisplay', anonymous=True)
@@ -51,7 +56,6 @@ def listener():
 
 def publisher(done):
 	pub = rospy.Publisher('pygameFace', String,queue_size=1)
-	# rospy.init_node('emotiondisplay2', anonymous=True)
 	msg=String()
 	msg.data= str(done)
 	r = rospy.Rate(1)
@@ -60,11 +64,9 @@ def publisher(done):
 
 
 def display():
-	
 	global screen
 	running = True
 	eyecoordx, eyecoordy = 0, 0
-	print str(pos)+ " "+ str(emotionamts[pos])+ " "+str(direcpos)+ " " + str(wanted)
 	# while running:
 	# 	for e in pygame.event.get():
 	# 		if(e.type == KEYDOWN):
@@ -74,79 +76,79 @@ def display():
 	# 			running = False
 
 		# listener()
-		# print str(pos)
+	# print str(pos)
+	# print str(emotionamts[pos])
 	screen.fill((255, 255, 255))
 	#Head of Robot
-	pygame.draw.arc(screen, (0, 0, 0), (155, 145, 30, 30), math.pi/2, math.pi, 5)
-	pygame.draw.arc(screen, (0, 0, 0), (425, 145, 30, 30), 0, math.pi/2, 5)
-	pygame.draw.arc(screen, (0, 0, 0), (155, 415, 30, 30), math.pi, math.pi + math.pi/2, 5)
-	pygame.draw.arc(screen, (0, 0, 0), (425, 415, 30, 30), math.pi+math.pi/2, math.pi*2, 5)
-	pygame.draw.line(screen, (0, 0, 0), (170, 145), (440, 145), 5)
-	pygame.draw.line(screen, (0, 0, 0), (155, 160), (155, 430), 5)
-	pygame.draw.line(screen, (0, 0, 0), (455, 160), (455, 430), 5)
-	pygame.draw.line(screen, (0, 0, 0), (170, 445), (440, 445), 5)
+	pygame.draw.arc(screen, (0, 0, 0), (int(153*scalex), int(143*scaley), int(35*scalex), int(35*scaley)), math.pi/2, math.pi, int(5*((scalex+scaley)/2)))
+	pygame.draw.arc(screen, (0, 0, 0), (int(422*scalex), int(143*scaley), int(35*scalex), int(35*scaley)), 0, math.pi/2, int(5*((scalex+scaley)/2)))
+	pygame.draw.arc(screen, (0, 0, 0), (int(153*scalex), int(413*scaley), int(35*scalex), int(35*scaley)), math.pi, math.pi + math.pi/2, int(5*((scalex+scaley)/2)))
+	pygame.draw.arc(screen, (0, 0, 0), (int(422*scalex), int(413*scaley), int(35*scalex), int(35*scaley)), math.pi+math.pi/2, math.pi*2, int(5*((scalex+scaley)/2)))
+	pygame.draw.line(screen, (0, 0, 0), (int(170*scalex), int(145*scaley)), (int(440*scalex), int(145*scaley)), int(5*((scalex+scaley)/2)))
+	pygame.draw.line(screen, (0, 0, 0), (int(155*scalex), int(160*scaley)), (int(155*scalex), int(430*scaley)), int(5*((scalex+scaley)/2)))
+	pygame.draw.line(screen, (0, 0, 0), (int(455*scalex), int(160*scaley)), (int(455*scalex), int(430*scaley)), int(5*((scalex+scaley)/2)))
+	pygame.draw.line(screen, (0, 0, 0), (int(170*scalex), int(445*scaley)), (int(440*scalex), int(445*scaley)), int(5*((scalex+scaley)/2)))
 
 	#Antenna of Robot
-	pygame.draw.line(screen, (0, 0, 0), (305, 145), (305, 115), 15)
+	pygame.draw.line(screen, (0, 0, 0), (int(305*scalex), int(145*scaley)), (int(305*scalex), int(115*scaley)), int(15*((scalex+scaley)/2)))
 	if(pos == 3 or pos == 6):
-		pygame.draw.line(screen, (0, 0, 0), (305, 115), (305 + int(15 * (emotionamts[pos])), 65 + int(15 * (emotionamts[pos]))), 15)
-		pygame.draw.circle(screen, (0, 0, 0), (305 + int(15 * (emotionamts[pos])), 65 + int(15 * (emotionamts[pos]))), 15)
+		pygame.draw.line(screen, (0, 0, 0), (int(305*scalex), int(115*scaley)), (int((305 + 15 * emotionamts[pos])*scalex), int((65 + 15 * (emotionamts[pos]))*scaley)), int(15*((scalex+scaley)/2)))
+		pygame.draw.circle(screen, (0, 0, 0), (int((305 + 15 * (emotionamts[pos]))*scalex), int((65 + 15 * emotionamts[pos])*scaley)), int(15*((scalex+scaley)/2.0)))
 	elif(pos == 4):
-		pygame.draw.line(screen, (0, 0, 0), (305, 115), (305, 65), 15)
-		pygame.draw.circle(screen, (0, 0, 0), (305, 65), 15)
+		pygame.draw.line(screen, (0, 0, 0), (int(305*scalex), int(115*scaley)), (int(305*scalex), int(65*scaley)), int(15*((scalex+scaley)/2)))
+		pygame.draw.circle(screen, (0, 0, 0), (int(305*scalex), int(65*scaley)), int(15*((scalex+scaley)/2)))
 	else:
-		pygame.draw.line(screen, (0, 0, 0), (305, 115), (305 - int(15 * emotionamts[pos]), 65 + int(15 * emotionamts[pos])), 15)
-		pygame.draw.circle(screen, (0, 0, 0), (305 - int(15 * emotionamts[pos]), 65 + int(15 * emotionamts[pos])), 15)
+		pygame.draw.line(screen, (0, 0, 0), (int(305*scalex), int(115*scaley)), (int((305 - 15 * emotionamts[pos])*scalex), int((65 + 15 * emotionamts[pos])*scaley)), int(15*((scalex+scaley)/2)))
+		pygame.draw.circle(screen, (0, 0, 0), (int((305 - int(15 * emotionamts[pos]))*scalex), int((65 + 15 * emotionamts[pos])*scaley)), int(15*((scalex+scaley)/2.0)))
 
 
 	#Eyes of Robot
 	if(pos == 1):
-		pygame.draw.ellipse(screen, (0, 0, 0), (240 + eyecoordx, 235 + int(8 * emotionamts[1]) + eyecoordy, 30, 30 - int(16 * emotionamts[1])), 0)
-		pygame.draw.ellipse(screen, (0, 0, 0), (340 + eyecoordx, 235 + int(8 * emotionamts[1]) + eyecoordy, 30, 30 - int(16 * emotionamts[1])), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (int((240 + eyecoordx)*scalex), int((235 + 8 * emotionamts[1] + eyecoordy)*scaley), int(30*scalex), int((30 - 16 * emotionamts[1])*scaley)), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (int((340 + eyecoordx)*scalex), int((235 + 8 * emotionamts[1] + eyecoordy)*scaley), int(30*scalex), int((30 - 16 * emotionamts[1])*scaley)), 0)
 	elif(pos == 2):
-		pygame.draw.ellipse(screen, (0, 0, 0), (240 - int(8 * emotionamts[2]) + eyecoordx, 235 + eyecoordy, 30 + int(16 * emotionamts[2]), 30), 0)
-		pygame.draw.ellipse(screen, (0, 0, 0), (340 - int(8 * emotionamts[2]) + eyecoordx, 235 + eyecoordy, 30 + int(16 * emotionamts[2]), 30), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (int((240 - 8 * emotionamts[2] + eyecoordx)*scalex), int((235 + eyecoordy)*scaley), int((30 + 16 * emotionamts[2])*scalex), int(30*scaley)), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (int((340 - 8 * emotionamts[2] + eyecoordx)*scalex), int((235 + eyecoordy)*scaley), int((30 + 16 * emotionamts[2])*scalex), int(30*scaley)), 0)
 	elif(pos == 6):
-		pygame.draw.ellipse(screen, (0, 0, 0), (240 + eyecoordx, 235 - int(6 * emotionamts[6]) + eyecoordy, 30, 30 + int(12 * emotionamts[6])), 0)
-		pygame.draw.ellipse(screen, (0, 0, 0), (340 + eyecoordx, 235 - int(6 * emotionamts[6]) + eyecoordy, 30 ,30 + int(12 * emotionamts[6])), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (int((240 + eyecoordx)*scalex), int((235 - 6 * emotionamts[6] + eyecoordy)*scaley), int(30*scalex), int((30 + 12 * emotionamts[6])*scaley)), 0)
+		pygame.draw.ellipse(screen, (0, 0, 0), (int((340 + eyecoordx)*scalex), int((235 - 6 * emotionamts[6] + eyecoordy)*scaley), int(30*scalex), int((30 + 12 * emotionamts[6])*scaley)), 0)
 	else:
-		pygame.draw.circle(screen, (0, 0, 0), (255 + eyecoordx, 250 + eyecoordy), 15)
-		pygame.draw.circle(screen, (0, 0, 0), (355 + eyecoordx, 250 + eyecoordy), 15)
+		pygame.draw.circle(screen, (0, 0, 0), (int((255 + eyecoordx)*scalex), int((250 + eyecoordy)*scaley)), int(15*((scalex+scaley)/2)))
+		pygame.draw.circle(screen, (0, 0, 0), (int((355 + eyecoordx)*scalex), int((250 + eyecoordy)*scaley)), int(15*((scalex+scaley)/2)))
 		if(pos == 0):
-			pygame.draw.polygon(screen, (255, 255, 255), [(270 + eyecoordx, 235 + (30 * emotionamts[0]) + eyecoordy), (270 + eyecoordx, 235 + eyecoordy), (270 - (30 * emotionamts[0]) + eyecoordx, 235 + eyecoordy)], 0)
-			pygame.draw.polygon(screen, (255, 255, 255), [(340 + eyecoordx, 235 + eyecoordy), (340 + eyecoordx, 235 + (30 * emotionamts[0]) + eyecoordy), (340 + (30 * emotionamts[0]) + eyecoordx, 235 + eyecoordy)], 0)
+			pygame.draw.polygon(screen, (255, 255, 255), [(int((270 + eyecoordx)*scalex), int((235 + 30 * emotionamts[0] + eyecoordy)*scaley)), (int((270 + eyecoordx)*scalex), int((235 - int(7.5*((scalex+scaley)/2)) + eyecoordy)*scaley)), (int((270 - 30 * emotionamts[0] + eyecoordx)*scalex), int((235 - int(7.5*((scalex+scaley)/2)) + eyecoordy)*scaley))], 0)
+			pygame.draw.polygon(screen, (255, 255, 255), [(int((340 + eyecoordx)*scalex), int((235 - int(7.5*((scalex+scaley)/2))  + eyecoordy)*scaley)), (int((340 + eyecoordx)*scalex), int((235 + 30 * emotionamts[0] + eyecoordy)*scaley)), (int((340 + (30 * emotionamts[0]) + eyecoordx)*scalex), int((235 - int(7.5*((scalex+scaley)/2))+ eyecoordy)*scaley))], 0)
 		elif(pos == 5):
-			pygame.draw.polygon(screen, (255, 255, 255), [(240 + eyecoordx, 235 + eyecoordy), (240 + (30 * emotionamts[5]) + eyecoordx, 235 + eyecoordy), (240 + eyecoordx, 235 + (30 * emotionamts[5]) + eyecoordy)], 0)
-			pygame.draw.polygon(screen, (255, 255, 255), [(370 - (30 * emotionamts[5]) + eyecoordx, 235 + eyecoordy), (370 + eyecoordx, 235 + eyecoordy), (370 + eyecoordx, 235 + (30 * emotionamts[5]) + eyecoordy)], 0)
-
+			pygame.draw.polygon(screen, (255, 255, 255), [(int((240 + eyecoordx)*scalex), int((235 - int(7.5*((scalex+scaley)/2)) + eyecoordy)*scaley)), (int((240 + (40 * emotionamts[5]) + eyecoordx)*scalex), int((235 - int(7.5*((scalex+scaley)/2)) + eyecoordy)*scaley)), (int((240 + eyecoordx)*scalex), int((235 + 30 * emotionamts[5] + eyecoordy)*scaley))], 0)
+			pygame.draw.polygon(screen, (255, 255, 255), [(int((370 - (40 * emotionamts[5]) + eyecoordx)*scalex), int((235 - int(7.5*((scalex+scaley)/2)) + eyecoordy)*scaley)), (int((370 + eyecoordx)*scalex), int((235 - int(7.5*((scalex+scaley)/2)) + eyecoordy)*scaley)), (int((370 + eyecoordx)*scalex), int((235 + 30 * emotionamts[5] + eyecoordy)*scaley))], 0)
 
 	# #Mouth of Robot
 	if(pos == 0):
-		pygame.draw.lines(screen, (0, 0, 0), False, [(240, 355 + int(20*emotionamts[0])), (305, 355), (370, 355+int(20*emotionamts[0]))], 5)
+		pygame.draw.lines(screen, (0, 0, 0), False, [(int(240*scalex), int((355 + 20*emotionamts[0])*scaley)), (int(305*scalex), int(355*scaley)), (int(370*scalex), int((355+20*emotionamts[0])*scaley))],  int(5*((scalex+scaley)/2)))
 	elif(pos == 1):
 		for x in xrange(0,4):
 			for y in xrange(1, 360):
-				pygame.draw.line(screen, (0, 0, 0), (240 + 10 * math.pi * x + int(math.ceil(y*math.pi/180*5)), 355 + int(math.sin(y*math.pi/180)*int(10*emotionamts[1]))), (240 + 10 * math.pi *x + int(math.ceil((y+1)*math.pi/180*5)), 355 + int(math.sin((y+1)*math.pi/180)*int(10*emotionamts[1]))),5)
+				pygame.draw.line(screen, (0, 0, 0), (int((240 + 10 * math.pi * x + int(math.ceil(y*math.pi/180*5)))*scalex), int((355 + math.sin(y*math.pi/180)*10*emotionamts[1])*scaley)), (int((240 + 10 * math.pi *x + math.ceil((y+1)*math.pi/180*5))*scalex), int((355 + math.sin((y+1)*math.pi/180)*10*emotionamts[1])*scaley)),int(5*((scalex+scaley)/2)))
 	elif(pos == 2 or pos == 6):
 		if(emotionamts[pos] == 0):
-			pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
+			pygame.draw.line(screen, (0, 0, 0), (int(240*scalex), int(355*scaley)), (int(370*scalex), int(355*scaley)), int(5*((scalex+scaley)/2)))
 		else:	
-			pygame.draw.ellipse(screen, (0, 0, 0), (240 + int(33 * emotionamts[pos]), 355 - int(33 * emotionamts[pos]), 125 - int(65 * emotionamts[pos]), 5 + int(65 * emotionamts[pos])), 0)
+			pygame.draw.ellipse(screen, (0, 0, 0), (int((240 + 33 * emotionamts[pos])*scalex), int((355 - (33* emotionamts[pos]))*scaley), int((125 - 65 * emotionamts[pos])*scalex), int((5 + 65 * emotionamts[pos])*scaley)), 0)
 	elif(pos == 3):
-		pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
-		pygame.draw.line(screen, (0, 0, 0), (240, 355), (240, 355 - int(25 * emotionamts[3])), 5)
-		pygame.draw.line(screen, (0, 0, 0), (370, 355), (370, 355 - int(25 * emotionamts[3])), 5)			
+		pygame.draw.line(screen, (0, 0, 0), (int(240*scalex), int(355*scaley)), (int(370*scalex), int(355*scaley)), int(5*((scalex+scaley)/2)))
+		pygame.draw.line(screen, (0, 0, 0), (int(240*scalex), int(355*scaley)), (int(240*scalex), int((355 - 25 * emotionamts[3])*scaley)), int(5*((scalex+scaley)/2)))
+		pygame.draw.line(screen, (0, 0, 0), (int(370*scalex), int(355*scaley)), (int(370*scalex), int((355 - 25 * emotionamts[3])*scaley)), int(5*((scalex+scaley)/2)))			
 	elif(pos == 4):
-		pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
+		pygame.draw.line(screen, (0, 0, 0), (int(240*scalex), int(355*scaley)), (int(370*scalex), int(355*scaley)), int(5*((scalex+scaley)/2)))
 	elif(pos == 5):
-		pygame.draw.line(screen, (0, 0, 0), (240, 355), (370, 355), 5)
-		pygame.draw.line(screen, (0, 0, 0), (240, 355), (240, 355 + int(15 * emotionamts[5])), 5)
-		pygame.draw.line(screen, (0, 0, 0), (370, 355), (370, 355 + int(15 * emotionamts[5])), 5)
+		pygame.draw.line(screen, (0, 0, 0), (int(240*scalex), int(355*scaley)), (int(370*scalex), int(355*scaley)), int(5*((scalex+scaley)/2)))
+		pygame.draw.line(screen, (0, 0, 0), (int(240*scalex), int(355*scaley)), (int(240*scalex), int((355 + 15 * emotionamts[5])*scaley)), int(5*((scalex+scaley)/2)))
+		pygame.draw.line(screen, (0, 0, 0), (int(370*scalex), int(355*scaley)), (int(370*scalex), int((355 + 15 * emotionamts[5])*scaley)), int(5*((scalex+scaley)/2)))
 
 	pygame.display.flip()
 
 def func(delay):
-	print "hey"
+	print "Function start"
 	done = False
 	first = True
 	while(not done):
@@ -170,9 +172,9 @@ def func(delay):
 		time.sleep(delay)
 
 def main():
-	print "hi"
+	print "pygameFace start"
 	try:
-		thread.start_new_thread(func, (.01,)) 
+		thread.start_new_thread(func, (.05,)) 
 		listener()
 	except Exception, e:
 		print str(e)

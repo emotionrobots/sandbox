@@ -41,7 +41,7 @@ def main(): # Method for recognnizing the name Nora
                 else:
                     break
                 try:
-                        if  decoder.hyp().hypstr=='yes' or decoder.hyp().hypstr=='no' or decoder.hyp().hypstr=='move there' or decoder.hyp().hypstr=='control' or decoder.hyp().hypstr=='bye nora' or decoder.hyp().hypstr=='follow' or decoder.hyp().hypstr=='find me' or decoder.hyp().hypstr=='turn':
+                        if  decoder.hyp().hypstr=='yes' or decoder.hyp().hypstr=='no' or decoder.hyp().hypstr=='move there' or decoder.hyp().hypstr=='control' or decoder.hyp().hypstr=='bye nora' or decoder.hyp().hypstr=='follow' or decoder.hyp().hypstr=='find me' or decoder.hyp().hypstr=='turn' or decoder.hyp().hypstr=='music':
                             ready=True
                         if  ready and decoder.hyp()!='':    
                             decoder.end_utt() # end utterance
