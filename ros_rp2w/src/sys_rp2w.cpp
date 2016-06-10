@@ -57,6 +57,7 @@ void setMotorSpeeds(int turn_speed, int trav_speed) {
     fail_count++;
     cout << "robot.update failed (" << rc << ") x " << fail_count << endl;
     rc = robot.connect("/dev/ttyUSB0");
+    rc = robot.update();
   }
   if (fail_count > 0) {
     cout << "robot reconnected" << endl;
@@ -101,6 +102,7 @@ int main(int argc, char **argv) {
     fail_count++;
     cout << "robot.update failed (" << rc << ") x " << fail_count << endl;
     rc = robot.connect("/dev/ttyUSB0");
+    rc = robot.update();
   }
   if (fail_count > 0) {
     cout << "robot reconnected" << endl;
