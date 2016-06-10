@@ -52,8 +52,14 @@ void setMotorSpeeds(int turn_speed, int trav_speed) {
   robot.setRightMotorSpeed(r_motor);
   robot.setGPIO1(digital1);
   rc = robot.update();
-  if (rc != rp2w::OK) {
-    cout << "robot.update failed (" << rc << ")" << endl;
+  int fail_count = 0;
+  while (rc != rp2w::OK) {
+    fail_count++;
+    cout << "robot.update failed (" << rc << ") x " << fail_count << endl;
+    rc = robot.connect("/dev/ttyUSB0");
+  }
+  if (fail_count > 0) {
+    cout << "robot reconnected" << endl;
   }
   // cout << "Motor speeds set to TURN SPEED " << turn_speed 
   //      << " And TRAVEL SPEED " << trav_speed << endl;
@@ -90,8 +96,14 @@ int main(int argc, char **argv) {
 
  while (ros::ok()) {
   rc = robot.update();
-  if (rc != rp2w::OK) {
-    cout << "robot.update failed (" << rc << ")" << endl;
+  int fail_count = 0;
+  while (rc != rp2w::OK) {
+    fail_count++;
+    cout << "robot.update failed (" << rc << ") x " << fail_count << endl;
+    rc = robot.connect("/dev/ttyUSB0");
+  }
+  if (fail_count > 0) {
+    cout << "robot reconnected" << endl;
   }
 
   if (msg_mutex.try_lock()) {

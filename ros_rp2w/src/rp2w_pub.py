@@ -12,6 +12,6 @@ if __name__ == '__main__':
         rate.sleep()
     msg = AdvancedCommand()
     msg.theta = 0
-    msg.distance = 1
+    msg.distance = -5
     pub.publish(msg)
     print msg
