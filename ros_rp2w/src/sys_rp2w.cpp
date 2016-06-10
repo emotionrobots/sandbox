@@ -56,6 +56,7 @@ void setMotorSpeeds(int turn_speed, int trav_speed) {
   while (rc != rp2w::OK) {
     fail_count++;
     cout << "robot.update failed (" << rc << ") x " << fail_count << endl;
+    robot = rp2w();
     rc = robot.connect("/dev/ttyUSB0");
     rc = robot.update();
   }
@@ -101,6 +102,7 @@ int main(int argc, char **argv) {
   while (rc != rp2w::OK) {
     fail_count++;
     cout << "robot.update failed (" << rc << ") x " << fail_count << endl;
+    robot = rp2w();
     rc = robot.connect("/dev/ttyUSB0");
     rc = robot.update();
   }
