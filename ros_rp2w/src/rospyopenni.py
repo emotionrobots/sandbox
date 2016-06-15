@@ -154,7 +154,7 @@ if __name__ == '__main__':
 
     while not rospy.is_shutdown():
         capture_rgb()
-        capture_depth()
+        # capture_depth()
         get_joints()
         ctx.wait_any_update_all()
         rate.sleep() 

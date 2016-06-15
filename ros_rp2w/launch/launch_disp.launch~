@@ -4,6 +4,8 @@
 
 <node name="rospyopenni" pkg="ros_rp2w" type="rospyopenni.py" respawn="true" />
 
+<node name="recnora" pkg="ros_rp2w" type="RecNora.py" respawn="true" />
+
 <node name="VRec1" pkg="ros_rp2w" type="VRec1.0.py"  respawn="true" >
 
 <param name="startTrainOrRec" value="rec" />

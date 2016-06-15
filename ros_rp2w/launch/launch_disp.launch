@@ -1,6 +1,6 @@
 <launch>
 
-<node name="rp2w" pkg="ros_rp2w" type="rp2w" respawn="true" />
+<node name="rp2w" pkg="ros_rp2w" type="js_rp2w" respawn="true" />
 
 <node name="rospyopenni" pkg="ros_rp2w" type="rospyopenni.py" respawn="true" />
 
