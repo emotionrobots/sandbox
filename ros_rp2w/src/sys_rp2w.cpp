@@ -14,7 +14,6 @@ using namespace std;
 using namespace LibSerial;
 
 rp2w::Status rc;
-// rp2w robot;
 boost::shared_ptr<rp2w> robot(new rp2w());
 char digital1 = 0;
 char digital2 = 0x0c;
@@ -25,7 +24,7 @@ boost::mutex msg_mutex;
 const double LINEAR_CONVERSION_FACTOR = 760;
 const double ANGULAR_CONVERSION_FACTOR = 860;
 const double LINEAR_CONVERSION = M_PI/LINEAR_CONVERSION_FACTOR*5/12;
-const double ANGULAR_CONVERSION = 1/ANGULAR_CONVERSION_FACTOR*5/12*360;
+const double ANGULAR_CONVERSION = ANGULAR_CONVERSION_FACTOR/5*12/360;
 
 void setMotorSpeeds(int turn_speed, int trav_speed) {
   digital1 = robot->getGPIO1();
@@ -121,6 +120,7 @@ int main(int argc, char **argv) {
   }
   if (msg_mutex.try_lock()) {
     int theta = theta_;
+    int theta_conv = abs(theta*ANGULAR_CONVERSION);
     double distance = distance_;
     theta_ = 0;
     distance_ = 0;
@@ -130,11 +130,7 @@ int main(int argc, char **argv) {
       int start = robot->getEncoderA();
       // int now = robot.getEncoderA();
       // cout << "Start: " << start << endl;
-      while (abs(robot->getEncoderA()-start)*ANGULAR_CONVERSION < abs(theta) 
-        // && (uint8_t)(robot.getFrontSonar()) > 5 
-        // && (uint8_t)(robot.getRearSonar()) > 5
-
-        ) {
+      while (abs(robot->getEncoderA()-start) < theta_conv) {
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;
           break;
