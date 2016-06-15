@@ -21,9 +21,9 @@ int theta_;
 double distance_;
 boost::mutex msg_mutex;
 
-const double LINEAR_CONVERSION_FACTOR = 760;
+const double LINEAR_CONVERSION_FACTOR = 860;
 const double ANGULAR_CONVERSION_FACTOR = 860;
-const double LINEAR_CONVERSION = M_PI/LINEAR_CONVERSION_FACTOR*5/12;
+const double LINEAR_CONVERSION = 1/M_PI*LINEAR_CONVERSION_FACTOR/5*12;
 const double ANGULAR_CONVERSION = ANGULAR_CONVERSION_FACTOR/5*12/360;
 
 void setMotorSpeeds(int turn_speed, int trav_speed) {
@@ -100,6 +100,7 @@ int main(int argc, char **argv) {
  ros::Subscriber sub = n.subscribe("rp2w/advanced_command", 1, command);
  ros::Rate loop_rate(60);
  bool stopped_early;
+ double stopping_distance = 1*LINEAR_CONVERSION;
 
  while (ros::ok()) {
   rc = robot->update();
@@ -122,14 +123,13 @@ int main(int argc, char **argv) {
     int theta = theta_;
     int theta_conv = abs(theta*ANGULAR_CONVERSION);
     double distance = distance_;
+    double distance_conv = abs(theta*LINEAR_CONVERSION);
     theta_ = 0;
     distance_ = 0;
     msg_mutex.unlock();
     stopped_early = false;
     if (theta != 0) {
       int start = robot->getEncoderA();
-      // int now = robot.getEncoderA();
-      // cout << "Start: " << start << endl;
       while (abs(robot->getEncoderA()-start) < theta_conv) {
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;
@@ -143,19 +143,16 @@ int main(int argc, char **argv) {
           // move clockwise
           setMotorSpeeds(-112, 0);
         }
-        // now = robot.getEncoderA();
+        // int now = robot.getEncoderA();
         // cout << now << " " << abs(now-start)*ANGULAR_CONVERSION << endl;
       }
       setMotorSpeeds(0, 0);
       // cout << "End: " << now << endl;
     }
     if (distance != 0) {
-      int start = robot->getEncoderA(), now = robot->getEncoderA();
-      // cout << "Start: " << start << endl;
-      while (abs(now-start)*LINEAR_CONVERSION < abs(distance)
-        // && (uint8_t)(robot.getFrontSonar()) > 5 
-        // && (uint8_t)(robot.getRearSonar()) > 5
-        ) {
+      int start = robot->getEncoderA();
+      double nonstopping_distance = distance_conv - stopping_distance;
+      while (abs(robot->getEncoderA()-start) < nonstopping_distance) {
         // loop_rate.sleep();
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;
@@ -167,7 +164,7 @@ int main(int argc, char **argv) {
             stopped_early = true;
             break;
           }
-          setMotorSpeeds(0, -128);
+          setMotorSpeeds(0, -255);
         }
         else {
           // move backward
@@ -175,9 +172,35 @@ int main(int argc, char **argv) {
             stopped_early = true;
             break;
           }
-          setMotorSpeeds(0, 128);
+          setMotorSpeeds(0, 255);
         }
-        now = robot->getEncoderA();
+        // int now = robot->getEncoderA();
+        // cout << now << endl;
+      }
+      start = robot->getEncoderA();
+      while (abs(robot->getEncoderA()-start) < stopping_distance) {
+        // loop_rate.sleep();
+        if ((uint8_t)(robot->getBumper()) != 0) {
+          stopped_early = true;
+          break;
+        }
+        if (distance > 0) {
+          // move forward
+          if ((uint8_t)(robot->getFrontSonar()) <= 5) {
+            stopped_early = true;
+            break;
+          }
+          setMotorSpeeds(0, -96);
+        }
+        else {
+          // move backward
+          if ((uint8_t)(robot->getRearSonar()) <= 5) {
+            stopped_early = true;
+            break;
+          }
+          setMotorSpeeds(0, 96);
+        }
+        // int now = robot->getEncoderA();
         // cout << now << endl;
       }
       setMotorSpeeds(0, 0);

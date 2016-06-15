@@ -66,7 +66,7 @@ def publisher(done):
 	msg.data= done
 	r = rospy.Rate(1)
 	if not rospy.is_shutdown():
-		#print("Message published")
+		print(msg.data)
 		for x in xrange(5):
 			pub.publish(msg)
 

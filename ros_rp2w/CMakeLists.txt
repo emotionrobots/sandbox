@@ -166,16 +166,16 @@ add_executable(sys_rp2w src/sys_rp2w.cpp src/rp2w_serial.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(rp2w ros_rp2w_generate_messages_cpp)
+# add_dependencies(rp2w ros_rp2w_generate_messages_cpp)
 add_dependencies(controller ros_rp2w_generate_messages_cpp)
 add_dependencies(js_rp2w ros_rp2w_generate_messages_cpp)
 add_dependencies(sys_rp2w ros_rp2w_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(rp2w
-  ${catkin_LIBRARIES}
-  serial
-)
+#target_link_libraries(rp2w
+#  ${catkin_LIBRARIES}
+#  serial
+#)
 target_link_libraries(controller
   ${catkin_LIBRARIES}
 )

@@ -159,7 +159,7 @@ include_directories(
 # add_dependencies(ros_rp2w ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(rp2w src/rp2w.cpp src/rp2w_serial.cpp)
+# add_executable(rp2w src/rp2w.cpp src/rp2w_serial.cpp)
 add_executable(controller src/controller.cpp src/joystick.cpp)
 add_executable(js_rp2w src/js_rp2w.cpp src/rp2w_serial.cpp)
 add_executable(sys_rp2w src/sys_rp2w.cpp src/rp2w_serial.cpp)
