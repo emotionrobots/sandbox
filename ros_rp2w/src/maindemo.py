@@ -20,7 +20,7 @@ import pygame
 global gesture1
 gesture1=''
 global name
-name = "aurash"
+name = "scott"
 global name2
 name2 = ""
 first = True
