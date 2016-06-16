@@ -152,6 +152,8 @@ int main(int argc, char **argv) {
     if (distance != 0) {
       int start = robot->getEncoderA();
       double nonstopping_distance = distance_conv - stopping_distance;
+      cout << "NStopping: " << stopping_distance/LINEAR_CONVERSION << endl;
+      cout << "Nonstopping: " << nonstopping_distance/LINEAR_CONVERSION << endl;
       while (abs(robot->getEncoderA()-start) < nonstopping_distance) {
         // loop_rate.sleep();
         if ((uint8_t)(robot->getBumper()) != 0) {
