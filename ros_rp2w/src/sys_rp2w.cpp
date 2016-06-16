@@ -123,7 +123,7 @@ int main(int argc, char **argv) {
     int theta = theta_;
     int theta_conv = abs(theta*ANGULAR_CONVERSION);
     double distance = distance_;
-    double distance_conv = abs(theta*LINEAR_CONVERSION);
+    double distance_conv = abs(distance*LINEAR_CONVERSION);
     theta_ = 0;
     distance_ = 0;
     msg_mutex.unlock();
@@ -177,8 +177,7 @@ int main(int argc, char **argv) {
         // int now = robot->getEncoderA();
         // cout << now << endl;
       }
-      start = robot->getEncoderA();
-      while (abs(robot->getEncoderA()-start) < stopping_distance) {
+      while (abs(robot->getEncoderA()-start) < distance_conv) {
         // loop_rate.sleep();
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;

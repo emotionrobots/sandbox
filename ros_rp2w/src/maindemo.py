@@ -126,7 +126,7 @@ def callbackFaceMsg(data):
 def callbackPacket(data):
 	global blockedfront
 	global blockedrear
-	global blockedbumber
+	global blockedbumper
 	global stopped
 	global moving
 	global battery
@@ -134,7 +134,7 @@ def callbackPacket(data):
 	stopped=False
 	blockedfront=False
 	blockedrear=False
-	blockedbumber=False
+	blockedbumper=False
 	with lock:
 		#print("Packet received")
 		commands[3] = False
@@ -159,7 +159,7 @@ def callbackPacket(data):
 		else:
 			blockedfront=False
 			blockedrear=False
-			blockedbumber=False	
+			blockedbumper=False	
 		if(data.rightMotorSpeed == 0 and data.leftMotorSpeed == 0):
 			commands[5] = False
 			stopped=True
@@ -387,12 +387,12 @@ def move(arg1, arg2):
 			# print not blocked
 			# print dstorso>914
 			# print lockon
-			if found and not lockon and not blockedfront and not blockedbumber and utter==' follow':
+			if found and not lockon and not blockedfront and not blockedbumper and utter==' follow':
 				tts_client('I lost you, please place your hands up')
 				oncelocked=False
 				time.sleep(2)
 			spincount=0	
-			while found and lockon and dstorso>1219  and not blockedfront and not blockedbumber and utter==' follow':
+			while found and lockon and dstorso>1219  and not blockedfront and not blockedbumper and utter==' follow':
 				#tts_client('Okay')
 				#lockon=False
 				#utter=''
@@ -453,7 +453,7 @@ def move(arg1, arg2):
 				time.sleep(toMove+.5)
 			
 				#found=False
-			# if found and lockon and dstorso>914 and not blockedfront and not blockedbumber and utter==' follow':
+			# if found and lockon and dstorso>914 and not blockedfront and not blockedbumper and utter==' follow':
 			# 	tts_client('I will move closer to you')
 			# 	utter=''
 			# 	toMove=round(((dstorso-914)*0.00328084),0)
@@ -463,14 +463,14 @@ def move(arg1, arg2):
 			# 	movedonce=True
 			# 	time.sleep(toMove+1.5)
 			# 	found=False
-			# if found and not lockon and not blockedfront and not blockedbumber and utter==' follow':
+			# if found and not lockon and not blockedfront and not blockedbumper and utter==' follow':
 			# 	tts_client('I lost you, please place your hands up')
 			# 	time.sleep(2)
 		except Exception, e:
 			print e	
 		try:
 			spincount=0	
-			while found and lockon and dstorso<1219  and not blockedrear and not blockedbumber and utter==' follow':
+			while found and lockon and dstorso<1219  and not blockedrear and not blockedbumper and utter==' follow':
 					#tts_client('Okay')
 					#lockon=False
 					#utter=''
@@ -528,7 +528,7 @@ def move(arg1, arg2):
 				time.sleep(toMove+.5)
 				
 					#found=False
-				# if found and lockon and dstorso>914 and not blockedfront and not blockedbumber and utter==' follow':
+				# if found and lockon and dstorso>914 and not blockedfront and not blockedbumper and utter==' follow':
 				# 	tts_client('I will move closer to you')
 				# 	utter=''
 				# 	toMove=round(((dstorso-914)*0.00328084),0)
@@ -538,7 +538,7 @@ def move(arg1, arg2):
 				# 	movedonce=True
 				# 	time.sleep(toMove+1.5)
 				# 	found=False
-				# if found and not lockon and not blockedfront and not blockedbumber and utter==' follow':
+				# if found and not lockon and not blockedfront and not blockedbumper and utter==' follow':
 				# 	tts_client('I lost you, please place your hands up')
 				# 	time.sleep(2)
 		except Exception, e:
@@ -549,7 +549,7 @@ def move(arg1, arg2):
 			# print not blocked
 			#print stopped
 			#print utter
-			if found and lockon and not blockedfront and not blockedrear and not blockedbumber and stopped and utter==" move there":
+			if found and lockon and not blockedfront and not blockedrear and not blockedbumper and stopped and utter==" move there":
 				spinleft=False
 				spinright=False
 				utter=''
@@ -569,7 +569,7 @@ def move(arg1, arg2):
 				time.sleep(3+timer)
 				found=False
 				lockon=False
-			if found and not lockon and not blockedfront and not blockedrear and not blockedbumber and stopped and utter==' move there':
+			if found and not lockon and not blockedfront and not blockedrear and not blockedbumper and stopped and utter==' move there':
 				tts_client('I lost you, please place your hands up')
 				time.sleep(2)	
 				oncelocked=False
@@ -592,7 +592,7 @@ def move(arg1, arg2):
 				# print str(heady)+ '   ' +str(handr)
 				while handr-handl>200 and handl<heady and handr>heady and utter==" control":
 					turnright=True
-					if turnright and stopped and not blockedbumber and not blockedfront and not blockedrear:
+					if turnright and stopped and not blockedbumper and not blockedfront and not blockedrear:
 						theta=-90
 						publishMove(theta,0)
 						lockon=False
@@ -602,7 +602,7 @@ def move(arg1, arg2):
 						time.sleep(1.5)
 				while handl-handr>200 and handr<heady and handl>heady and utter==" control":
 					turnleft=True
-					if turnleft and stopped and not blockedbumber and not blockedfront and not blockedrear:
+					if turnleft and stopped and not blockedbumper and not blockedfront and not blockedrear:
 						theta=90
 						publishMove(theta,0)
 						lockon=False
@@ -612,14 +612,14 @@ def move(arg1, arg2):
 						time.sleep(1.5)	
 				while handr<heady and handl<heady:
 					forward=True
-					if forward and stopped and not blockedbumber and not blockedfront and utter==" control":
+					if forward and stopped and not blockedbumper and not blockedfront and utter==" control":
 						distance=1
 						publishMove(0,distance)
 						lockon=False
 						time.sleep(1.15)
 				while headd-handrd>650 and headd-handld>650:
 				 	backward=True
-				 	if backward and stopped and not blockedbumber and not blockedrear and utter==" control":
+				 	if backward and stopped and not blockedbumper and not blockedrear and utter==" control":
 						distance=-1
 						publishMove(0,distance)	
 						lockon=False
@@ -655,7 +655,7 @@ def move(arg1, arg2):
 			count2=0
 			while not found and stopped and movedonce and utter==' find me': #and not lockon
 				looking=True
-				if count2>8 and not blockedfront  and not blockedbumber and stopped:
+				if count2>8 and not blockedfront  and not blockedbumper and stopped:
 					tts_client("where are you,"+name)
 					publishMove(0,2)
 					time.sleep(2)
@@ -667,16 +667,16 @@ def move(arg1, arg2):
 					tts_client("I'm looking for you")
 					#time.sleep(1)	
 				time.sleep(1)
-				if not found and not blockedbumber :	
+				if not found and not blockedbumper :	
 					if spinright:
 						publishMove(-45,0)
 					elif spinleft:
 						publishMove(45,0)
 					time.sleep(2)
-				elif not found and not blockedbumber and blockedrear:
+				elif not found and not blockedbumper and blockedrear:
 					publishMove(0,1)
 					time.sleep(1.5)	
-				elif not found and not blockedbumber and blockedfront:
+				elif not found and not blockedbumper and blockedfront:
 					publishMove(0,-1)
 					time.sleep(1.5)		
 				count2=count2+1
@@ -685,13 +685,13 @@ def move(arg1, arg2):
 		try:			
 			if  stopped and utter==' turn':
 				tts_client("okay" )
-				if   not blockedbumber and not blockedrear:	
+				if   not blockedbumper and not blockedrear:	
 					publishMove(180,0)
 					time.sleep(3)
-				elif  not blockedbumber and blockedrear:
+				elif  not blockedbumper and blockedrear:
 					publishMove(0,1)
 					time.sleep(1.5)	
-				elif  not blockedbumber and blockedfront:
+				elif  not blockedbumper and blockedfront:
 					publishMove(0,-1)
 					time.sleep(1.5)
 				utter=''
