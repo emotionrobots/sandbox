@@ -18,8 +18,10 @@
 
 <node name="tts_service" pkg="ros_rp2w" type="festserv.py" respawn="true" />
 
+
+
 <node name="handtracker" pkg="ros_rp2w" type="pyhandtracker.py" respawn="true" />
 
-<node name="maindemo" pkg = "ros_rp2w" type="maindemo.py" respawn="true" />
+
 
 </launch>
