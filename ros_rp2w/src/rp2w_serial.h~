@@ -123,10 +123,10 @@ private:
    BYTE encoderB_2;
    BYTE encoderB_3;
    BYTE encoderB_4;
-   char batteryVoltage;
-   char frontSonar;
-   char rearSonar;
-   char bumper;
+   BYTE batteryVoltage;
+   BYTE frontSonar;
+   BYTE rearSonar;
+   BYTE bumper;
 };
 
 #endif  // __RP2W_SERIAL_H__

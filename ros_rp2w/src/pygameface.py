@@ -32,19 +32,22 @@ def callback(data):
 	with lock:
 		text = str(data.data)
 		# print text
-		index = text.index(" ",0,len(text))
-		emotion = text[:index];
-		print emotion
-		for x in xrange(0, 7):
-			if(emotions[x] == emotion):
-				global wanted
-				wanted = float(text[index+1:])/100.0
-				global direcpos
-				global pos
-				direcpos = x
-				if(pos == -1):
-					pos = x
-					emotionamts[pos] = wanted
+		try:
+			index = text.index(" ",0,len(text))
+			emotion = text[:index];
+			print emotion
+			for x in xrange(0, 7):
+				if(emotions[x] == emotion):
+					global wanted
+					wanted = float(text[index+1:])/100.0
+					global direcpos
+					global pos
+					direcpos = x
+					if(pos == -1):
+						pos = x
+						emotionamts[pos] = wanted
+		except Exception, e:
+			print "hi"
 				# print wanted
 	# print emotion +" "+ str(emotionamts) +" "+str(pos) + " "+str(wanted)
 

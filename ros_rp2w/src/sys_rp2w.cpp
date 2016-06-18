@@ -21,34 +21,34 @@ int theta_;
 double distance_;
 boost::mutex msg_mutex;
 
-const double LINEAR_CONVERSION_FACTOR = 860;
-const double ANGULAR_CONVERSION_FACTOR = 860;
+const double LINEAR_CONVERSION_FACTOR = 840;
+const double ANGULAR_CONVERSION_FACTOR = 840;
 const double LINEAR_CONVERSION = 1/M_PI*LINEAR_CONVERSION_FACTOR/5*12;
 const double ANGULAR_CONVERSION = ANGULAR_CONVERSION_FACTOR/5*12/360;
 
 void setMotorSpeeds(int turn_speed, int trav_speed) {
   digital1 = robot->getGPIO1();
-  int l_speed = trav_speed + turn_speed;
-  int r_speed = trav_speed - turn_speed;
-  if (l_speed >= 0) {
+  int left_speed = trav_speed + turn_speed;
+  int right_speed = trav_speed - turn_speed;
+  if (left_speed >= 0) {
     digital1 &= ~(0x80);
   }
   else {
     digital1 |= 0x80;
   }
-  if (r_speed >= 0) {
+  if (right_speed >= 0) {
     digital1 &= ~(0x40);
   }
   else {
     digital1 |= 0x40;
   }
-  char l_motor = abs(l_speed);
-  char r_motor = abs(r_speed);
-  // ROS_INFO("Left Motor: %u", (unsigned char)(l_motor));
-  // ROS_INFO("Right Motor: %u", (unsigned char)(r_motor));
-  robot->setLeftMotorSpeed(l_motor);
-  robot->setRightMotorSpeed(r_motor);
+  char left_motor = abs(left_speed);
+  char right_motor = abs(right_speed);
+  // ROS_INFO("Left Motor: %u", (unsigned char)(left_motor));
+  // ROS_INFO("Right Motor: %u", (unsigned char)(right_motor));
   robot->setGPIO1(digital1);
+  robot->setLeftMotorSpeed(left_motor);
+  robot->setRightMotorSpeed(right_motor);
   rc = robot->update();
   int fail_count = 0;
   while (rc != rp2w::OK) {
@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
  rc = robot->connect("/dev/ttyUSB0");
  rc = robot->update();
  if (rc != rp2w::OK) {
-   cout << "No RP2W robot. " << endl;
+   ROS_ERROR("No RP2W robot.");
    return 1;
  }
  else {
@@ -94,7 +94,10 @@ int main(int argc, char **argv) {
 
  robot->setGPIO1(digital1);
  robot->setGPIO2(digital2);
- setMotorSpeeds(0, 0);
+ robot->setLeftMotorSpeed(0);
+ robot->setRightMotorSpeed(0);
+ robot->setCameraPan(0);
+ robot->setCameraTilt(0);
  
  ros::Publisher pub = n.advertise<ros_rp2w::Packet>("rp2w_packet", 10);
  ros::Subscriber sub = n.subscribe("rp2w/advanced_command", 1, command);
@@ -118,6 +121,8 @@ int main(int argc, char **argv) {
     digital2 = 0;
     robot->setGPIO1(digital1);
     robot->setGPIO2(digital2);
+    robot->setLeftMotorSpeed(0);
+    robot->setRightMotorSpeed(0);
   }
   if (msg_mutex.try_lock()) {
     int theta = theta_;
@@ -131,6 +136,8 @@ int main(int argc, char **argv) {
     if (theta != 0) {
       int start = robot->getEncoderA();
       while (abs(robot->getEncoderA()-start) < theta_conv) {
+        ros::spinOnce();
+        loop_rate.sleep();
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;
           ROS_ERROR("Bumper on. Stopped early");
@@ -144,20 +151,17 @@ int main(int argc, char **argv) {
           // move clockwise
           setMotorSpeeds(-112, 0);
         }
-        // int now = robot.getEncoderA();
-        // cout << now << " " << abs(now-start)*ANGULAR_CONVERSION << endl;
       }
       setMotorSpeeds(0, 0);
-      // cout << "End: " << now << endl;
     }
     if (distance != 0) {
       int start = robot->getEncoderA();
       double nonstopping_distance = distance_conv - stopping_distance;
-      cout << "NStopping: " << stopping_distance/LINEAR_CONVERSION << endl;
-      cout << "Nonstopping: " << nonstopping_distance/LINEAR_CONVERSION << endl;
+      // cout << "NStopping: " << stopping_distance/LINEAR_CONVERSION << endl;
+      // cout << "Nonstopping: " << nonstopping_distance/LINEAR_CONVERSION << endl;
       while (abs(robot->getEncoderA()-start) < nonstopping_distance) {
-        // loop_rate.sleep();
-        cout << robot->getEncoderA() << endl;
+        ros::spinOnce();
+        loop_rate.sleep();
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;
           ROS_ERROR("Bumper on. Stopped early");
@@ -170,7 +174,7 @@ int main(int argc, char **argv) {
             ROS_ERROR("Front sonar on. Stopped early");
             break;
           }
-          setMotorSpeeds(0, -255);
+          setMotorSpeeds(0, -192);
         }
         else {
           // move backward
@@ -179,38 +183,40 @@ int main(int argc, char **argv) {
             ROS_ERROR("Rear sonar on. Stopped early");
             break;
           }
-          setMotorSpeeds(0, 255);
+          setMotorSpeeds(0, 192);
         }
         // int now = robot->getEncoderA();
         // cout << now << endl;
       }
       while (abs(robot->getEncoderA()-start) < distance_conv) {
-        // loop_rate.sleep();
-        cout << robot->getEncoderA() << endl;
+        ros::spinOnce();
+        loop_rate.sleep();
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;
+          ROS_ERROR("Bumper on. Stopped early");
           break;
         }
         if (distance > 0) {
           // move forward
           if ((uint8_t)(robot->getFrontSonar()) <= 5) {
             stopped_early = true;
+            ROS_ERROR("Front sonar on. Stopped early");
             break;
           }
-          setMotorSpeeds(0, -96);
+          setMotorSpeeds(0, -112);
         }
         else {
           // move backward
           if ((uint8_t)(robot->getRearSonar()) <= 5) {
             stopped_early = true;
+            ROS_ERROR("Rear sonar on. Stopped early");
             break;
           }
-          setMotorSpeeds(0, 96);
+          setMotorSpeeds(0, 112);
         }
         // int now = robot->getEncoderA();
         // cout << now << endl;
       }
-      cout << robot->getEncoderA() << endl;
       setMotorSpeeds(0, 0);
       // cout << "End: " << now << endl;
     }
@@ -247,3 +253,5 @@ int main(int argc, char **argv) {
 
 return 0;
 }
+
+

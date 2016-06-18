@@ -115,14 +115,14 @@ private:
    char digital2;
 
    // Sensors from robot
-   char encoderA_1;
-   char encoderA_2;
-   char encoderA_3;
-   char encoderA_4;
-   char encoderB_1;
-   char encoderB_2;
-   char encoderB_3;
-   char encoderB_4;
+   BYTE encoderA_1;
+   BYTE encoderA_2;
+   BYTE encoderA_3;
+   BYTE encoderA_4;
+   BYTE encoderB_1;
+   BYTE encoderB_2;
+   BYTE encoderB_3;
+   BYTE encoderB_4;
    char batteryVoltage;
    char frontSonar;
    char rearSonar;

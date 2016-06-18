@@ -14,7 +14,6 @@
  </node>
 
 
-<node name="pygameface" pkg="ros_rp2w" type="pygameface.py" respawn="true" />
 
 <node name="tts_service" pkg="ros_rp2w" type="festserv.py" respawn="true" />
 
@@ -22,4 +21,5 @@
 
 <node name="maindemo" pkg = "ros_rp2w" type="maindemo.py" respawn="true" />
 
+<node name="pygameface" pkg="ros_rp2w" type="pygameface.py" respawn="true" />
 </launch>

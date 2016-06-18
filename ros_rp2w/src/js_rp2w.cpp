@@ -97,9 +97,9 @@ int main(int argc, char **argv) {
         packet.digital2 = (uint8_t)(robot.getGPIO2());
 
         // cout << "PAN: " << packet.cameraPan << ", TILT: " << packet.cameraTilt << endl;
-        packet.encoderA = (int32_t)(robot.getEncoderA());
+        packet.encoderA = (uint32_t)(robot.getEncoderA());
         // cout << packet.encoderA << endl;
-        packet.encoderB = (int32_t)(robot.getEncoderB());
+        packet.encoderB = (uint32_t)(robot.getEncoderB());
         // cout << packet.encoderB << endl;
         packet.batteryVoltage = (uint8_t)(robot.getBatteryVoltage());
         // ROS_INFO("battery voltage: %u", (unsigned char)(packet.batteryVoltage));

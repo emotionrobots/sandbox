@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
     fd = open_joystick(argv[1]);
     if (fd < 0) {
        cerr << "No joystick at " << argv[1] << endl;
-       return 1;
+       // return 1;
     }
  
     rc = robot.connect("/dev/ttyUSB0");
@@ -120,7 +120,8 @@ int main(int argc, char *argv[])
 
     printf("servo_pwr: %u\n", (unsigned char)(servo_pwr));
 
-    // trav_speed = 50;
+    int count = 0;
+    trav_speed = 192;
 
     while (!done) {
 
@@ -140,7 +141,7 @@ int main(int argc, char *argv[])
        if (rc != rp2w::OK)
            cerr << "robot.update failed (" << rc << ")" << endl;
 
-// #if 0
+ #if 0
         if (read_joystick_event(&jse)) {
         //  printf("Joystick type=%2d num=%2d\n", jse.type, jse.number);
 
@@ -205,7 +206,7 @@ int main(int argc, char *argv[])
 
        } // end if
 
-// #endif
+ #endif
        left_speed = trav_speed + turn_speed;
        right_speed = trav_speed - turn_speed;
        left_motor = abs(left_speed);
@@ -231,7 +232,9 @@ int main(int argc, char *argv[])
        robot.setCameraPan(pan_pos);
        robot.setCameraTilt(tilt_pos);
 
-      cout << robot.getEncoderA() << ", " << robot.getEncoderB() << endl;
+      count++;
+      // if (count % 5 == 0)
+        cout << robot.getEncoderA() << "," << robot.getEncoderB() << endl;
 
       // cout << "PAN: " << robot.getCameraPan() << ", TILT: " << robot.getCameraTilt() << endl;
 

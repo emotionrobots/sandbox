@@ -32,6 +32,7 @@ global command
 command = -1
 global prev
 prev = -1
+global commands
 commands= [False for i in range(11)]
 global found
 found=False
@@ -59,20 +60,22 @@ onlyone=True
 global handrd
 global heady
 global headd
+global pub; pub = rospy.Publisher('emotion', String,queue_size=1)
+global pub2; pub2 = rospy.Publisher("rp2w/advanced_command", AdvancedCommand, queue_size=1)
 
 def publisher(done):
-	pub = rospy.Publisher('emotion', String,queue_size=1)
+	print "Published Message"
 	msg=String()
 	msg.data= done
-	r = rospy.Rate(1)
+	r = rospy.Rate(10)
 	if not rospy.is_shutdown():
 		print(msg.data)
-		for x in xrange(5):
-			pub.publish(msg)
+		while pub.get_num_connections() == 0:
+			r.sleep()
+		pub.publish(msg)
 
 def publishMove(theta,distance):
     commands[5] = True
-    pub2 = rospy.Publisher("rp2w/advanced_command", AdvancedCommand, queue_size=1)
     rate = rospy.Rate(10) # 10hz
     # while not rospy.is_shutdown():
     while pub2.get_num_connections() == 0:
@@ -709,7 +712,7 @@ def func(delay):
 	global prev
 	global command
 	global val
-	#print (str(prev)+" "+str(command))
+	print (str(prev)+" "+str(command))
 	if(not prev == command):
 		val = 0
 	prev = command
