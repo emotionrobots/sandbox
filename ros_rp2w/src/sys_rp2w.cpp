@@ -133,6 +133,7 @@ int main(int argc, char **argv) {
       while (abs(robot->getEncoderA()-start) < theta_conv) {
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;
+          ROS_ERROR("Bumper on. Stopped early");
           break;
         }
         if (theta >= 0) {
@@ -156,14 +157,17 @@ int main(int argc, char **argv) {
       cout << "Nonstopping: " << nonstopping_distance/LINEAR_CONVERSION << endl;
       while (abs(robot->getEncoderA()-start) < nonstopping_distance) {
         // loop_rate.sleep();
+        cout << robot->getEncoderA() << endl;
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;
+          ROS_ERROR("Bumper on. Stopped early");
           break;
         }
         if (distance > 0) {
           // move forward
           if ((uint8_t)(robot->getFrontSonar()) <= 5) {
             stopped_early = true;
+            ROS_ERROR("Front sonar on. Stopped early");
             break;
           }
           setMotorSpeeds(0, -255);
@@ -172,6 +176,7 @@ int main(int argc, char **argv) {
           // move backward
           if ((uint8_t)(robot->getRearSonar()) <= 5) {
             stopped_early = true;
+            ROS_ERROR("Rear sonar on. Stopped early");
             break;
           }
           setMotorSpeeds(0, 255);
@@ -181,6 +186,7 @@ int main(int argc, char **argv) {
       }
       while (abs(robot->getEncoderA()-start) < distance_conv) {
         // loop_rate.sleep();
+        cout << robot->getEncoderA() << endl;
         if ((uint8_t)(robot->getBumper()) != 0) {
           stopped_early = true;
           break;
@@ -204,6 +210,7 @@ int main(int argc, char **argv) {
         // int now = robot->getEncoderA();
         // cout << now << endl;
       }
+      cout << robot->getEncoderA() << endl;
       setMotorSpeeds(0, 0);
       // cout << "End: " << now << endl;
     }
