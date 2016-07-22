@@ -94,16 +94,16 @@ int main(int argc, char *argv[])
     struct js_event jse;
     int fd;
   
-    if (argc != 2) {
-       cout << "Usage: testapp <joystick>" << endl;
-       exit (-1);
-    }
+    // if (argc != 2) {
+    //    cout << "Usage: testapp <joystick>" << endl;
+    //    exit (-1);
+    // }
  
-    fd = open_joystick(argv[1]);
-    if (fd < 0) {
-       cerr << "No joystick at " << argv[1] << endl;
-       // return 1;
-    }
+    // fd = open_joystick(argv[1]);
+    // if (fd < 0) {
+    //    cerr << "No joystick at " << argv[1] << endl;
+    //    // return 1;
+    // }
  
     rc = robot.connect("/dev/ttyUSB0");
     if (rc != rp2w::OK) {
@@ -232,9 +232,9 @@ int main(int argc, char *argv[])
        robot.setCameraPan(pan_pos);
        robot.setCameraTilt(tilt_pos);
 
-      count++;
+      // count++;
       // if (count % 5 == 0)
-        cout << robot.getEncoderA() << "," << robot.getEncoderB() << endl;
+        // cout << robot.getEncoderA() << "," << robot.getEncoderB() << endl;
 
       // cout << "PAN: " << robot.getCameraPan() << ", TILT: " << robot.getCameraTilt() << endl;
 
