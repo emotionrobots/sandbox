@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
     printf("servo_pwr: %u\n", (unsigned char)(servo_pwr));
 
     int count = 0;
-    trav_speed = 192;
+    // trav_speed = 192;
 
     while (!done) {
 
