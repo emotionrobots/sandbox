@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+
+import ast
+
+def test(city):
+    dictionary = {'apple', 'orange', 'pineapple'}
+    print dictionary[1]
+if __name__ == "__main__":
+    test('SugarLand')

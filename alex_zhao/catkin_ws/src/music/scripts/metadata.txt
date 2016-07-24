@@ -1,0 +1,3 @@
+{'genre': 'Folk rock', 'song_name': 'Renegades', 'album_name': 'VHS', 'artist_name': 'X Ambassadors'}
+{'genre': 'EDM', 'song_name': 'Flight', 'album_name': 'Aftermath', 'artist_name': 'Tristam & Braken'}
+{'genre': 'EDM', 'song_name': 'Oops', 'album_name': 'None', 'artist_name': 'Martin Garrix'}
