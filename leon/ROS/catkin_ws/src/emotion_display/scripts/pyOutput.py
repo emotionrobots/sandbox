@@ -66,7 +66,7 @@ def callbackPacket(data):
 	with lock:
 		print("Packet received")
 		commands[3] = False
-		com0ommands[4] = False
+		commands[4] = False
 		if(data.batteryVoltage < 30):
 			commands[3] = True
 		elif(data.rearSonar <= 2 or data.frontSonar<= 2 or data.bumper<=2):
