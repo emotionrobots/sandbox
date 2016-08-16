@@ -1,4 +1,4 @@
-FILE(REMOVE_RECURSE
+file(REMOVE_RECURSE
   "CMakeFiles/DLIB_generate_messages_lisp"
   "/home/julian/sandbox/jpham18/ROS/catkin_ws/devel/share/common-lisp/ros/DLIB/msg/Face.lisp"
   "/home/julian/sandbox/jpham18/ROS/catkin_ws/devel/share/common-lisp/ros/DLIB/msg/face_p.lisp"
@@ -9,6 +9,6 @@ FILE(REMOVE_RECURSE
 )
 
 # Per-language clean rules from dependency scanning.
-FOREACH(lang)
-  INCLUDE(CMakeFiles/DLIB_generate_messages_lisp.dir/cmake_clean_${lang}.cmake OPTIONAL)
-ENDFOREACH(lang)
+foreach(lang)
+  include(CMakeFiles/DLIB_generate_messages_lisp.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

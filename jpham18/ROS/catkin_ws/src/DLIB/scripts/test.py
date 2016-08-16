@@ -38,7 +38,7 @@ def main():
 		for y in range(7 * x, 7 * (x+1)):	
 			list = []
 			start = True
-			image = cv2.imread("./EmotionDatabase/" + files[y], cv2.IMREAD_GRAYSCALE)
+			image = cv2.imread("./EmotionDatabase/" + files[y])
 			dets = detector(image, 0)
 			if(start == False):
 				list = list.tolist()
@@ -50,27 +50,30 @@ def main():
 			list = np.array(list)
 			start = False
 			DLIBlandmarking.draw_landmarks(image, list, False)	
-			print list
+			# print list
 			emotions[y%7] = findEmotion(list) 
 			# print emotions		
 			cv2.namedWindow("test", cv2.WINDOW_NORMAL)
 			cv2.imshow("test", image)
 			cv2.waitKey(1)
 		addAnother(emotions)
+		print ""
 
 def trainSVM():
 	print "test1"
+	
 	global feature_vector
-	SVM = SVC(probability=True)
+	SVM = SVC(C=.5, probability=True)
+	# SVM = LinearSVC(C=1)
 	emotion_list = np.array(['neutral', 'happy', 'sad', 'anger', 'disgust', 'fear', 'surprise'] * (len(feature_vector)/7))
 	print "test2"
-	feature_vector = feature_vector * 200
+	feature_vector = feature_vector * 100
 	print "test3"
-	emotion_list = emotion_list.tolist() * 200
+	emotion_list = emotion_list.tolist() * 100
 	print "test4"
-	print feature_vector	
+	# print feature_vector	
 	print len(feature_vector)
-	print emotion_list
+	# print emotion_list
 	print len(emotion_list)
 	SVM.fit(feature_vector, emotion_list)
 	print "test5"

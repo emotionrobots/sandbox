@@ -4,6 +4,7 @@
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
-SUBDIRS(gtest)
-SUBDIRS(DLIB)
-SUBDIRS(EmotionDetectionDisplay)
+subdirs(gtest)
+subdirs(DLIB)
+subdirs(EmotionDetectionDisplay)
+subdirs(hand_detection)

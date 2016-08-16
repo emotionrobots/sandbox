@@ -1,4 +1,4 @@
-FILE(REMOVE_RECURSE
+file(REMOVE_RECURSE
   "CMakeFiles/DLIB_generate_messages_py"
   "/home/julian/sandbox/jpham18/ROS/catkin_ws/devel/lib/python2.7/dist-packages/DLIB/msg/_Face.py"
   "/home/julian/sandbox/jpham18/ROS/catkin_ws/devel/lib/python2.7/dist-packages/DLIB/msg/_face_p.py"
@@ -11,6 +11,6 @@ FILE(REMOVE_RECURSE
 )
 
 # Per-language clean rules from dependency scanning.
-FOREACH(lang)
-  INCLUDE(CMakeFiles/DLIB_generate_messages_py.dir/cmake_clean_${lang}.cmake OPTIONAL)
-ENDFOREACH(lang)
+foreach(lang)
+  include(CMakeFiles/DLIB_generate_messages_py.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

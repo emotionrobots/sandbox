@@ -24,6 +24,8 @@ FILENAME =  '/tmp/out.webm'
 frames=None
 global odd
 odd = 1
+global myEmotion
+myEmotion = "Neutral"
 
 def video_config():
 	"""Initialize video capture, pass filename bya
@@ -154,15 +156,16 @@ def draw_landmarks(frame, landmarks, printScale):
 	return
 
 def displayEmotion(landmarks, frame):
+	global myEmotion
 	featureVector = joblib.load("emotionDataBase.bin")
-	featureVector.set_params(probability=True)
+	# featureVector.set_params(probability=True)
 	# print featureVector
 	detect = detectEmotion(landmarks)
 	# print detect
 	myEmotion = str(featureVector.predict(detect))
 	# print myEmotion	+ "   " + str(x)
-	probArr = featureVector.predict_proba(detect)
-	probArr = probArr * 100
+	# probArr = featureVector.predict_proba(detect)
+	# probArr = probArr * 100
 	# print landmarks
 	# print myEmotion
 	# print probArr
@@ -170,7 +173,7 @@ def displayEmotion(landmarks, frame):
 	# probability2 = "Disgust: " + str(probArr[0][1]) + "  Fear: " + str(probArr[0][2]) + "  Surprise: " + str(probArr[0][6])
 	cv2.putText(frame, myEmotion, (mylandmarks[0][0] - 50, mylandmarks[0][1]-50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
 	# cv2.putText(frames, myEmotion, (550, 50), cv2.FONT_HERSHEY_SIMPLEX, .6, 255)
-	publisher(myEmotion, probArr.max())
+	# publisher(myEmotion, probArr.max())
 	return #[myEmotion, probArr]
 
 def detectEmotion(landmarks):
@@ -294,7 +297,7 @@ def draw_face(landmarks, frame):
 	# draw_face_outline(frame, landmarks)
 	# draw_lefteye(frame, landmarks)
 	# draw_lefteyebrow(frame, landmarks)
-	# draw_righteye(frame, landmarks)
+	# draw_righteye(pos_frame, landmarks)
 	# draw_righteyebrow(frame, landmarks)
 	# draw_nosebridge(frame, landmarks)
 	# draw_nose(frame, landmarks)
@@ -325,45 +328,37 @@ def listener():
 	rospy.Subscriber("rgb", String, callback)
 	rospy.Subscriber("face_points", face_p, callback2)
 	rospy.spin()
-	cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)
 
 
 def callback(data):
 	global frame
 	frame = np.fromstring(data.data, dtype=np.uint8).reshape(480, 640, 3)
 
-
-
 def callback2(data):
-
 	global mylandmarks
 	mylandmarks = []
 	alllandmarks = np.array(data.arr.data)
 	global filename
 	filename = os.getcwd()
 	done = False
-	# print len(alllandmarks)
+	print len(alllandmarks)
 	# print alllandmarks
 	global frame
-	numFaces = len(alllandmarks) / 135
+	numFaces = len(alllandmarks) / 136
 	faceArr = [];
+	print numFaces
 	for num in range (0,numFaces):
 		faceArr.append([])
-		for num2 in range(0,135):
-			print num2 +(num * 135)
-			faceArr[num].append(alllandmarks[num2 +(num * 135)])
-	# print "faceArr" + str(faceArr)	
-	count = 0
+		for num2 in range(0,136):
+			print num2 +(num * 136)
+			faceArr[num].append(alllandmarks[num2 +(num * 136)])
+	# print "faceArr" + str(faceArr)
 	for arr in faceArr:
-		print arr
-		for x in range(0,len(arr) - 2):
-			if count % 2 == 0:
-				if x % 2 == 0:
-					mylandmarks = mylandmarks + [[arr[x],arr[x+1]]]
-			else:
-				if x % 2 == 0:
-					mylandmarks = mylandmarks + [[arr[x+1],arr[x]]]
-		count = count + 1
+		# print arr
+		for x in range(0,len(arr) - 1):
+			if x % 2 == 0:	
+				print x
+				mylandmarks = mylandmarks + [[arr[x],arr[x+1]]]
 		# print (mylandmarks)
 		# print "person" + str(y)
 		mylandmarks = np.array(mylandmarks)
@@ -371,10 +366,11 @@ def callback2(data):
 		draw_face(mylandmarks, frame)
 		mylandmarks = []
 		# cv2.putText(frame, "person: " + str(y + 1), (), cv2.FONT_HERSHEY_SIMPLEX, .45, 255)
+	cv2.namedWindow("Live Landmarking", cv2.WINDOW_NORMAL)
 	cv2.imshow("Live Landmarking", frame)
 	cv2.waitKey(1)
 
 
-
+ 
 if __name__ == '__main__':
-    main()
+	main()
