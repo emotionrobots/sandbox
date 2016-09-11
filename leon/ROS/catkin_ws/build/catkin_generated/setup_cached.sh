@@ -7,12 +7,9 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/leon/sandbox/leon/ROS/catkin_ws/devel:$CMAKE_PREFIX_PATH"
-export CPATH="/home/leon/sandbox/leon/ROS/catkin_ws/devel/include:$CPATH"
-export LD_LIBRARY_PATH="/home/leon/sandbox/leon/ROS/catkin_ws/devel/lib:/home/leon/sandbox/leon/ROS/catkin_ws/devel/lib/x86_64-linux-gnu:/opt/ros/indigo/lib/x86_64-linux-gnu:/opt/ros/indigo/lib"
-export PATH="/home/leon/sandbox/leon/ROS/catkin_ws/devel/bin:$PATH"
-export PKG_CONFIG_PATH="/home/leon/sandbox/leon/ROS/catkin_ws/devel/lib/pkgconfig:/home/leon/sandbox/leon/ROS/catkin_ws/devel/lib/x86_64-linux-gnu/pkgconfig:/opt/ros/indigo/lib/x86_64-linux-gnu/pkgconfig:/opt/ros/indigo/lib/pkgconfig"
+export CPATH="/opt/ros/indigo/include"
+export LD_LIBRARY_PATH="/home/leon/sandbox/leon/ROS/catkin_ws/devel/lib:/opt/ros/indigo/lib"
+export PATH="/opt/ros/indigo/bin:/jdk1.8.0_92/bin:/home/leon/.local/share/umake/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin"
+export PKG_CONFIG_PATH="/home/leon/sandbox/leon/ROS/catkin_ws/devel/lib/pkgconfig:/opt/ros/indigo/lib/pkgconfig"
 export PWD="/home/leon/sandbox/leon/ROS/catkin_ws/build"
-export PYTHONPATH="/home/leon/sandbox/leon/ROS/catkin_ws/devel/lib/python2.7/dist-packages:$PYTHONPATH"
-export ROSLISP_PACKAGE_DIRECTORIES="/home/leon/sandbox/leon/ROS/catkin_ws/devel/share/common-lisp"
-export ROS_PACKAGE_PATH="/home/leon/sandbox/leon/ROS/catkin_ws/src:$ROS_PACKAGE_PATH"
+export PYTHONPATH="/opt/ros/indigo/lib/python2.7/dist-packages"

@@ -11,6 +11,7 @@ import thread
 global nameMap;nameMap = dict()
 global name 
 global prevVoltage
+global amount; amount = 0
 global firsttime; firsttime = True
 global lock; lock = threading.Lock()
 global pub; pub = rospy.Publisher('valence', String ,queue_size=1)
@@ -31,13 +32,13 @@ def callbackrp2w(data):
 		global name
 		global prevVoltage 
 		global firsttime
-
+		global amount
 		if(data.rearSonar == 0 or data.frontSonar == 0 or data.bumper == 0): 
-			nameMap[name] -= 0.5
+			amount -= 0.3
 		if(data.batteryVoltage < 15):
-			nameMap[name] -= 0.2
+			amount -= 0.1
 		if(data.batteryVoltage > prevVoltage and firsttime)
-			nameMap[name] += 0.4
+			amount += 0.4
 			firsttime = False
 		else:
 			firsttime = True
@@ -50,11 +51,12 @@ def callbackFaceMsg(data):
 	with lock:
 		global name
 		global nameMap
+		global amount
 		name=data.name
 		if(nameMap[name] == None):
 			nameMap[name] = 0.0
 		else
-			nameMap[name] += 0.1
+			amount += 0.1
 		publishVal(name)
 
 
@@ -66,11 +68,11 @@ def listener():
 def reg():
 	with lock:
 		global nameMap
+		f = open('valence.txt','w')
 		for key in nameMap:
-			if(nameMap[key] < 0.0)
-				nameMap[key] += .001
-			if(nameMap[key] > 0.0)
-				nameMap[key] -= .001
+			nameMap[key] = .8 * nameMap[key] + .2 * amount
+			file.write(key + " " + nameMap[key])
+		file.close()
 		time.sleep(5)
 
 
