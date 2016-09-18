@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE eagle SYSTEM "eagle.dtd">
+<eagle version="7.6.0">
+<drawing>
+<settings>
+<setting alwaysvectorfont="no"/>
+<setting verticaltext="up"/>
+</settings>
+<grid distance="0.6" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.3" altunitdist="mm" altunit="mm"/>
+<layers>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
+<layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
+<layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
+<layer number="34" name="bFinish" color="6" fill="6" visible="no" active="yes"/>
+<layer number="35" name="tGlue" color="7" fill="4" visible="no" active="yes"/>
+<layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="43" name="vRestrict" color="2" fill="10" visible="yes" active="yes"/>
+<layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
+<layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="93" name="Pins" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="94" name="Symbols" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="95" name="Names" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="96" name="Values" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="97" name="Info" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="98" name="Guide" color="6" fill="1" visible="yes" active="yes"/>
+</layers>
+<library>
+<packages>
+<package name="TSSOP-8">
+<smd name="A1" x="-0.6" y="1.2" dx="0.3" dy="0.3" layer="1" roundness="100"/>
+<smd name="B1" x="-0.6" y="0.6" dx="0.3" dy="0.3" layer="1" roundness="100"/>
+<smd name="C1" x="-0.6" y="0" dx="0.3" dy="0.3" layer="1" roundness="100"/>
+<smd name="D1" x="-0.6" y="-0.6" dx="0.3" dy="0.3" layer="1" roundness="100"/>
+<wire x1="-1.2" y1="1.8" x2="-1.2" y2="-1.2" width="0.127" layer="21"/>
+<wire x1="-1.2" y1="-1.2" x2="2.4" y2="-1.2" width="0.127" layer="21"/>
+<wire x1="2.4" y1="-1.2" x2="2.4" y2="1.8" width="0.127" layer="21"/>
+<wire x1="2.4" y1="1.8" x2="-1.2" y2="1.8" width="0.127" layer="21"/>
+<text x="-1.8" y="1.2" size="0.4064" layer="21" ratio="10" align="center-left">A</text>
+<text x="-2.4" y="0.6" size="0.4064" layer="21" ratio="10" align="center-left">B</text>
+<text x="-1.8" y="0" size="0.4064" layer="21" ratio="10" align="center-left">C</text>
+<text x="-2.4" y="-0.6" size="0.4064" layer="21" ratio="10" align="center-left">D</text>
+<text x="-0.6" y="2.4" size="0.4064" layer="21" ratio="10" align="center">1</text>
+<text x="1.8" y="2.4" size="0.4064" layer="21" ratio="10" align="center">2</text>
+<smd name="A2" x="1.8" y="1.2" dx="0.3" dy="0.3" layer="1" roundness="100"/>
+<smd name="B2" x="1.8" y="0.6" dx="0.3" dy="0.3" layer="1" roundness="100"/>
+<smd name="C2" x="1.8" y="0" dx="0.3" dy="0.3" layer="1" roundness="100"/>
+<smd name="D2" x="1.8" y="-0.6" dx="0.3" dy="0.3" layer="1" roundness="100"/>
+</package>
+</packages>
+<symbols>
+<symbol name="TPS2113A_U12_INTF">
+<wire x1="-12.7" y1="15.24" x2="12.7" y2="15.24" width="0.254" layer="94"/>
+<wire x1="12.7" y1="15.24" x2="12.7" y2="-15.24" width="0.254" layer="94"/>
+<wire x1="12.7" y1="-15.24" x2="-12.7" y2="-15.24" width="0.254" layer="94"/>
+<wire x1="-12.7" y1="-15.24" x2="-12.7" y2="15.24" width="0.254" layer="94"/>
+<pin name="STAT" x="-17.78" y="10.16" length="middle" direction="out"/>
+<pin name="EN" x="-17.78" y="5.08" length="middle" direction="in"/>
+<pin name="VSNS" x="-17.78" y="-2.54" length="middle" direction="in"/>
+<pin name="ILIM" x="-17.78" y="-10.16" length="middle" direction="in"/>
+<pin name="IN1" x="17.78" y="10.16" length="middle" direction="in" rot="R180"/>
+<pin name="OUT" x="17.78" y="5.08" length="middle" direction="out" rot="R180"/>
+<pin name="IN2" x="17.78" y="-5.08" length="middle" direction="in" rot="R180"/>
+<pin name="GND" x="17.78" y="-10.16" length="middle" direction="pwr" rot="R180"/>
+<text x="-12.7" y="17.78" size="2.1844" layer="95" ratio="10" align="center-left">U12</text>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="TPS2113A">
+<gates>
+<gate name="G$1" symbol="TPS2113A_U12_INTF" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="TSSOP-8">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
+</drawing>
+</eagle>
