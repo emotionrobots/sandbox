@@ -90,14 +90,32 @@
 <pin name="DO/IO1" x="-15.24" y="2.54" length="middle"/>
 <pin name="/WP/IO2" x="-15.24" y="-2.54" length="middle"/>
 <pin name="GND" x="-15.24" y="-10.16" length="middle" direction="pwr"/>
-<pin name="DI/IO0" x="20.32" y="7.62" length="middle" rot="R180"/>
-<pin name="CLK" x="20.32" y="2.54" length="middle" direction="in" rot="R180"/>
-<pin name="/HOLD/IO3" x="20.32" y="-5.08" length="middle" rot="R180"/>
-<pin name="VCC" x="20.32" y="-10.16" length="middle" direction="pwr" rot="R180"/>
+<pin name="VCC" x="20.32" y="7.62" length="middle" direction="pwr" rot="R180"/>
+<pin name="/HOLD/IO3" x="20.32" y="2.54" length="middle" rot="R180"/>
+<pin name="CLK" x="20.32" y="-5.08" length="middle" direction="in" rot="R180"/>
+<pin name="DI/IO0" x="20.32" y="-10.16" length="middle" rot="R180"/>
 <text x="-7.62" y="15.24" size="2.1844" layer="95" ratio="10" align="center">U6</text>
 </symbol>
 </symbols>
 <devicesets>
+<deviceset name="W25Q40WSN">
+<gates>
+<gate name="G$1" symbol="W25Q40WSN_U6_INTF" x="2.54" y="-5.08"/>
+</gates>
+<devices>
+<device name="" package="WSON-8">
+<connects>
+<connect gate="G$1" pin="/CS" pad="A1"/>
+<connect gate="G$1" pin="DO/IO1" pad="B1"/>
+<connect gate="G$1" pin="GND" pad="D1"/>
+<connect gate="G$1" pin="VCC" pad="A2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </drawing>

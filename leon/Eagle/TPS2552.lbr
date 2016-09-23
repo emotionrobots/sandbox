@@ -58,21 +58,29 @@
 <library>
 <packages>
 <package name="SOT-23-6">
-<smd name="A1" x="-0.5" y="1" dx="0.3" dy="0.3" layer="1" roundness="100"/>
-<smd name="B1" x="-0.5" y="0" dx="0.3" dy="0.3" layer="1" roundness="100"/>
-<smd name="C1" x="-0.5" y="-1" dx="0.3" dy="0.3" layer="1" roundness="100"/>
-<wire x1="-1" y1="1.5" x2="-1" y2="-1.5" width="0.127" layer="21"/>
-<wire x1="-1" y1="-1.5" x2="1.5" y2="-1.5" width="0.127" layer="21"/>
-<wire x1="1.5" y1="-1.5" x2="1.5" y2="1.5" width="0.127" layer="21"/>
-<wire x1="1.5" y1="1.5" x2="-1" y2="1.5" width="0.127" layer="21"/>
-<smd name="A2" x="1" y="1" dx="0.3" dy="0.3" layer="1" roundness="100"/>
-<smd name="B2" x="1" y="0" dx="0.3" dy="0.3" layer="1" roundness="100"/>
-<smd name="C2" x="1" y="-1" dx="0.3" dy="0.3" layer="1" roundness="100"/>
-<text x="-1.5" y="1" size="0.4064" layer="25" ratio="10" align="center">A</text>
-<text x="-1.5" y="0" size="0.4064" layer="25" ratio="10" align="center-left">B</text>
-<text x="-1.5" y="-1" size="0.4064" layer="25" ratio="10" align="center">C</text>
-<text x="-0.5" y="2" size="0.4064" layer="25" ratio="10" align="center">1</text>
-<text x="1" y="2" size="0.4064" layer="25" ratio="10" align="center">2</text>
+<wire x1="-1" y1="1.5" x2="0.5" y2="1.5" width="0.127" layer="21"/>
+<wire x1="0.5" y1="-1.5" x2="-1" y2="-1.5" width="0.127" layer="21"/>
+<smd name="A1" x="-1.25" y="0.875" dx="0.5" dy="0.4" layer="1"/>
+<smd name="B1" x="-1.25" y="0" dx="0.5" dy="0.4" layer="1"/>
+<smd name="C1" x="-1.25" y="-0.875" dx="0.5" dy="0.4" layer="1"/>
+<smd name="A2" x="0.75" y="0.875" dx="0.5" dy="0.4" layer="1"/>
+<smd name="B2" x="0.75" y="0" dx="0.5" dy="0.4" layer="1"/>
+<smd name="C2" x="0.75" y="-0.875" dx="0.5" dy="0.4" layer="1"/>
+<wire x1="-1" y1="1.5" x2="-1" y2="1.25" width="0.127" layer="21"/>
+<wire x1="-1" y1="0.5" x2="-1" y2="0.375" width="0.127" layer="21"/>
+<wire x1="-1" y1="-0.375" x2="-1" y2="-0.5" width="0.127" layer="21"/>
+<wire x1="-1" y1="-1.25" x2="-1" y2="-1.5" width="0.127" layer="21"/>
+<wire x1="0.5" y1="1.5" x2="0.5" y2="1.25" width="0.127" layer="21"/>
+<wire x1="0.5" y1="0.5" x2="0.5" y2="0.375" width="0.127" layer="21"/>
+<wire x1="0.5" y1="-0.375" x2="0.5" y2="-0.5" width="0.127" layer="21"/>
+<wire x1="0.5" y1="-1.5" x2="0.5" y2="-1.25" width="0.127" layer="21"/>
+<text x="-2" y="0" size="0.4064" layer="21" align="center">B</text>
+<text x="-2.25" y="-0.875" size="0.4064" layer="21" align="center">C</text>
+<text x="-2.25" y="0.875" size="0.4064" layer="21" align="center">A</text>
+<text x="-1.25" y="1.75" size="0.4064" layer="21" align="center">1</text>
+<text x="0.75" y="1.75" size="0.4064" layer="21" align="center">2</text>
+<text x="-1.75" y="-2" size="0.4064" layer="21" align="center">SOT-23-6</text>
+<text x="1.5" y="-2" size="0.4064" layer="21" align="center">TPS2552</text>
 </package>
 </packages>
 <symbols>
