@@ -1,0 +1,20 @@
+{
+  "name": "mirror",
+  "version": "1.0.0",
+  "description": "Like looking into a mirror",
+  "repository": "electron/simple-samples",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron app.js"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.4.12",
+    "electron-builder": "^19.22.1",
+    "electron-packager": "^8.7.2",
+    "socket.io": "^1.4.5"
+  },
+  "dependencies": {
+    "raspivid-stream": "^0.2.1"
+  }
+}
